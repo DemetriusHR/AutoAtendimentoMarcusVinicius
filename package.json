@@ -1,0 +1,30 @@
+{
+  "name": "aa-marcus-vinicius",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
+    "husky": "^4.2.3"
+  },
+  "scripts": {
+    "start": "npm run server && npm run client",
+    "client": "cd ./Client && start npm run start",
+    "server": "cd ./Server && start npm run dev:api",
+    "commit": "git-cz",
+    "lint:client": "cd ./Client && npm run lint",
+    "lint:server": "cd ./Server && npm run lint",
+    "lint": "npm run lint:client && npm run lint:server",
+    "postinstall": "cd ./Client && npm install && cd ../Server && npm install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  }
+}
