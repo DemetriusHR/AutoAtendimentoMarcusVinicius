@@ -1,30 +1,26 @@
 {
-  "name": "aa-marcus-vinicius",
-  "version": "1.0.0",
+  "name": "root",
   "private": true,
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.7.2"
+  },
   "devDependencies": {
-    "commitizen": "^4.0.3",
-    "cz-conventional-changelog": "^3.1.0",
-    "husky": "^4.2.3"
+    "lerna": "^3.22.1",
+    "prettier": "^2.1.1"
   },
   "scripts": {
-    "start": "npm run server && npm run client",
-    "client": "cd ./Client && start npm run start",
-    "server": "cd ./Server && start npm run dev:api",
-    "commit": "git-cz",
-    "lint:client": "cd ./Client && npm run lint",
-    "lint:server": "cd ./Server && npm run lint",
-    "lint": "npm run lint:client && npm run lint:server",
-    "postinstall": "cd ./Client && npm install && cd ../Server && npm install"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
+    "api": "lerna run --scope server dev:api",
+    "client": "lerna run --scope cliente start",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint --ext .jsx,.js ./**/*",
+    "lint:css": "stylelint ./**/*.js"
   }
 }
