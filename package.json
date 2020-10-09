@@ -14,13 +14,27 @@
   },
   "devDependencies": {
     "lerna": "^3.22.1",
-    "prettier": "^2.1.1"
+    "prettier": "^2.1.1",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
+    "husky": "^4.2.3"
   },
   "scripts": {
     "api": "lerna run --scope server dev:api",
     "client": "lerna run --scope cliente start",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint --ext .jsx,.js ./**/*",
-    "lint:css": "stylelint ./**/*.js"
+    "lint:css": "stylelint ./**/*.js",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }
