@@ -11,7 +11,7 @@ const pedidosTeste: IPedido[] = [
       6,
       12,
       10,
-      30
+      30,
     ),
     dataEntrega: null,
     dataDevolucao: null,
@@ -21,8 +21,8 @@ const pedidosTeste: IPedido[] = [
 export default function getPedidos(
   dispatch: (
     value: PedidosActions
-  ) => void
-) {
+  ) => void,
+): void {
   if (
     pedidosTeste.length
   ) {
@@ -33,7 +33,7 @@ export default function getPedidos(
         payload: {
           data: pedidosTeste,
         },
-      }
+      },
     );
   } else {
     dispatch(
@@ -42,7 +42,7 @@ export default function getPedidos(
           PedidosTypes.error,
         payload:
           '',
-      }
+      },
     );
   }
 }

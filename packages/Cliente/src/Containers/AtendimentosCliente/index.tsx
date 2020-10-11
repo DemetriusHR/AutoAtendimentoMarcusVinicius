@@ -8,22 +8,27 @@ import Card from '../../Components/Card';
 const AtendimentosClienteContainer: React.FC = () => (
   <Card className="p-4">
     <p className="text-lg">
-      Mês:{' '}
-      {moment().month(moment().month()).format("MMMM")}
+      Mês:
+      {' '}
+      {moment()
+        .month(
+          moment().month(),
+        )
+        .format(
+          'MMMM',
+        )}
     </p>
     <Calendar
       locale={
         locale
       }
-      headerRender={() =>
-        null
-      }
+      headerRender={() => null}
       validRange={[
         moment().startOf(
-          'month'
+          'month',
         ),
         moment().endOf(
-          'month'
+          'month',
         ),
       ]}
     />

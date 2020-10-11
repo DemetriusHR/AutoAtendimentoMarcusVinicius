@@ -2,20 +2,30 @@ import {
   useCallback,
   useReducer,
 } from 'react';
+
 import {
   reducer,
   initialState,
   PedidosTypes,
 } from './reducer';
 import getPedidosAPI from './getPedidos';
+import IPedido from '../../Interfaces/IPedido';
 
-function usePedidosCliente() {
+interface IusePedidoCliente {
+  state: {
+    progress: string;
+    pedidos: IPedido[];
+  };
+  getPedidos: () => void;
+}
+
+function usePedidosCliente(): IusePedidoCliente {
   const [
     state,
     dispatch,
   ] = useReducer(
     reducer,
-    initialState
+    initialState,
   );
 
   const getPedidos = useCallback(() => {
@@ -25,11 +35,11 @@ function usePedidosCliente() {
           PedidosTypes.initial,
         payload:
           '',
-      }
+      },
     );
 
     getPedidosAPI(
-      dispatch
+      dispatch,
     );
   }, []);
 

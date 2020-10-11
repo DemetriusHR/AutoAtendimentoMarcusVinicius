@@ -12,10 +12,9 @@ import LazyLoading from '../Components/LazyLoading';
 import LoadingComponent from '../Components/Loading';
 
 const ClientesPage = lazy(
-  () =>
-    import(
-      '../Pages/Clientes'
-    )
+  () => import(
+    '../Pages/Clientes'
+  ),
 );
 
 const Routes: React.FC = () => (
@@ -27,7 +26,7 @@ const Routes: React.FC = () => (
     <BrowserRouter>
       <Route
         component={LazyLoading(
-          ClientesPage
+          ClientesPage,
         )}
         path="/"
         exact

@@ -1,37 +1,8 @@
 module.exports = {
-  parser:
-    '@typescript-eslint/parser',
   extends: [
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
     'plugin:node/recommended',
   ],
-  overrides: [
-    {
-      files: [
-        '*.js',
-      ],
-      rules: {
-        '@typescript-eslint/no-var-requires':
-          'off',
-      },
-    },
-  ],
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  settings: {
-    react: {
-      version:
-        'detect',
-    },
-  },
   rules: {
-    'react/prop-types':
-      'off',
     'no-async-promise-executor':
       'off',
     'node/exports-style': [

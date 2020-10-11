@@ -2,7 +2,7 @@ import AntCard from 'antd/lib/card';
 import styled from 'styled-components';
 
 const Card = styled(
-  AntCard
+  AntCard,
 )`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;

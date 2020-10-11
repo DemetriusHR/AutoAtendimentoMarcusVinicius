@@ -15,6 +15,8 @@ const TitleComponent: React.FC<{
   text: string;
 }> = ({
   text,
+}: {
+  text: string;
 }) => (
   <div>
     <Wrapper className="pb-1 border-b text-xl">

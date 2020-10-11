@@ -20,92 +20,51 @@ const PedidoComponent: React.FC<IPedidoComponent> = ({
     dataPedido,
     dataEntrega,
   },
-}) => {
+}: IPedidoComponent) => {
   const data = useMemo(() => {
-    let data =
-      '';
+    let dataRetornada = '';
     if (
       dataEntrega
     ) {
-      data = `${(
-        '00' +
-        dataEntrega.getUTCDate()
-      ).slice(
-        -2
-      )}/${(
-        '00' +
-        dataEntrega.getUTCMonth()
-      ).slice(
-        -2
-      )}`;
+      dataRetornada = `${`00${dataEntrega.getUTCDate()}`.slice(-2)}
+      /${`00${dataEntrega.getUTCMonth()}`.slice(-2)}`;
     } else {
-      data = `${(
-        '00' +
-        dataPedido.getUTCDate()
-      ).slice(
-        -2
-      )}/${(
-        '00' +
-        dataPedido.getUTCMonth()
-      ).slice(
-        -2
-      )}`;
+      dataRetornada = `${`00${dataPedido.getUTCDate()}`.slice(-2)}
+      /${`00${dataPedido.getUTCMonth()}`.slice(-2)}`;
     }
 
-    return data;
+    return dataRetornada;
   }, [
     dataEntrega,
     dataPedido,
   ]);
 
   const horario = useMemo(() => {
-    let data =
-      '';
+    let horarioRetornado = '';
     if (
       dataEntrega
     ) {
-      data = `${(
-        '00' +
-        dataEntrega.getHours()
-      ).slice(
-        -2
-      )}:${(
-        '00' +
-        dataEntrega.getMinutes()
-      ).slice(
-        -2
-      )}`;
+      horarioRetornado = `${`00${dataEntrega.getHours()}`.slice(-2)}
+      :${`00${dataEntrega.getMinutes()}`.slice(-2)}`;
     } else {
-      data = `${(
-        '00' +
-        dataPedido.getHours()
-      ).slice(
-        -2
-      )}:${(
-        '00' +
-        dataPedido.getMinutes()
-      ).slice(
-        -2
-      )}`;
+      horarioRetornado = `${`00${dataPedido.getHours()}`.slice(-2)}
+      :${`00${dataPedido.getMinutes()}`.slice(-2)}`;
     }
 
-    return data;
+    return horarioRetornado;
   }, [
     dataEntrega,
     dataPedido,
   ]);
 
   const status = useMemo(() => {
-    let retorno =
-      '';
+    let retorno = '';
     if (
       dataEntrega
     ) {
-      retorno =
-        'Não Devolvido X';
+      retorno = 'Não Devolvido X';
     } else {
-      retorno =
-        'Não Entregue X';
+      retorno = 'Não Entregue X';
     }
 
     return retorno;
@@ -117,13 +76,15 @@ const PedidoComponent: React.FC<IPedidoComponent> = ({
     <div className="flex justify-between text-lg">
       <div>
         <p className="m-0">
-          Dia{' '}
+          Dia
+          {' '}
           {
             data
           }
         </p>
         <p className="m-0">
-          Horário{' '}
+          Horário
+          {' '}
           {
             horario
           }
@@ -131,12 +92,14 @@ const PedidoComponent: React.FC<IPedidoComponent> = ({
       </div>
       <div className="max-w-4xl">
         <p className="m-0">
-          Produtos:{' '}
+          Produtos:
+          {' '}
         </p>
       </div>
       <div>
         <p className="m-0">
-          Status{' '}
+          Status
+          {' '}
         </p>
         <TextStatus>
           {

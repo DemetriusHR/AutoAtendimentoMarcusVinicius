@@ -39,8 +39,8 @@ const LoadingComponent: React.FC = () => (
             id="LogoMenorPreto"
             transform="translate(41 371)"
             fill="#707070"
-            font-size="380"
-            font-family="CinzelDecorative-Regular, Cinzel Decorative"
+            fontSize="380"
+            fontFamily="CinzelDecorative-Regular, Cinzel Decorative"
           >
             <tspan
               x="0"
@@ -53,8 +53,8 @@ const LoadingComponent: React.FC = () => (
             id="V"
             transform="matrix(1, -0.017, 0.017, 1, 80, 374.124)"
             fill="#ffc94a"
-            font-size="374"
-            font-family="CinzelDecorative-Regular, Cinzel Decorative"
+            fontSize="374"
+            fontFamily="CinzelDecorative-Regular, Cinzel Decorative"
           >
             <tspan
               x="0"

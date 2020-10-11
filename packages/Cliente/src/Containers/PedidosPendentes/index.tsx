@@ -22,19 +22,18 @@ const MeusPedidosContainer: React.FC = () => {
       {state
         .pedidos
         .length ? (
-        <Collapse
-          ghost
-          className="pedido-collapse"
-        >
-        </Collapse>
-      ) : (
-        <span>
-          Não
-          há
-          pedidos
-          pendentes
-        </span>
-      )}
+          <Collapse
+            ghost
+            className="pedido-collapse"
+          />
+        ) : (
+          <span>
+            Não
+            há
+            pedidos
+            pendentes
+          </span>
+        )}
     </Card>
   );
 };

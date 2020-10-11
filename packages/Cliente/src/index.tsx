@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import GlobalStyle from './Components/GlobalStyle';
 
 moment.locale(
-  'pt-br'
+  'pt-br',
 );
 
 ReactDOM.render(
@@ -18,7 +18,9 @@ ReactDOM.render(
     <Routes />
     <GlobalStyle />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById(
+    'root',
+  ),
 );
 
 serviceWorker.unregister();

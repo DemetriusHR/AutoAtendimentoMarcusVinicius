@@ -5,14 +5,11 @@ import LoadingComponent from '../Loading';
 
 function LazyLoading(
   Component: React.ElementType,
-  extras: JSX.ElementAttributesProperty = {
-    props:
-      '',
-  }
+  extras: JSX.ElementAttributesProperty,
 ) {
   return (
-    props: JSX.ElementAttributesProperty
-  ) => (
+    props: JSX.ElementAttributesProperty,
+  ): JSX.Element => (
     <Suspense
       fallback={
         <LoadingComponent />
@@ -20,7 +17,7 @@ function LazyLoading(
     >
       <Component
         {...props}
-        {...extras.props}
+        {...extras}
       />
     </Suspense>
   );

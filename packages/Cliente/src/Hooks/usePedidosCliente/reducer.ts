@@ -34,8 +34,8 @@ export type PedidosActions = ActionMap<
 
 export function reducer(
   state: IStateReducer,
-  action: PedidosActions
-) {
+  action: PedidosActions,
+): IStateReducer {
   switch (
     action.type
   ) {

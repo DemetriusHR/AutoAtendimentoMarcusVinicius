@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import Collapse from 'antd/lib/collapse';
 
-import Card from '../../Components/Card';
-import usePedidosCliente from '../../Hooks/usePedidosCliente';
+import Card from '../../../Components/Card';
+import usePedidosCliente from '../../../Hooks/usePedidosCliente';
 
 const MeusPedidosContainer: React.FC = () => {
   const {
@@ -22,37 +22,37 @@ const MeusPedidosContainer: React.FC = () => {
       {state
         .pedidos
         .length ? (
-        <Collapse
-          ghost
-          className="pedido-collapse"
-        >
-          <Collapse.Panel
-            header="This is panel header 1"
-            key="1"
-            className="pedido-collapse-panel shadow"
+          <Collapse
+            ghost
+            className="pedido-collapse"
           >
-            <p>
-              Teste
-            </p>
-          </Collapse.Panel>
-          <Collapse.Panel
-            header="This is panel header 2"
-            key="2"
-            className="pedido-collapse-panel shadow"
-          >
-            <p>
-              Teste
-            </p>
-          </Collapse.Panel>
-        </Collapse>
-      ) : (
-        <span>
-          Não
-          há
-          pedidos
-          pendentes
-        </span>
-      )}
+            <Collapse.Panel
+              header="This is panel header 1"
+              key="1"
+              className="pedido-collapse-panel shadow"
+            >
+              <p>
+                Teste
+              </p>
+            </Collapse.Panel>
+            <Collapse.Panel
+              header="This is panel header 2"
+              key="2"
+              className="pedido-collapse-panel shadow"
+            >
+              <p>
+                Teste
+              </p>
+            </Collapse.Panel>
+          </Collapse>
+        ) : (
+          <span>
+            Não
+            há
+            pedidos
+            pendentes
+          </span>
+        )}
     </Card>
   );
 };

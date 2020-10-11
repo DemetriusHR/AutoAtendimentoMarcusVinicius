@@ -29,29 +29,28 @@ const MeusPedidosContainer: React.FC = () => {
       {state
         .pedidos
         .length ? (
-        state.pedidos.map(
-          (
-            pedido,
-            id
-          ) => (
-            <PedidoComponent
-              key={
-                id
-              }
-              pedido={
-                pedido
-              }
-            />
+          state.pedidos.map(
+            (
+              pedido,
+            ) => (
+              <PedidoComponent
+                key={
+                  `${pedido.dataPedido}`
+                }
+                pedido={
+                  pedido
+                }
+              />
+            ),
           )
-        )
-      ) : (
-        <TextNotFound>
-          Não
-          há
-          pedidos
-          pendentes
-        </TextNotFound>
-      )}
+        ) : (
+          <TextNotFound>
+            Não
+            há
+            pedidos
+            pendentes
+          </TextNotFound>
+        )}
     </Card>
   );
 };
