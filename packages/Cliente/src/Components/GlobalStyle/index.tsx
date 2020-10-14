@@ -1,18 +1,34 @@
 import { createGlobalStyle } from 'styled-components';
 
+interface IProps {
+  theme: {
+    primaryColor: string;
+    infoColor: string;
+    warningColor: string;
+    errorColor: string;
+    sucessColor: string;
+    textNotFoundColor: string;
+    textSize: string;
+    backgroundBody: string;
+    headerColor: string;
+    textColor: string;
+    cardColor: string;
+  }
+}
+
 const GlobalStyle = createGlobalStyle`
   :root {
-    --primary-color: #FFC94A;
-    --info-color: #00bac4;
-    --warning-color: #EFBD1A;
-    --error-color: #F95555;
-    --sucess-color: #48EBA4;
-    --text-not-found-color: #9F9E9E;
-    --text-size: 14px;
-    --background-body: #484848;
-    --header-color: #242424;
-    --text-color: #707070;
-    --card-color: #fff;
+    --primary-color: ${(props: IProps) => props.theme.primaryColor};
+    --info-color: ${(props: IProps) => props.theme.infoColor};
+    --warning-color: ${(props: IProps) => props.theme.warningColor};
+    --error-color: ${(props: IProps) => props.theme.errorColor};
+    --sucess-color:${(props: IProps) => props.theme.sucessColor};
+    --text-not-found-color: ${(props: IProps) => props.theme.textNotFoundColor};
+    --text-size: ${(props: IProps) => props.theme.textSize};
+    --background-body: ${(props: IProps) => props.theme.backgroundBody};
+    --header-color: ${(props: IProps) => props.theme.headerColor};
+    --text-color: ${(props: IProps) => props.theme.textColor};
+    --card-color: ${(props: IProps) => props.theme.cardColor};
   }
 
   body {
@@ -24,6 +40,10 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased !important;
     min-height: 100vh;
     color: var(--text-color);
+  }
+
+  .ant-modal-header {
+    border-bottom: 1px solid transparent;
   }
 `;
 

@@ -1,9 +1,7 @@
 import AntCard from 'antd/lib/card';
 import styled from 'styled-components';
 
-const Card = styled(
-  AntCard,
-)`
+const Card = styled(AntCard)`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   border-radius: 0.25rem;

@@ -12,8 +12,9 @@
     "husky": "4.2.3"
   },
   "scripts": {
-    "api": "lerna run --scope server dev:api",
+    "server": "lerna run --scope server dev:api",
     "client": "lerna run --scope cliente start",
+    "start": "start npm run server && npm run client",
     "lint": "npm run lint:cliente && npm run lint:server",
     "lint:cliente": "lerna run --scope cliente lint",
     "lint:server": "lerna run --scope server lint",

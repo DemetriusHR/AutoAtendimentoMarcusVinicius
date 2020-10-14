@@ -5,7 +5,7 @@ import LoadingComponent from '../Loading';
 
 function LazyLoading(
   Component: React.ElementType,
-  extras: JSX.ElementAttributesProperty,
+  extras?: JSX.ElementAttributesProperty,
 ) {
   return (
     props: JSX.ElementAttributesProperty,

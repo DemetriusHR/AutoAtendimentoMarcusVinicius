@@ -14,7 +14,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const HeaderContainer: React.FC = () => (
-  <HeaderWrapper className="flex w-full p-2 z-50 shadow">
+  <HeaderWrapper className="flex w-full p-2 z-50 shadow items-center">
     <div className="flex-1">
       <img
         src={
@@ -25,10 +25,10 @@ const HeaderContainer: React.FC = () => (
       />
     </div>
     <div className="flex-1 flex flex-row-reverse">
-      <i className="inline-block align-middle">
-        <UserOutlined translate="span" />
+      <i className="inline-block align-middle text-lg">
+        <UserOutlined className="align-text-top" translate="span" />
       </i>
-      <div className="mr-2 inline-block align-middle">
+      <div className="mr-2 inline-block">
         <span className="inline-block align-text-top">
           Log
           In

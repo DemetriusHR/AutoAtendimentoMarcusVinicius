@@ -10,9 +10,9 @@ const pool = new Pool(
     database:
       'marcusVinicius',
     user:
-      'usuario',
+      'postgres',
     password:
-      'senha',
+      '#Dimer123',
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
