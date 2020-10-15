@@ -64,25 +64,31 @@ const ModaisProvider: React.FC = React.memo(
     const onModalLoginVisible = React.useCallback(() => {
       Modal.destroyAll();
       Notification.destroy();
+      document.body.style.overflow = 'hidden';
       setModalLoginVisible(
         true,
       );
     }, []);
 
     const onModalLoginUnVisible = React.useCallback(() => {
+      document.body.style.overflow = 'initial';
       setModalLoginVisible(
         false,
       );
     }, []);
 
     const onModalCreateLoginVisible = React.useCallback(() => {
+      onModalLoginUnVisible();
       Modal.destroyAll();
+      Notification.destroy();
+      document.body.style.overflow = 'hidden';
       setModalCreateLoginVisible(
         true,
       );
-    }, []);
+    }, [onModalLoginUnVisible]);
 
     const onModalCreateLoginUnVisible = React.useCallback(() => {
+      document.body.style.overflow = 'initial';
       setModalCreateLoginVisible(
         false,
       );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import 'antd/dist/antd.css';
 
 import ModaisProvider from '../../Context/Modais';
 

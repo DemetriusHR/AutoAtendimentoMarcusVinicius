@@ -17,12 +17,11 @@ const wrapperColConfig = {
   span: 8,
 };
 
-const ModalLogin: React.FC = React.memo(
+const ModalCreateLogin: React.FC = React.memo(
   () => {
     const {
-      modalLoginVisible,
-      onModalLoginUnVisible,
-      onModalCreateLoginVisible,
+      modalCreateLoginVisible,
+      onModalLoginVisible,
     } = useModaisContext();
 
     const onFinish = useCallback(
@@ -36,19 +35,14 @@ const ModalLogin: React.FC = React.memo(
       [],
     );
 
-    const onClickCadastre = useCallback((e) => {
-      e.preventDefault();
-      onModalCreateLoginVisible();
-    }, [onModalCreateLoginVisible]);
-
     return (
       <Modal
-        title="Faça seu Login"
+        title="Cadastro"
         visible={
-          modalLoginVisible
+          modalCreateLoginVisible
         }
         onCancel={
-          onModalLoginUnVisible
+          onModalLoginVisible
         }
         footer={
           null
@@ -104,11 +98,7 @@ const ModalLogin: React.FC = React.memo(
             </Form.Item>
             <div className="w-full mb-8">
               Não tem Conta ainda?
-              <a
-                href="/"
-                className="ml-2 underline"
-                onClick={onClickCadastre}
-              >
+              <a href="/" className="ml-2 underline">
                 Cadastre-se agora
               </a>
             </div>
@@ -128,4 +118,4 @@ const ModalLogin: React.FC = React.memo(
   },
 );
 
-export default ModalLogin;
+export default ModalCreateLogin;

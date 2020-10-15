@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import shadeColor from '../../Utils/ShadeColor';
 
 interface IProps {
   theme: {
@@ -17,6 +18,12 @@ interface IProps {
 }
 
 const GlobalStyle = createGlobalStyle`
+  @tailwind base;
+
+  @tailwind components;
+
+  @tailwind utilities;
+
   :root {
     --primary-color: ${(props: IProps) => props.theme.primaryColor};
     --info-color: ${(props: IProps) => props.theme.infoColor};
@@ -42,6 +49,19 @@ const GlobalStyle = createGlobalStyle`
     color: var(--text-color);
   }
 
+  a {
+    color: var(--primary-color);
+
+    :hover,
+    :focus {
+      color: ${(props) => shadeColor(props.theme.primaryColor, 15)};
+    }
+
+    :active {
+      color: ${(props) => shadeColor(props.theme.primaryColor, -20)};
+    }
+  }
+  
   .ant-modal-header {
     border-bottom: 1px solid transparent;
   }

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
-import 'antd/dist/antd.css';
 import 'moment/locale/pt-br';
 import './Components/GlobalStyle/index.css';
 
