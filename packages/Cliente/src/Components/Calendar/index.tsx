@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import shadeColor from '../../Utils/ShadeColor';
 
 const Calendar = styled(AntCalendar)`
+
   &.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
     text-align: center;
-    padding-top: 1rem;
+    padding: 1rem 0;
   }
 
   &.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content {
-    height: 1rem;
+    height: 0;
   }
 
   &.ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date-today .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date-today .ant-picker-calendar-date-value {
@@ -27,6 +28,13 @@ const Calendar = styled(AntCalendar)`
   &.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
     border: 1px solid #707070;
     margin-bottom: 0.3rem;
+  }
+
+  @media (max-width: 600px) 
+  {
+    &.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
+      padding: 0;
+    }
   }
 `;
 

@@ -10,7 +10,7 @@ const InputWrapper = styled.div`
   input {
     border: 0;
     border-radius: 0;
-    border-bottom: 1px solid var(--primary-color);
+    border-bottom: 1px solid var(--text-color);
     padding: 2px 5px;
     font-size: 1rem;
     transition: 0.3s all ease;
@@ -46,7 +46,7 @@ const InputWrapper = styled.div`
     }
   }
 
-  .ant-form-item-has-error {
+  &.ant-form-item-has-error {
     border-color: var(--error-color);
     border-width: 2px;
 

@@ -6,7 +6,6 @@ const ButtonPrimary = styled.button`
   background: var(--primary-color);
   border-color: var(--primary-color);
   padding: 0.5rem 1.5rem;
-  width: 100%;
 
   :hover,
   :focus {

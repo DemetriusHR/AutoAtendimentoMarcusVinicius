@@ -65,6 +65,35 @@ const GlobalStyle = createGlobalStyle`
   .ant-modal-header {
     border-bottom: 1px solid transparent;
   }
+
+  .ant-form-item-label > label {
+    color: var(--text-color);
+  }
+
+  .ant-modal-title {
+    color: var(--text-color);
+  }
+
+  .ant-form-item-has-error .ant-input:focus, .ant-form-item-has-error .ant-input-affix-wrapper:focus, .ant-form-item-has-error .ant-input-focused, .ant-form-item-has-error .ant-input-affix-wrapper-focused {
+    box-shadow: 0 0 0 0 transparent;
+
+    & ~ .border-effect {
+      width: 100%;
+      background: var(--error-color);
+    }
+  }
+
+  .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: ${(props) => shadeColor(props.theme.primaryColor, -20)};
+  }
+
+  .ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+    color: var(--primary-color);
+  }
+
+  .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+    background: var(--primary-color);
+  }
 `;
 
 export default GlobalStyle;

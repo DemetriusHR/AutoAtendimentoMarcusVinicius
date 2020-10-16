@@ -12,11 +12,6 @@ const spanConfig = {
   span: 24,
 };
 
-const wrapperColConfig = {
-  offset: 16,
-  span: 8,
-};
-
 const ModalLogin: React.FC = React.memo(
   () => {
     const {
@@ -70,7 +65,7 @@ const ModalLogin: React.FC = React.memo(
             }
           >
             <Form.Item
-              label="CPF ou Telefone"
+              label="CPF ou Celular"
               name="cpf-telefone"
               required={
                 false
@@ -85,7 +80,7 @@ const ModalLogin: React.FC = React.memo(
             >
               <Input />
             </Form.Item>
-            <div className="w-full h-8" />
+            <div className="w-full h-4" />
             <Form.Item
               label="Senha"
               name="senha"
@@ -102,7 +97,7 @@ const ModalLogin: React.FC = React.memo(
             >
               <Input type="password" />
             </Form.Item>
-            <div className="w-full mb-8">
+            <div className="w-full my-8">
               Não tem Conta ainda?
               <a
                 href="/"
@@ -112,15 +107,11 @@ const ModalLogin: React.FC = React.memo(
                 Cadastre-se agora
               </a>
             </div>
-            <Form.Item
-              wrapperCol={
-                wrapperColConfig
-              }
-            >
-              <ButtonPrimary type="submit">
+            <div className="flex flex-row-reverse">
+              <ButtonPrimary type="submit" className="w-1/3">
                 Login
               </ButtonPrimary>
-            </Form.Item>
+            </div>
           </Form>
         </div>
       </Modal>

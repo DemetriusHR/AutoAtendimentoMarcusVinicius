@@ -3,7 +3,7 @@ import React, {
   useEffect,
 } from 'react';
 import styled from 'styled-components';
-import Divider from 'antd/lib/divider';
+import AntDivider from 'antd/lib/divider';
 import Notification from 'antd/lib/notification';
 
 import IHorarios from '../../Interfaces/IHorarios';
@@ -21,6 +21,11 @@ const TextNotFound = styled.span`
 
 const DivWidth = styled.div`
   width: 10rem;
+`;
+
+const Divider = styled(AntDivider)`
+  width: 10rem;
+  min-width: 0;
 `;
 
 interface IButtonCadastre {
@@ -94,14 +99,14 @@ const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
 
     return (
       <div className="flex container border py-2 px-4 my-4 items-center">
-        <DivWidth className="text-2xl">
+        <div className="w-24 text-2xl">
           <span className="pr-4">
             {
               horarioInicial
             }
           </span>
-        </DivWidth>
-        <Divider className="w-40 min-w-0" />
+        </div>
+        <Divider />
         <DivWidth className="text-2xl">
           <span className="pl-4">
             {
