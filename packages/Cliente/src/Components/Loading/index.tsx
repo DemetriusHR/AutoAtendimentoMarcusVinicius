@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LoadingOutlined } from '@ant-design/icons';
+import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
 
 const Wrapper = styled.div`
   color: var(

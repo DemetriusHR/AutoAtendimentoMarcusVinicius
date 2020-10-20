@@ -6,6 +6,7 @@ import IPedido from '../../Interfaces/IPedido';
 
 const pedidosTeste: IPedido[] = [
   {
+    idPedido: 1,
     dataPedido: new Date(
       2020,
       6,

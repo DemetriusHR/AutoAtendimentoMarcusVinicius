@@ -4,8 +4,9 @@ import React, {
 } from 'react';
 import Modal from 'antd/lib/modal';
 import moment from 'moment';
-import { horariosDiaNormal, horariosDiaSabado } from './atendimentoHorarios';
+
 import HorarioContainer from '../../Horario';
+import { horariosDiaNormal, horariosDiaSabado } from '../../../Utils/HorariosAtendimento';
 
 interface IAtendimentoComponent {
   data: moment.Moment;
@@ -18,7 +19,7 @@ const AtendimentoComponent: React.FC<IAtendimentoComponent> = React.memo(({
   visible,
   onCancel,
 }: IAtendimentoComponent) => {
-  const dataAtendimento: string = useMemo(() => `Atendimentos do Dia ${`00${data.date()}`.slice(-2)}/${`00${data.month()}`.slice(-2)}`, [data]);
+  const dataAtendimento: string = useMemo(() => `Atendimentos do Dia ${data.format('DD/MM')}`, [data]);
 
   const dataSemana = useMemo(() => data.weekday(), [data]);
 

@@ -1,126 +1,61 @@
-import React, {
-  useMemo,
-} from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useMemo } from 'react';
+import Modal from 'antd/lib/modal';
+import moment from 'moment';
+import Collapse from 'antd/lib/collapse';
 
-import IPedido from '../../../Interfaces/IPedido';
+import {
+  horariosDiaNormal,
+  horariosDiaSabado,
+} from '../../../Utils/HorariosAtendimento';
+import AtendimentosPendentesDetalhes from '../AtendimentosPendentesDetalhes';
 
-const TextStatus = styled.span`
-  color: var(
-    --error-color
-  );
-`;
-
-interface IPedidoComponent {
-  pedido: IPedido;
+interface IAtendimentoComponent {
+  data: moment.Moment;
+  visible: boolean;
+  onCancel: () => void;
 }
 
-const PedidoComponent: React.FC<IPedidoComponent> = ({
-  pedido: {
-    dataPedido,
-    dataEntrega,
+const AtendimentoComponent: React.FC<IAtendimentoComponent> = React.memo(
+  ({ data, visible, onCancel }: IAtendimentoComponent) => {
+    const dataAtendimento: string = useMemo(
+      () => `Atendimentos do Dia ${data.format('DD/MM')}`,
+      [data],
+    );
+
+    const dataSemana = useMemo(() => data.weekday(), [data]);
+
+    const arrayHorarios = useMemo(() => {
+      if (data.weekday() === 6) {
+        return horariosDiaNormal(data);
+      }
+
+      return horariosDiaSabado(data);
+    }, [data]);
+
+    useEffect(() => {
+      if (visible) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'initial';
+      }
+    }, [visible]);
+
+    return dataSemana ? (
+      <Modal
+        title={dataAtendimento}
+        visible={visible}
+        onCancel={onCancel}
+        footer={null}
+        destroyOnClose
+      >
+        <Collapse bordered={false} className="pedido-collapse">
+          {arrayHorarios.map((horario) => (
+            <AtendimentosPendentesDetalhes {...horario} />
+          ))}
+        </Collapse>
+      </Modal>
+    ) : null;
   },
-}: IPedidoComponent) => {
-  const data = useMemo(() => {
-    let retorno = '';
-    if (
-      dataEntrega
-    ) {
-      retorno = `${`00${dataEntrega.getUTCDate()}`.slice(
-        -2,
-      )}/${`00${dataEntrega.getUTCMonth()}`.slice(
-        -2,
-      )}`;
-    } else {
-      retorno = `${`00${dataPedido.getUTCDate()}`.slice(
-        -2,
-      )}/${`00${dataPedido.getUTCMonth()}`.slice(
-        -2,
-      )}`;
-    }
+);
 
-    return retorno;
-  }, [
-    dataEntrega,
-    dataPedido,
-  ]);
-
-  const horario = useMemo(() => {
-    let retorno = '';
-    if (
-      dataEntrega
-    ) {
-      retorno = `${`00${dataEntrega.getHours()}`.slice(
-        -2,
-      )}:${`00${dataEntrega.getMinutes()}`.slice(
-        -2,
-      )}`;
-    } else {
-      retorno = `${`00${dataPedido.getHours()}`.slice(
-        -2,
-      )}:${`00${dataPedido.getMinutes()}`.slice(
-        -2,
-      )}`;
-    }
-
-    return retorno;
-  }, [
-    dataEntrega,
-    dataPedido,
-  ]);
-
-  const status = useMemo(() => {
-    let retorno = '';
-    if (
-      dataEntrega
-    ) {
-      retorno = 'Não Devolvido X';
-    } else {
-      retorno = 'Não Entregue X';
-    }
-
-    return retorno;
-  }, [
-    dataEntrega,
-  ]);
-
-  return (
-    <div className="flex justify-between text-lg">
-      <div>
-        <p className="m-0">
-          Dia
-          {' '}
-          {
-            data
-          }
-        </p>
-        <p className="m-0">
-          Horário
-          {' '}
-          {
-            horario
-          }
-        </p>
-      </div>
-      <div className="max-w-4xl">
-        <p className="m-0">
-          Produtos:
-          {' '}
-        </p>
-      </div>
-      <div>
-        <p className="m-0">
-          Status
-          {' '}
-        </p>
-        <TextStatus>
-          {
-            status
-          }
-        </TextStatus>
-      </div>
-    </div>
-  );
-};
-
-export default PedidoComponent;
+export default AtendimentoComponent;

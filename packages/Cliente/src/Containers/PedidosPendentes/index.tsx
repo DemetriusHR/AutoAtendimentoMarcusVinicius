@@ -1,41 +1,44 @@
-import React, {
-  useEffect,
-} from 'react';
+import React, { useEffect } from 'react';
 import Collapse from 'antd/lib/collapse';
+import styled from 'styled-components';
 
+import PedidoPendenteProduto from './PedidoPendenteProduto';
+import PedidoPanelComponent from './Components/PedidoPanel';
 import Card from '../../Components/Card';
-import usePedidosCliente from '../../Hooks/usePedidosCliente';
+import CustomScroll from '../../Components/CustomScroll';
+import usePedidosFuncionario from '../../Hooks/usePedidosFuncionario';
 
-const MeusPedidosContainer: React.FC = () => {
-  const {
-    state,
-    getPedidos,
-  } = usePedidosCliente();
+const TextNotFound = styled.span`
+  color: var(--text-not-found-color);
+`;
+
+const PedidosPendentesContainer: React.FC = () => {
+  const { state, getPedidos } = usePedidosFuncionario();
 
   useEffect(() => {
     getPedidos();
-  }, [
-    getPedidos,
-  ]);
+  }, [getPedidos]);
   return (
     <Card>
-      {state
-        .pedidos
-        .length ? (
-          <Collapse
-            ghost
-            className="pedido-collapse"
-          />
+      <CustomScroll className="max-h-full h-64">
+        {state.pedidos.length ? (
+          <Collapse bordered={false} className="pedido-collapse">
+            {state.pedidos.map((pedido) => (
+              <Collapse.Panel
+                key={pedido.idCliente}
+                header={<PedidoPanelComponent pedido={pedido} />}
+                className="pedido-collapse-panel"
+              >
+                <PedidoPendenteProduto idPedido={pedido.idPedido} />
+              </Collapse.Panel>
+            ))}
+          </Collapse>
         ) : (
-          <span>
-            Não
-            há
-            pedidos
-            pendentes
-          </span>
+          <TextNotFound>Não há pedidos pendentes</TextNotFound>
         )}
+      </CustomScroll>
     </Card>
   );
 };
 
-export default MeusPedidosContainer;
+export default PedidosPendentesContainer;

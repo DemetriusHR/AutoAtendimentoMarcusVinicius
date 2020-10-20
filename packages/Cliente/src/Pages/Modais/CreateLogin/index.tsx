@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import Modal from 'antd/lib/modal';
 import Steps from 'antd/lib/steps';
+import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
 
 import stepsCreateLogin from './steps';
 import Icons from '../../../Icons';
@@ -40,7 +41,9 @@ const ModalCreateLogin: React.FC = React.memo(
             <Steps.Step title="Dados Pessoais" icon={Icons.DadosPessoais} />
             <Steps.Step title="Dados Residenciais" icon={Icons.DadosResidencial} />
           </Steps>
-          {stepsCreateLogin(setNextStep)[stepCurrent]}
+          <React.Suspense fallback={<LoadingOutlined translate="span" />}>
+            {stepsCreateLogin(setNextStep)[stepCurrent]}
+          </React.Suspense>
         </div>
       </Modal>
     );

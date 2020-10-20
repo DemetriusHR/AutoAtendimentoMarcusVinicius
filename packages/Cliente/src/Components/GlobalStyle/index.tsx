@@ -94,6 +94,15 @@ const GlobalStyle = createGlobalStyle`
   .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
     background: var(--primary-color);
   }
+
+  .pedido-collapse .pedido-collapse-panel,
+  .pedido-collapse .pedido-collapse-panel {
+    border-radius: 2px;
+    margin-bottom: 1em;
+    border: 0px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
 `;
 
 export default GlobalStyle;
