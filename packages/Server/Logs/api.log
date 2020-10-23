@@ -1,0 +1,14 @@
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":16392,"level":30,"msg":"start","time":"2020-10-23T00:03:49.728Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":8352,"level":30,"msg":"start","time":"2020-10-23T00:22:13.142Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":16572,"level":30,"msg":"start","time":"2020-10-23T09:58:49.507Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":17176,"level":30,"msg":"start","time":"2020-10-23T10:09:31.274Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":16500,"level":30,"msg":"start","time":"2020-10-23T10:12:45.336Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":16500,"level":50,"msg":"Erro na procura de dados: Error: Connection terminated due to connection timeout","time":"2020-10-23T11:41:00.645Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":17224,"level":30,"msg":"start","time":"2020-10-23T11:41:37.174Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":16400,"level":30,"msg":"start","time":"2020-10-23T11:57:59.705Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":19280,"level":30,"msg":"start","time":"2020-10-23T12:03:49.829Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":9960,"level":30,"msg":"start","time":"2020-10-23T12:04:09.637Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":7900,"level":30,"msg":"start","time":"2020-10-23T12:05:15.015Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":3436,"level":30,"msg":"start","time":"2020-10-23T12:08:14.006Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":3436,"level":50,"msg":"Erro na procura de dados: error: invalid input syntax for type integer: \"NaN\"","time":"2020-10-23T14:05:01.331Z","v":0}
+{"name":"api","hostname":"DESKTOP-NTU8C2U","pid":3436,"level":50,"msg":"Erro na procura de dados: error: invalid input syntax for type integer: \"NaN\"","time":"2020-10-23T14:07:42.263Z","v":0}

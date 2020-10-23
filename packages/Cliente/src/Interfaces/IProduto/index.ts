@@ -1,7 +1,7 @@
 /* eslint semi: ["error", "never"] */
 
-export default interface IProduto {
-  idProduto: number;
-  nmProduto: string;
+import IProdutoList from '../IProdutoList'
+
+export default interface IProduto extends IProdutoList {
   detalhesProduto: string;
 }

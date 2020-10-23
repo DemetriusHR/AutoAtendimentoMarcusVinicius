@@ -8,3 +8,4 @@ CREATE TABLE Tipo_Usuario (
 INSERT INTO Tipo_Usuario (NM_Tipo_Usuario) 
 VALUES ('CLIENTE')
       ,('FUNCIONÁRIO')
+      ,('ADMINISTRADOR')

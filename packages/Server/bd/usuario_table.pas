@@ -6,7 +6,6 @@ CREATE TABLE Usuario (
    ,CPF_Usuario       Char(14)
    ,Senha_Usuario     Varchar(25)
    ,TEL_Usuario       Char(15)
-   ,SN_Root           Boolean
    ,ID_Tipo_Usuario   INTEGER
    ,CONSTRAINT FK_Tipo_Usuario FOREIGN KEY (ID_Tipo_Usuario)
 	REFERENCES Tipo_Usuario (ID_Tipo_Usuario)
@@ -22,13 +21,11 @@ VALUES ('Demétrius'
 	   ,'416.091.388-13'
 	   ,'admin@123'
 	   ,'(14)99690-3744'
-	   ,true
-	   ,2)
+	   ,3)
 	  ,('Cliente Teste'
 	   ,'111.111.111-11'
 	   ,'cliente@123'
 	   ,'(14)99611-1111'
-	   ,false
 	   ,1);
 
 DROP FUNCTION IF EXISTS resultado_login;
@@ -47,7 +44,7 @@ DECLARE
    tel_formatado Varchar(15) := '';
    resultado resultado_login;
 BEGIN
-    cpf_formatado := CONCAT(SUBSTRING(cpf from 1 for 3), '.', SUBSTRING(cpf from 4 for 3), '.', SUBSTRING(cpf from 7 for 3), '-', SUBSTRING(CPF from 10 for 2));
+  cpf_formatado := CONCAT(SUBSTRING(cpf from 1 for 3), '.', SUBSTRING(cpf from 4 for 3), '.', SUBSTRING(cpf from 7 for 3), '-', SUBSTRING(CPF from 10 for 2));
 	tel_formatado := CONCAT('(',SUBSTRING(tel from 1 for 2), ')', SUBSTRING(tel from 3 for 5), '-', SUBSTRING(tel from 8 for 4));
 	
 	SELECT id_usuario
@@ -76,18 +73,17 @@ DECLARE
 BEGIN
 	IF (EXISTS(SELECT 1
 			   FROM usuario
-			   WHERE nm_usuario      = nome
+			   WHERE nm_usuario            = nome
                  AND cpf_usuario     = cpf
                  AND senha_usuario   = senha
                  AND tel_usuario     = tel
-                 AND sn_root         = false
                  AND id_tipo_usuario = 1))
 	THEN
 	  RAISE EXCEPTION 'Usuário já cadastrado!'; 
 	END IF;
 
-    INSERT INTO usuario(nm_usuario, cpf_usuario, senha_usuario, tel_usuario, sn_root, id_tipo_usuario)
-    VALUES (nome, cpf, senha, tel, false, 1);
+    INSERT INTO usuario(nm_usuario, cpf_usuario, senha_usuario, tel_usuario, id_tipo_usuario)
+    VALUES (nome, cpf, senha, tel, 1);
              
     id_usuario_retornado := currval(pg_get_serial_sequence('usuario','id_usuario'));
 	  

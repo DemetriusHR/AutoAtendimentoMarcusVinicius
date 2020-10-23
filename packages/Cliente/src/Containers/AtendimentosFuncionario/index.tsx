@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import Card from '../../Components/Card';
 import capitalizeFirstLetter from '../../Utils/CapitalizeFirstLetter';
-import AtendimentoComponent from './Components/Atendimento';
 import AtendimentosPendentes from './AtendimentosPendentes';
+import AtendimentosPendentesDetalhes from './AtendimentosPendentesDetalhes';
 
 moment.locale('pt-br');
 
@@ -55,7 +55,7 @@ const AtendimentosContainer: React.FC = () => {
           <AtendimentosPendentes data={moment().weekday(dia)} />
         </Card>
       ))}
-      <AtendimentoComponent
+      <AtendimentosPendentesDetalhes
         data={date}
         visible={modal}
         onCancel={onUnVisibleModal}

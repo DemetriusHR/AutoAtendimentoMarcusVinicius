@@ -1,25 +1,80 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Modal from 'antd/lib/modal';
 import Form from 'antd/lib/form';
 
 import ButtonPrimary from '../../../Components/ButtonPrimary';
 import Input from '../../../Components/Input';
+import Switch from '../../../Components/Switch';
+import InputCPF from '../../../Components/InputCPF';
+import InputCelular from '../../../Components/InputCelular';
 import { useModaisContext } from '../../../Context/Modais';
+import { LoginRequestAPI } from '../../../RequestAPI/Login';
+import { useUsuarioContext } from '../../../Context/Usuario';
 
 const spanConfig = {
   span: 24,
 };
 
+const textTitle: {
+  cpf: string;
+  celular: string;
+} = {
+  cpf: 'CPF',
+  celular: 'Celular',
+};
+
+const erroInput: {
+  cpf: string;
+  celular: string;
+} = {
+  cpf: 'Insira seu CPF',
+  celular: 'Insira seu Celular',
+};
+
+const InputLogin: {
+  cpf: JSX.Element;
+  celular: JSX.Element;
+} = {
+  cpf: <InputCPF />,
+  celular: <InputCelular />,
+};
+
 const ModalLogin: React.FC = React.memo(() => {
+  const { getDadosUsuario } = useUsuarioContext();
+  const [form] = Form.useForm();
+  const [nomeForm, setNomeForm] = useState<'cpf' | 'celular'>('celular');
+  const [cpf, setCPF] = useState(false);
   const {
     modalLoginVisible,
     onModalLoginUnVisible,
     onModalCreateLoginVisible,
   } = useModaisContext();
 
-  const onFinish = useCallback((values) => {
-    console.log(values);
+  const getDados = useCallback(() => {
+    onModalLoginUnVisible();
+    getDadosUsuario();
+  }, [onModalLoginUnVisible, getDadosUsuario]);
+
+  const onSetCPF = useCallback(() => {
+    setCPF((prevCpf) => {
+      if (!prevCpf) {
+        setNomeForm('cpf');
+      } else {
+        setNomeForm('celular');
+      }
+
+      return !prevCpf;
+    });
   }, []);
+
+  const onFinish = useCallback((values) => {
+    if (cpf) {
+      LoginRequestAPI(values.cpfTelefone, '', values.senha, getDados);
+    } else {
+      LoginRequestAPI('', values.cpfTelefone, values.senha, getDados);
+    }
+    form.resetFields();
+  }, [cpf, form, getDados]);
 
   const onClickCadastre = useCallback(
     (e) => {
@@ -39,24 +94,31 @@ const ModalLogin: React.FC = React.memo(() => {
       destroyOnClose
     >
       <div className="py-8">
+        <Switch
+          checkedChildren="CPF"
+          unCheckedChildren="Celular"
+          onChange={onSetCPF}
+        />
+        <div className="w-full h-2" />
         <Form
           labelCol={spanConfig}
           wrapperCol={spanConfig}
           name="login-form"
           onFinish={onFinish}
+          form={form}
         >
           <Form.Item
-            label="CPF ou Celular"
-            name="cpf-telefone"
+            label={textTitle[nomeForm]}
+            name="cpfTelefone"
             required={false}
             rules={[
               {
                 required: true,
-                message: 'Insira seu CPF ou Telefone!',
+                message: erroInput[nomeForm],
               },
             ]}
           >
-            <Input />
+            {InputLogin[nomeForm]}
           </Form.Item>
           <div className="w-full h-4" />
           <Form.Item
@@ -66,7 +128,7 @@ const ModalLogin: React.FC = React.memo(() => {
             rules={[
               {
                 required: true,
-                message: 'Insira sua Senha!',
+                message: 'Insira sua Senha',
               },
             ]}
           >

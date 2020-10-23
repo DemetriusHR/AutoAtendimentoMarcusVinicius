@@ -62,7 +62,9 @@ const CreateLoginDadosResidenciaisStep: React.FC<IDadosResidenciaisStep> = React
 
         return [...prevState];
       });
-    }, []);
+
+      form.resetFields();
+    }, [form]);
 
     const voltarStep = useCallback(() => {
       setNextStep(0);
@@ -142,12 +144,6 @@ const CreateLoginDadosResidenciaisStep: React.FC<IDadosResidenciaisStep> = React
             label="Complemento"
             name="complemento"
             required={false}
-            rules={[
-              {
-                required: true,
-                message: 'Insira o Complemento do Endereço',
-              },
-            ]}
           >
             <Input />
           </Form.Item>

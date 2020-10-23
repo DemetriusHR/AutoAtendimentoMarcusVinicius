@@ -12,29 +12,11 @@ const {
 
 // POST - LOGIN
 
-router
-  .route(
-    '/login'
-  )
-  .post(
-    validate(
-      loginValidator
-    ),
-    loginService
-  );
+router.route('/login').post(validate(loginValidator), loginService);
 
 // POST - CADASTRAR
 
-router
-  .route(
-    '/cadastrar'
-  )
-  .post(
-    validate(
-      cadastrarValidator
-    ),
-    cadastrarService
-  );
+router.route('/cadastrar').post(validate(cadastrarValidator), cadastrarService);
 
 //// - Criação de Login
 //

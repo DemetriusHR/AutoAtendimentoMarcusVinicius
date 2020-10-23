@@ -1,13 +1,14 @@
 import ActionMap from '../../Interfaces/ActionMap';
+import IAtendimentoPendente from '../../Interfaces/IAtendimentoPendente';
 
 export const initialState = {
   progress: 'initial',
-  atendimentosPendentes: 0,
+  atendimentosPendentes: [],
 };
 
 export interface IStateReducer {
   progress: string;
-  atendimentosPendentes: number;
+  atendimentosPendentes: IAtendimentoPendente[];
 }
 
 export enum AtendimentosPendentesTypes {
@@ -19,7 +20,7 @@ export enum AtendimentosPendentesTypes {
 type AtendimentosPendentesPayload = {
   [AtendimentosPendentesTypes.initial]: '';
   [AtendimentosPendentesTypes.sucess]: {
-    data: number;
+    data: IAtendimentoPendente[];
   };
   [AtendimentosPendentesTypes.error]: '';
 };

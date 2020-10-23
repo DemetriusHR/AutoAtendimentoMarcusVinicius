@@ -17,12 +17,12 @@ const AtendimentosPendentes: React.FC<IAtendimentosPendentes> = ({
   }, [getAtendimentosPendentes, data]);
 
   const textRetornado = useMemo(() => {
-    if (state.progress === 'sucess' && state.atendimentosPendentes >= 1) {
-      if (state.atendimentosPendentes > 1) {
-        return `${state.atendimentosPendentes} atendimentos pendentes`;
+    if (state.progress === 'sucess' && state.atendimentosPendentes.length >= 1) {
+      if (state.atendimentosPendentes.length > 1) {
+        return `${state.atendimentosPendentes.length} atendimentos pendentes`;
       }
 
-      return `${state.atendimentosPendentes} atendimento pendente`;
+      return `${state.atendimentosPendentes.length} atendimento pendente`;
     }
     return 'nenhum atendimento pendente';
   }, [state]);

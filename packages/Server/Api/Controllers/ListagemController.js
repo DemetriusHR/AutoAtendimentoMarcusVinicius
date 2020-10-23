@@ -1,8 +1,6 @@
 const router = require('express').Router();
 
-const {
-  rotasAutorizadasGet,
-} = require('../Utils/rotasAutorizadas');
+const { rotasAutorizadasGet } = require('../Utils/rotasAutorizadas');
 
 const {
   listarInformacoesUsuarioService,
@@ -10,10 +8,6 @@ const {
 
 // GET - Informações do Usuários
 
-rotasAutorizadasGet(
-  router,
-  '/usuario/:id',
-  listarInformacoesUsuarioService
-);
+rotasAutorizadasGet(router, '/usuario/:id', listarInformacoesUsuarioService);
 
 module.exports = router;
