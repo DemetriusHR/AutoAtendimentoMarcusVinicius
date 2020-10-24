@@ -27,8 +27,10 @@ const AtendimentosClienteContainer: React.FC = () => {
   const [date, setDate] = useState(moment);
 
   const onVisibleModal = useCallback((data: moment.Moment) => {
-    setModal(true);
-    setDate(data);
+    if (data.isSameOrAfter(moment(), 'day')) {
+      setModal(true);
+      setDate(data);
+    }
   }, []);
 
   const onUnVisibleModal = useCallback(() => {
