@@ -1,6 +1,4 @@
-import React, {
-  useCallback,
-} from 'react';
+import React, { useCallback } from 'react';
 import Form from 'antd/lib/form';
 
 import ButtonConfirm from '../../../../Components/ButtonConfirm';
@@ -17,12 +15,8 @@ interface ICreateLoginDadosPessoaisStep {
 const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = React.memo(
   ({ setNextStep }: ICreateLoginDadosPessoaisStep) => {
     const onFinish = useCallback(
-      (
-        values,
-      ) => {
-        console.log(
-          values,
-        );
+      (values) => {
+        console.log(values);
         setNextStep(1);
       },
       [setNextStep],
@@ -31,28 +25,19 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
     return (
       <div className="py-8">
         <Form
-          labelCol={
-            spanConfig
-          }
-          wrapperCol={
-            spanConfig
-          }
+          labelCol={spanConfig}
+          wrapperCol={spanConfig}
           name="dados-pessoais-form"
-          onFinish={
-            onFinish
-          }
+          onFinish={onFinish}
         >
           <Form.Item
             label="Nome Completo"
             name="nome"
-            required={
-              false
-            }
+            required={false}
             rules={[
               {
                 required: true,
-                message:
-                  'Insira seu Nome Completo',
+                message: 'Insira seu Nome Completo',
               },
             ]}
           >
@@ -62,14 +47,11 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
           <Form.Item
             label="CPF"
             name="cpf"
-            required={
-              false
-            }
+            required={false}
             rules={[
               {
                 required: true,
-                message:
-                  'Insira seu CPF',
+                message: 'Insira seu CPF',
               },
             ]}
           >
@@ -79,14 +61,11 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
           <Form.Item
             label="Celular"
             name="telefone"
-            required={
-              false
-            }
+            required={false}
             rules={[
               {
                 required: true,
-                message:
-                  'Insira seu Celular',
+                message: 'Insira seu Celular',
               },
             ]}
           >
@@ -96,14 +75,11 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
           <Form.Item
             label="Senha"
             name="senha"
-            required={
-              false
-            }
+            required={false}
             rules={[
               {
                 required: true,
-                message:
-                  'Insira seu Senha',
+                message: 'Insira seu Senha',
               },
             ]}
           >
@@ -113,14 +89,11 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
           <Form.Item
             label="Confirmar Senha"
             name="confirmar-senha"
-            required={
-              false
-            }
+            required={false}
             rules={[
               {
                 required: true,
-                message:
-                  'Insira seu Confirmar Senha',
+                message: 'Insira seu Confirmar Senha',
               },
             ]}
           >
@@ -128,13 +101,8 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
           </Form.Item>
           <div className="w-full h-8" />
           <div className="flex flex-row-reverse">
-            <ButtonConfirm
-              type="submit"
-              className="w-1/3"
-            >
-              {
-                'Próximo >'
-              }
+            <ButtonConfirm type="submit" className="w-1/3">
+              {'Próximo >'}
             </ButtonConfirm>
           </div>
         </Form>

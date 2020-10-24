@@ -22,7 +22,6 @@ export default function getProdutos(
   };
 
   produtos.forEach((produto) => {
-    console.log(produto, id);
     if (produto.idProduto === id) {
       produtoRetornado = produto;
     }
