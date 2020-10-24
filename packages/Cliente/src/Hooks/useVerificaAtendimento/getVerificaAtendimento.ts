@@ -1,38 +1,27 @@
 import moment from 'moment';
 
-import {
-  AtendimentoActions,
-  AtendimentoTypes,
-} from './reducer';
-
-const atendimentoTeste: moment.Moment = moment([2020, 9, 1, 9, 0]);
+import { VerificaAtendimentoRequestAPI } from '../../RequestAPI/Atendimento';
+import { AtendimentoActions, AtendimentoTypes } from './reducer';
 
 export default function getVerificaAtendimento(
-  dispatch: (
-    value: AtendimentoActions
-  ) => void,
+  dispatch: (value: AtendimentoActions) => void,
   data: moment.Moment,
 ): void {
-  if (
-    atendimentoTeste.isSame(data)
-  ) {
-    dispatch(
-      {
-        type:
-          AtendimentoTypes.sucess,
-        payload: {
-          data: true,
-        },
-      },
-    );
-  } else {
-    dispatch(
-      {
-        type:
-          AtendimentoTypes.error,
-        payload:
-          '',
-      },
-    );
+  function errorDispatch(): void {
+    dispatch({
+      type: AtendimentoTypes.error,
+      payload: '',
+    });
   }
+
+  function sucessDispatch(retorno: boolean): void {
+    dispatch({
+      type: AtendimentoTypes.sucess,
+      payload: {
+        data: retorno,
+      },
+    });
+  }
+
+  VerificaAtendimentoRequestAPI(data.format('YYYY-MM-DD hh:mm'), errorDispatch, sucessDispatch);
 }

@@ -1,7 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import AntDivider from 'antd/lib/divider';
 import Notification from 'antd/lib/notification';
@@ -14,9 +11,7 @@ import { theme } from '../../Utils/Theme';
 import { useModaisContext } from '../../Context/Modais';
 
 const TextNotFound = styled.span`
-  color: var(
-    --text-not-found-color
-  );
+  color: var(--text-not-found-color);
 `;
 
 const DivWidth = styled.div`
@@ -29,16 +24,13 @@ const Divider = styled(AntDivider)`
 `;
 
 interface IButtonCadastre {
-  onClick: () => void
+  onClick: () => void;
 }
 
 const ButtonCadastre: React.FC<IButtonCadastre> = React.memo(
   ({ onClick }: IButtonCadastre) => (
     <div>
-      <ButtonConfirm
-        theme={theme}
-        onClick={onClick}
-      >
+      <ButtonConfirm theme={theme} onClick={onClick}>
         Cadastre-se agora
       </ButtonConfirm>
     </div>
@@ -46,7 +38,7 @@ const ButtonCadastre: React.FC<IButtonCadastre> = React.memo(
 );
 
 interface IHorariosContainer extends IHorarios {
-  onCancel: () => void
+  onCancel: () => void;
 }
 
 const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
@@ -60,24 +52,13 @@ const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
       state: stateAtendimento,
       getVerificacao,
     } = useVerificaAtendimento();
-    const {
-      state: stateHorario,
-      getVerificacaoHorario,
-    } = useVerificaHorario();
+    const { state: stateHorario, getVerificacaoHorario } = useVerificaHorario();
     const { onModalLoginVisible } = useModaisContext();
 
     useEffect(() => {
-      getVerificacao(
-        data,
-      );
-      getVerificacaoHorario(
-        data,
-      );
-    }, [
-      data,
-      getVerificacao,
-      getVerificacaoHorario,
-    ]);
+      getVerificacao(data);
+      getVerificacaoHorario(data);
+    }, [data, getVerificacao, getVerificacaoHorario]);
 
     const onClickButtonCadastre = useCallback(() => {
       onCancel();
@@ -100,30 +81,18 @@ const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
     return (
       <div className="flex container border py-2 px-4 my-4 items-center">
         <div className="w-24 text-2xl">
-          <span className="pr-4">
-            {
-              horarioInicial
-            }
-          </span>
+          <span className="pr-4">{horarioInicial}</span>
         </div>
         <Divider />
         <DivWidth className="text-2xl">
-          <span className="pl-4">
-            {
-              horarioFinal
-            }
-          </span>
+          <span className="pl-4">{horarioFinal}</span>
         </DivWidth>
         <DivWidth className="ml-4">
           {stateAtendimento.atendimento ? (
-            <TextNotFound>
-              Já
-              Agendado
-            </TextNotFound>
+            <TextNotFound>Já Agendado</TextNotFound>
           ) : (
             <ButtonConfirm onClick={onClickButton}>
-              Marcar
-              Horário
+              Marcar Horário
             </ButtonConfirm>
           )}
         </DivWidth>

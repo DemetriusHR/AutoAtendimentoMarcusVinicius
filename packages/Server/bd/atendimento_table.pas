@@ -10,7 +10,7 @@ CREATE TABLE Atendimento (
 ) 
 
 INSERT INTO Atendimento (DT_Atendimento
-                             ,ID_Usuario)   
+                        ,ID_Usuario)   
 VALUES ('2020-06-30 09:00'
 	   ,1)
 	  ,('2020-06-30 09:30'
