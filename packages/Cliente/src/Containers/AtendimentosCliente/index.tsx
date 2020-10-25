@@ -7,15 +7,13 @@ import Calendar from '../../Components/Calendar';
 import capitalizeFirstLetter from '../../Utils/CapitalizeFirstLetter';
 import AtendimentoComponent from './Components/Atendimento';
 
-const mesAtual = `Mês: ${capitalizeFirstLetter(moment().month(moment().month()).format('MMMM'))}`;
+const mesAtual = `Mês: ${capitalizeFirstLetter(
+  moment().month(moment().month()).format('MMMM'),
+)}`;
 
 const range: [moment.Moment, moment.Moment] = [
-  moment().startOf(
-    'month',
-  ),
-  moment().endOf(
-    'month',
-  ),
+  moment().startOf('month'),
+  moment().endOf('month'),
 ];
 
 function functionSemRetorno(): React.ReactNode {
@@ -27,7 +25,7 @@ const AtendimentosClienteContainer: React.FC = () => {
   const [date, setDate] = useState(moment);
 
   const onVisibleModal = useCallback((data: moment.Moment) => {
-    if (data.isSameOrAfter(moment(), 'day')) {
+    if (data.isSameOrAfter(moment(), 'day') && data.weekday()) {
       setModal(true);
       setDate(data);
     }
@@ -40,13 +38,9 @@ const AtendimentosClienteContainer: React.FC = () => {
 
   return (
     <Card className="p-4">
-      <p className="text-lg">
-        {mesAtual}
-      </p>
+      <p className="text-lg">{mesAtual}</p>
       <Calendar
-        locale={
-          locale
-        }
+        locale={locale}
         headerRender={functionSemRetorno}
         validRange={range}
         onSelect={onVisibleModal}

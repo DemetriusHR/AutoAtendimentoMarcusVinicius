@@ -38,7 +38,7 @@ function LoginRequestAPI(
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 400) {
+      if (data.status !== 200) {
         Notification.error({
           message: 'Ocorreu um erro no Login!',
           description: `Detalhes do erro: ${data.message}`,

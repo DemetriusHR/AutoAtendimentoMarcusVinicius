@@ -17,7 +17,7 @@ async function DadosUsuarioRequestAPI(id: number): Promise<IUsuario> {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.status === 400) {
+      if (data.status !== 200) {
         Notification.error({
           message: 'Ocorreu um erro na busca de dados!',
           description: `Detalhes do erro: ${data.message}`,

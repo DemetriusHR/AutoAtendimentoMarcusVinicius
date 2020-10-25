@@ -29,6 +29,34 @@ function verificaHorarioRepository(data) {
   });
 }
 
+function marcarHorarioRepository(data, idUsuario) {
+  return new Promise(async function (resolve, reject) {
+    pool.connect(function (err, client, done) {
+      if (err) {
+        reject('Erro na marcação de horário: ' + err);
+        console.log('Erro na marcação de horário: ' + err);
+        return;
+      }
+
+      client.query(
+        `CALL cadastrar_atendimento($1, $2)`,
+        [data, idUsuario],
+        function (erro, result) {
+          if (erro) {
+            reject('Erro na marcação de horário: ' + erro);
+            console.log('Erro na marcação de horário: ' + erro);
+            return;
+          }
+
+          resolve();
+          done();
+        }
+      );
+    });
+  });
+}
+
 module.exports = {
   verificaHorarioRepository,
+  marcarHorarioRepository,
 };

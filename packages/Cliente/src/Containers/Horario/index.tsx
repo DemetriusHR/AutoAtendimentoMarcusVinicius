@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import AntDivider from 'antd/lib/divider';
-import Notification from 'antd/lib/notification';
 
 import IHorarios from '../../Interfaces/IHorarios';
 import useVerificaAtendimento from '../../Hooks/useVerificaAtendimento';
 import ButtonConfirm from '../../Components/ButtonConfirm';
-import useVerificaHorario from '../../Hooks/useVerificaHorario';
-import { theme } from '../../Utils/Theme';
 import { useModaisContext } from '../../Context/Modais';
+import { useUsuarioContext } from '../../Context/Usuario';
+import { MarcarHorarioRequestAPI } from '../../RequestAPI/Atendimento';
 
 const TextNotFound = styled.span`
   color: var(--text-not-found-color);
@@ -22,20 +21,6 @@ const Divider = styled(AntDivider)`
   width: 10rem;
   min-width: 0;
 `;
-
-interface IButtonCadastre {
-  onClick: () => void;
-}
-
-const ButtonCadastre: React.FC<IButtonCadastre> = React.memo(
-  ({ onClick }: IButtonCadastre) => (
-    <div>
-      <ButtonConfirm theme={theme} onClick={onClick}>
-        Cadastre-se agora
-      </ButtonConfirm>
-    </div>
-  ),
-);
 
 interface IHorariosContainer extends IHorarios {
   onCancel: () => void;
@@ -52,31 +37,34 @@ const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
       state: stateAtendimento,
       getVerificacao,
     } = useVerificaAtendimento();
-    const { state: stateHorario, getVerificacaoHorario } = useVerificaHorario();
+    const {
+      usuario: { id },
+      resetDadosUsuario,
+    } = useUsuarioContext();
     const { onModalLoginVisible } = useModaisContext();
 
-    useEffect(() => {
+    const verificaData = useCallback(() => {
       getVerificacao(data);
-      getVerificacaoHorario(data);
-    }, [data, getVerificacao, getVerificacaoHorario]);
+    }, [data, getVerificacao]);
 
-    const onClickButtonCadastre = useCallback(() => {
+    useEffect(() => {
+      verificaData();
+    }, [verificaData]);
+
+    const onClickButtonLogin = useCallback(() => {
       onCancel();
       onModalLoginVisible();
-    }, [onCancel, onModalLoginVisible]);
+      resetDadosUsuario();
+    }, [onCancel, onModalLoginVisible, resetDadosUsuario]);
 
     const onClickButton = useCallback(() => {
-      if (stateHorario.horario && stateHorario.progress === 'sucess') {
-        Notification.success({
-          message: 'Atendimento Agendado',
-        });
-      } else {
-        Notification.warning({
-          message: 'Você não está logado!',
-          description: <ButtonCadastre onClick={onClickButtonCadastre} />,
-        });
-      }
-    }, [stateHorario, onClickButtonCadastre]);
+      MarcarHorarioRequestAPI(
+        data.format('YYYY-MM-DD hh:mm'),
+        id,
+        onClickButtonLogin,
+        verificaData,
+      );
+    }, [data, id, onClickButtonLogin, verificaData]);
 
     return (
       <div className="flex container border py-2 px-4 my-4 items-center">

@@ -1,11 +1,16 @@
 const router = require('express').Router();
 const validate = require('express-validation');
 
-/// LOGIN
+const { rotasAutorizadasPost } = require('../Utils/rotasAutorizadas');
+
+// VALIDATORS
 
 const loginValidator = require('../../Core/Validators/LoginValidator');
 const cadastrarValidator = require('../../Core/Validators/CadastrarValidator');
 const verificaAtendimentoValidator = require('../../Core/Validators/VerificaAtendimentoValidator');
+const marcarHorarioValidator = require('../../Core/Validators/MarcarHorarioValidator');
+
+// SERVICES
 
 const {
   loginService,
@@ -13,6 +18,7 @@ const {
 } = require('../../Core/Services/LoginService');
 const {
   verificaHorarioService,
+  marcarHorarioService,
 } = require('../../Core/Services/HorarioService');
 
 // POST - LOGIN
@@ -28,5 +34,14 @@ router.route('/cadastrar').post(validate(cadastrarValidator), cadastrarService);
 router
   .route('/verifica-horario')
   .post(validate(verificaAtendimentoValidator), verificaHorarioService);
+
+// POST - MARCAR-HORARIO
+
+rotasAutorizadasPost(
+  router,
+  '/marcar-horario',
+  validate(marcarHorarioValidator),
+  marcarHorarioService
+);
 
 module.exports = router;
