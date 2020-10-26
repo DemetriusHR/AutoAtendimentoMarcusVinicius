@@ -43,23 +43,26 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
       getProdutos();
     }, [getProdutos]);
 
-    const onFinish = useCallback((values) => {
-      setProdutos((prevState) => {
-        const produtoNovo = {
-          id: Math.floor(Math.random() * 100),
-          idProduto: values.produto,
-          detalhes: values.detalhes,
-        };
+    const onFinish = useCallback(
+      (values) => {
+        setProdutos((prevState) => {
+          const produtoNovo = {
+            id: Math.floor(Math.random() * 100),
+            idProduto: values.produto,
+            detalhes: values.detalhes,
+          };
 
-        if (comparaProduto(prevState, produtoNovo)) {
-          return [...prevState, produtoNovo];
-        }
+          if (comparaProduto(prevState, produtoNovo)) {
+            return [...prevState, produtoNovo];
+          }
 
-        return [...prevState];
-      });
+          return [...prevState];
+        });
 
-      form.resetFields();
-    }, [form]);
+        form.resetFields();
+      },
+      [form],
+    );
 
     const voltarStep = useCallback(() => {
       Notification.success({

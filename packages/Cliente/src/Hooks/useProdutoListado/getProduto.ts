@@ -1,36 +1,26 @@
 import { ProdutoActions, ProdutoTypes } from './reducer';
 import IProduto from '../../Interfaces/IProdutoList';
-
-const produtos: IProduto[] = [
-  {
-    idProduto: 1,
-    nmProduto: 'Produto 1',
-  },
-  {
-    idProduto: 2,
-    nmProduto: 'Produto 2',
-  },
-];
+import { ProdutoEspecificoRequestAPI } from '../../RequestAPI/Produto';
 
 export default function getProdutos(
   dispatch: (value: ProdutoActions) => void,
   id: number,
 ): void {
-  let produtoRetornado: IProduto = {
-    idProduto: 0,
-    nmProduto: '',
-  };
+  function errorDispatch(): void {
+    dispatch({
+      type: ProdutoTypes.error,
+      payload: '',
+    });
+  }
 
-  produtos.forEach((produto) => {
-    if (produto.idProduto === id) {
-      produtoRetornado = produto;
-    }
-  });
+  function sucessDispatch(retorno: IProduto): void {
+    dispatch({
+      type: ProdutoTypes.sucess,
+      payload: {
+        data: retorno,
+      },
+    });
+  }
 
-  dispatch({
-    type: ProdutoTypes.sucess,
-    payload: {
-      data: produtoRetornado,
-    },
-  });
+  ProdutoEspecificoRequestAPI(id, errorDispatch, sucessDispatch);
 }

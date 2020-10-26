@@ -5,8 +5,8 @@ export const initialState = {
   progress:
     'initial',
   produto: {
-    idProduto: 0,
-    nmProduto: '',
+    idproduto: 0,
+    nmproduto: '',
   },
 };
 

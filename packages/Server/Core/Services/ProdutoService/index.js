@@ -22,7 +22,7 @@ function listaProdutosService(_, res) {
     });
 }
 
-function listaProdutoEspecificoService(_, res) {
+function listaProdutoEspecificoService(req, res) {
   const idUsuario = parseInt(req.params.id);
 
   listaProdutoEspecificoRepository(idUsuario)

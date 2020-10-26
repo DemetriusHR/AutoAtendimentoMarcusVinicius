@@ -45,6 +45,6 @@ rotasAutorizadasPostFuncionario(
 
 rotasAutorizadasGetFuncionario(router, '/produtos', listaProdutosService);
 
-rotasAutorizadasGetFuncionario(router, '/produto/:id', listaProdutosService);
+rotasAutorizadasGetFuncionario(router, '/produto/:id', listaProdutoEspecificoService);
 
 module.exports = router;
