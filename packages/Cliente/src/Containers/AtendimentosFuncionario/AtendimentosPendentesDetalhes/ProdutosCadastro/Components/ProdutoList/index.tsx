@@ -45,7 +45,7 @@ const ProdutoListComponent: React.FC<IProdutoList> = React.memo(
         <div className="w-full h-2" />
         <div>
           <Titulo className="text-xs">Produto</Titulo>
-          <p className="text-sm">{state.produto.nmProduto}</p>
+          <p className="text-sm">{state.produto.nmproduto}</p>
         </div>
         <div>
           <Titulo className="text-xs">Detalhes</Titulo>

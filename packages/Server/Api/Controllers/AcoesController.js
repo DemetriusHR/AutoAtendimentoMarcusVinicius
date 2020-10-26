@@ -21,6 +21,8 @@ const {
   marcarHorarioService,
 } = require('../../Core/Services/HorarioService');
 
+// ROTAS
+
 // POST - LOGIN
 
 router.route('/login').post(validate(loginValidator), loginService);

@@ -78,16 +78,16 @@ const AtendimentosPendentesDetalhes: React.FC<IAtendimentosPendentesDetalhes> = 
         <Collapse bordered={false} className="pedido-collapse">
           {state.atendimentosPendentes.map((atendimento) => (
             <Collapse.Panel
-              key={atendimento.idPedido}
+              key={atendimento.idatendimento}
               header={(
                 <AtendimentoPendenteHeader
-                  horario={getDadosHorario(atendimento.dataPedido)}
-                  cliente={atendimento.nomeCliente}
+                  horario={getDadosHorario(atendimento.dataatendimento)}
+                  cliente={atendimento.nomecliente}
                 />
               )}
               className="pedido-collapse-panel"
             >
-              <DetalhesProdutosCadastro idPedido={atendimento.idPedido} />
+              <DetalhesProdutosCadastro idPedido={atendimento.idatendimento} />
             </Collapse.Panel>
           ))}
         </Collapse>

@@ -26,6 +26,28 @@ interface IHorariosContainer extends IHorarios {
   onCancel: () => void;
 }
 
+interface IRetornaButtonHorario {
+  progress: string;
+  atendimento: boolean;
+  onClickButton: () => void;
+}
+
+const RetornaButtonHorario: React.FC<IRetornaButtonHorario> = React.memo(
+  ({ progress, atendimento, onClickButton }: IRetornaButtonHorario) => {
+    if (progress !== 'sucess') {
+      return <TextNotFound>Carregando...</TextNotFound>;
+    }
+
+    if (atendimento) {
+      return <TextNotFound>Já Agendado</TextNotFound>;
+    }
+
+    return (
+      <ButtonConfirm onClick={onClickButton}>Marcar Horário</ButtonConfirm>
+    );
+  },
+);
+
 const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
   ({
     data,
@@ -76,13 +98,10 @@ const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
           <span className="pl-4">{horarioFinal}</span>
         </DivWidth>
         <DivWidth className="ml-4">
-          {stateAtendimento.atendimento ? (
-            <TextNotFound>Já Agendado</TextNotFound>
-          ) : (
-            <ButtonConfirm onClick={onClickButton}>
-              Marcar Horário
-            </ButtonConfirm>
-          )}
+          <RetornaButtonHorario
+            {...stateAtendimento}
+            onClickButton={onClickButton}
+          />
         </DivWidth>
       </div>
     );

@@ -1,5 +1,6 @@
 import Notification from 'antd/lib/notification';
 import NotificationLogin from '../../Components/NotificationLogin';
+import IAtendimentoPendente from '../../Interfaces/IAtendimentoPendente';
 
 import ConnectAPI from '../ConnectAPI';
 
@@ -99,4 +100,65 @@ function MarcarHorarioRequestAPI(
     });
 }
 
-export { VerificaAtendimentoRequestAPI, MarcarHorarioRequestAPI };
+function AtendimentosPendentesRequestAPI(
+  data = '',
+  horarioInicial = '',
+  horarioFinal = '',
+  error: () => void,
+  sucess: (entrada: IAtendimentoPendente[]) => void,
+): void {
+  const idUsuario = localStorage.getItem('idUsuario');
+  const token = localStorage.getItem('token');
+
+  if (!idUsuario || !token) {
+    NotificationLogin();
+    return;
+  }
+
+  const dataInicial = `${data} ${horarioInicial}`;
+  const dataFinal = `${data} ${horarioFinal}`;
+
+  const body = JSON.stringify({
+    dataInicial,
+    dataFinal,
+  });
+
+  const urlAPI = ConnectAPI();
+
+  fetch(`${urlAPI}/listagens/atendimentos-pendentes`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  })
+    .then((response) => response.json())
+    .then((dataRetornada) => {
+      if (dataRetornada.status === 401) {
+        NotificationLogin();
+      } else if (dataRetornada.status !== 200) {
+        Notification.error({
+          message: 'Ocorreu um erro no Login!',
+          description: `Detalhes do erro: ${dataRetornada.message}`,
+        });
+        error();
+      } else {
+        sucess(dataRetornada.data);
+      }
+    })
+    .catch((e) => {
+      error();
+      Notification.error({
+        message: 'Ocorreu um erro no Login!',
+        description: `Detalhes do erro: ${e}`,
+      });
+    });
+}
+
+export {
+  VerificaAtendimentoRequestAPI,
+  MarcarHorarioRequestAPI,
+  AtendimentosPendentesRequestAPI,
+};

@@ -116,10 +116,10 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
             <Select>
               {state.produtos.map((produto) => (
                 <Select.Option
-                  key={produto.idProduto}
-                  value={produto.idProduto}
+                  key={produto.idproduto}
+                  value={produto.idproduto}
                 >
-                  {produto.nmProduto}
+                  {produto.nmproduto}
                 </Select.Option>
               ))}
             </Select>

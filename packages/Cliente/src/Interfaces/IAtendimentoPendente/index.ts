@@ -1,10 +1,10 @@
 import moment from 'moment';
 
 interface IAtendimentoPendente {
-  idPedido: number;
-  dataPedido: moment.Moment;
-  idCliente: number;
-  nomeCliente: string;
+  idatendimento: number;
+  dataatendimento: moment.Moment;
+  idcliente: number;
+  nomecliente: string;
 }
 
 export default IAtendimentoPendente;
