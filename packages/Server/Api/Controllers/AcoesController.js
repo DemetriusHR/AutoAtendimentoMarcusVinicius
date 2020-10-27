@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const validate = require('express-validation');
 
-const { rotasAutorizadasPost } = require('../Utils/rotasAutorizadas');
+const {
+  rotasAutorizadasPost,
+  rotasAutorizadasDeleteFuncionario,
+} = require('../Utils/rotasAutorizadas');
 
 // VALIDATORS
 
@@ -9,6 +12,8 @@ const loginValidator = require('../../Core/Validators/LoginValidator');
 const cadastrarValidator = require('../../Core/Validators/CadastrarValidator');
 const verificaAtendimentoValidator = require('../../Core/Validators/VerificaAtendimentoValidator');
 const marcarHorarioValidator = require('../../Core/Validators/MarcarHorarioValidator');
+const cancelaAtendimentoValidator = require('../../Core/Validators/CancelaAtendimentoValidator');
+const confirmarAtendimentoValidator = require('../../Core/Validators/ConfirmarAtendimentoValidator');
 
 // SERVICES
 
@@ -19,6 +24,8 @@ const {
 const {
   verificaHorarioService,
   marcarHorarioService,
+  cancelaAtendimentoService,
+  confirmaAtendimentoService,
 } = require('../../Core/Services/HorarioService');
 
 // ROTAS
@@ -44,6 +51,24 @@ rotasAutorizadasPost(
   '/marcar-horario',
   validate(marcarHorarioValidator),
   marcarHorarioService
+);
+
+// DELETE - CANCELA-ATENDIMENTO
+
+rotasAutorizadasDeleteFuncionario(
+  router,
+  '/cancela-atendimento',
+  validate(cancelaAtendimentoValidator),
+  cancelaAtendimentoService,
+);
+
+// POST - CONFIRMAR-ATENDIMENTO
+
+rotasAutorizadasPost(
+  router,
+  '/confirmar-atendimento',
+  validate(confirmarAtendimentoValidator),
+  confirmaAtendimentoService
 );
 
 module.exports = router;

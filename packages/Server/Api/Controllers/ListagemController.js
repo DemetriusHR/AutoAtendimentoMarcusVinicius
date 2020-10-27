@@ -19,6 +19,7 @@ const {
 
 const {
   verificaAtendimentosPendentesService,
+  listaPedidosPendentesClienteService,
 } = require('../../Core/Services/HorarioService');
 
 const {
@@ -45,6 +46,12 @@ rotasAutorizadasPostFuncionario(
 
 rotasAutorizadasGetFuncionario(router, '/produtos', listaProdutosService);
 
+// GET - Lista de Produto Especifico
+
 rotasAutorizadasGetFuncionario(router, '/produto/:id', listaProdutoEspecificoService);
+
+// GET - Lista de Pedidos Pendentes do Cliente
+
+rotasAutorizadasGetFuncionario(router, '/pedidos-pendentes/:id', listaPedidosPendentesClienteService);
 
 module.exports = router;

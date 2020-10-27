@@ -3,6 +3,10 @@ const {
   verificaHorarioRepository,
   marcarHorarioRepository,
   verificaAtendimentosPendentesRepository,
+  atualizaAtendimentoRepository,
+  cadastrarPedidoRepository,
+  cadastrarProdutosPedidoRepository,
+  listaPedidosPendentesClienteRepository,
 } = require('../../Repositories/HorarioRepository');
 
 function verificaHorarioService(req, res) {
@@ -64,8 +68,119 @@ function verificaAtendimentosPendentesService(req, res) {
     });
 }
 
+function cancelaAtendimentoService(req, res) {
+  const { idAtendimento } = req.body;
+
+  atualizaAtendimentoRepository(idAtendimento)
+    .then(() => {
+      res.json({
+        status: 200,
+        message: 'ok',
+      });
+    })
+    .catch((e) => {
+      log.error(e.toString());
+      res.status(500).json({
+        status: 500,
+        message: e.toString(),
+      });
+    });
+}
+
+function marcarHorarioService(req, res) {
+  const { idAtendimento } = req.body;
+
+  atualizaAtendimentoRepository(idAtendimento)
+    .then(() => {
+      res.json({
+        status: 200,
+        message: 'ok',
+      });
+    })
+    .catch((e) => {
+      log.error(e.toString());
+      res.status(500).json({
+        status: 500,
+        message: e.toString(),
+      });
+    });
+}
+
+function confirmaAtendimentoService(req, res) {
+  const {
+    idAtendimento,
+    dataPedido,
+    dataDevolucao,
+    vlPedido,
+    produtos,
+  } = req.body;
+
+  atualizaAtendimentoRepository(idAtendimento)
+    .then(() => {
+      cadastrarPedidoRepository(
+        idAtendimento,
+        dataPedido,
+        dataDevolucao,
+        vlPedido
+      )
+        .then(() => {
+          cadastrarProdutosPedidoRepository(produtos)
+            .then(() => {
+              res.json({
+                status: 200,
+                message: 'ok',
+              });
+            })
+            .catch((e) => {
+              log.error(e.toString());
+              res.status(500).json({
+                status: 500,
+                message: e.toString(),
+              });
+            });
+        })
+        .catch((e) => {
+          log.error(e.toString());
+          res.status(500).json({
+            status: 500,
+            message: e.toString(),
+          });
+        });
+    })
+    .catch((e) => {
+      log.error(e.toString());
+      res.status(500).json({
+        status: 500,
+        message: e.toString(),
+      });
+    });
+}
+
+function listaPedidosPendentesClienteService(req, res) {
+  const idUsuario = parseInt(req.params.id);
+
+  listaPedidosPendentesClienteRepository(idUsuario)
+    .then((dataRetornada) => {
+      res.json({
+        status: 200,
+        message: 'ok',
+        data: dataRetornada,
+      });
+    })
+    .catch((e) => {
+      log.error(e.toString());
+      res.status(500).json({
+        status: 500,
+        message: e.toString(),
+      });
+    });
+}
+
 module.exports = {
   verificaHorarioService,
   marcarHorarioService,
   verificaAtendimentosPendentesService,
+  cancelaAtendimentoService,
+  confirmaAtendimentoService,
+  listaPedidosPendentesClienteService,
 };

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Select from 'antd/lib/select';
 import Form from 'antd/lib/form';
 import Notification from 'antd/lib/notification';
+import moment from 'moment';
 import styled from 'styled-components';
 
 import ButtonConfirm from '../../../../Components/ButtonConfirm';
@@ -10,6 +11,11 @@ import shadeColor from '../../../../Utils/ShadeColor';
 import ProdutoListComponent from './Components/ProdutoList';
 import comparaProduto from './Utils/comparaProduto';
 import useProdutos from '../../../../Hooks/useProdutos';
+import {
+  CancelarPedidoRequestAPI,
+  ConfirmarPedidoRequestAPI,
+} from '../../../../RequestAPI/Atendimento';
+import IPedidoProduto from '../../../../Interfaces/IPedidoProduto';
 
 const spanConfig = {
   span: 24,
@@ -23,21 +29,17 @@ const ButtonAdicionar = styled.button`
   }
 `;
 
-export interface IProduto {
-  id: number;
-  idProduto: 1;
-  detalhes: string;
-}
-
 interface IDetalhesProdutosCadastro {
   idPedido: number;
+  onFechaModal: () => void;
+  data: moment.Moment;
 }
 
 const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo(
-  ({ idPedido }: IDetalhesProdutosCadastro) => {
+  ({ idPedido, onFechaModal, data }: IDetalhesProdutosCadastro) => {
     const { state, getProdutos } = useProdutos();
     const [form] = Form.useForm();
-    const [produtos, setProdutos] = useState<IProduto[]>([]);
+    const [produtos, setProdutos] = useState<IPedidoProduto[]>([]);
 
     useEffect(() => {
       getProdutos();
@@ -48,6 +50,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
         setProdutos((prevState) => {
           const produtoNovo = {
             id: Math.floor(Math.random() * 100),
+            idPedido,
             idProduto: values.produto,
             detalhes: values.detalhes,
           };
@@ -61,15 +64,16 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
 
         form.resetFields();
       },
-      [form],
+      [form, idPedido],
     );
 
-    const voltarStep = useCallback(() => {
-      Notification.success({
-        message: 'Atendimento Cancelado com sucesso!',
-        description: idPedido,
-      });
-    }, [idPedido]);
+    const cancelarPedido = useCallback(() => {
+      async function cancelaPedido(): Promise<void> {
+        await CancelarPedidoRequestAPI(idPedido, onFechaModal);
+      }
+
+      cancelaPedido();
+    }, [idPedido, onFechaModal]);
 
     const removeProduto = useCallback((produto) => {
       setProdutos((prevState) => {
@@ -84,17 +88,28 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
 
     const confirmar = useCallback(() => {
       if (produtos.length) {
-        Notification.success({
-          message: 'Atendimento Confirmado com sucesso!',
-          description: idPedido,
-        });
+        const dataEntrega = moment(
+          `${data.weekday(6).format('YYYY-MM-DD')} 09:00`,
+        ).format('YYYY-MM-DD h:mm');
+        const dataDevolucao = moment(
+          `${data.weekday(8).format('YYYY-MM-DD')} 09:00`,
+        ).format('YYYY-MM-DD h:mm');
+
+        ConfirmarPedidoRequestAPI(
+          idPedido,
+          dataEntrega,
+          dataDevolucao,
+          200,
+          produtos,
+          onFechaModal,
+        );
       } else {
         Notification.error({
           message: 'Não é possível Confirmar o Atendimento!',
           description: 'Você deve cadastrar pelo menos um produto',
         });
       }
-    }, [produtos, idPedido]);
+    }, [produtos, idPedido, data, onFechaModal]);
 
     return (
       <div className="py-8">
@@ -166,7 +181,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
           <ButtonConfirm className="w-1/3 ml-2" onClick={confirmar}>
             Confirmar Pedido
           </ButtonConfirm>
-          <button type="button" onClick={voltarStep}>
+          <button type="button" onClick={cancelarPedido}>
             Cancelar Pedido
           </button>
         </div>

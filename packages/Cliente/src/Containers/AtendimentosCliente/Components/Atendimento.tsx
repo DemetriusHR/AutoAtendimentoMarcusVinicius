@@ -25,10 +25,10 @@ const AtendimentoComponent: React.FC<IAtendimentoComponent> = React.memo(({
 
   const arrayHorarios = useMemo(() => {
     if (data.weekday() === 6) {
-      return horariosDiaNormal(data);
+      return horariosDiaSabado(data);
     }
 
-    return horariosDiaSabado(data);
+    return horariosDiaNormal(data);
   }, [data]);
 
   useEffect(() => {

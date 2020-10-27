@@ -16,9 +16,14 @@ function rotasAutorizadasPostFuncionario(router, rota, validate, funcao) {
   router.route(rota).post(validate, authorizeFuncionario, funcao);
 }
 
+function rotasAutorizadasDeleteFuncionario(router, rota, validate, funcao) {
+  router.route(rota).delete(validate, authorizeFuncionario, funcao);
+}
+
 module.exports = {
   rotasAutorizadasGet,
   rotasAutorizadasPost,
   rotasAutorizadasGetFuncionario,
   rotasAutorizadasPostFuncionario,
+  rotasAutorizadasDeleteFuncionario,
 };

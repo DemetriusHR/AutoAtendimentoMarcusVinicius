@@ -1,6 +1,7 @@
 import Notification from 'antd/lib/notification';
 import NotificationLogin from '../../Components/NotificationLogin';
 import IAtendimentoPendente from '../../Interfaces/IAtendimentoPendente';
+import IPedidoProduto from '../../Interfaces/IPedidoProduto';
 
 import ConnectAPI from '../ConnectAPI';
 
@@ -157,8 +158,120 @@ function AtendimentosPendentesRequestAPI(
     });
 }
 
+function CancelarPedidoRequestAPI(
+  idAtendimento = 0,
+  fechaModal: () => void,
+): void {
+  const idUsuario = localStorage.getItem('idUsuario');
+  const token = localStorage.getItem('token');
+
+  if (!idUsuario || !token) {
+    NotificationLogin();
+    return;
+  }
+
+  const body = JSON.stringify({
+    idAtendimento,
+  });
+
+  const urlAPI = ConnectAPI();
+
+  fetch(`${urlAPI}/acoes/cancela-atendimento`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  })
+    .then((response) => response.json())
+    .then((dataRetornada) => {
+      if (dataRetornada.status === 401) {
+        NotificationLogin();
+      } else if (dataRetornada.status !== 200) {
+        Notification.error({
+          message: 'Ocorreu um erro no Cancelamento do Pedido!',
+          description: `Detalhes do erro: ${dataRetornada.message}`,
+        });
+      } else {
+        fechaModal();
+        Notification.success({
+          message: 'Pedido cancelado com sucesso!',
+        });
+      }
+    })
+    .catch((e) => {
+      Notification.error({
+        message: 'Ocorreu um erro no Cancelamento do Pedido!',
+        description: `Detalhes do erro: ${e}`,
+      });
+    });
+}
+
+function ConfirmarPedidoRequestAPI(
+  idAtendimento: number,
+  dataPedido: string,
+  dataDevolucao: string,
+  vlPedido = 200,
+  produtos: IPedidoProduto[],
+  fechaModal: () => void,
+): void {
+  const idUsuario = localStorage.getItem('idUsuario');
+  const token = localStorage.getItem('token');
+
+  if (!idUsuario || !token) {
+    NotificationLogin();
+    return;
+  }
+
+  const body = JSON.stringify({
+    idAtendimento,
+    dataPedido,
+    dataDevolucao,
+    vlPedido,
+    produtos,
+  });
+
+  const urlAPI = ConnectAPI();
+
+  fetch(`${urlAPI}/acoes/confirmar-atendimento`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  })
+    .then((response) => response.json())
+    .then((dataRetornada) => {
+      if (dataRetornada.status === 401) {
+        NotificationLogin();
+      } else if (dataRetornada.status !== 200) {
+        Notification.error({
+          message: 'Ocorreu um erro na Confirmação do Pedido!',
+          description: `Detalhes do erro: ${dataRetornada.message}`,
+        });
+      } else {
+        fechaModal();
+        Notification.success({
+          message: 'Pedido confirmado com sucesso!',
+        });
+      }
+    })
+    .catch((e) => {
+      Notification.error({
+        message: 'Ocorreu um erro na Confirmação do Pedido!',
+        description: `Detalhes do erro: ${e}`,
+      });
+    });
+}
+
 export {
   VerificaAtendimentoRequestAPI,
   MarcarHorarioRequestAPI,
   AtendimentosPendentesRequestAPI,
+  CancelarPedidoRequestAPI,
+  ConfirmarPedidoRequestAPI,
 };

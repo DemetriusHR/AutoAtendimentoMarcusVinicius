@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { IProduto } from '../../index';
 import useProdutoListado from '../../../../../../Hooks/useProdutoListado';
+import IPedidoProduto from '../../../../../../Interfaces/IPedidoProduto';
 
-interface IProdutoList extends IProduto {
-  removeProduto: (produto: IProduto) => void;
+interface IProdutoList extends IPedidoProduto {
+  removeProduto: (produto: IPedidoProduto) => void;
 }
 
 const Titulo = styled.p`
@@ -16,6 +16,7 @@ const ProdutoListComponent: React.FC<IProdutoList> = React.memo(
   ({
     id,
     idProduto,
+    idPedido,
     detalhes,
     removeProduto,
   }: IProdutoList) => {
@@ -29,11 +30,12 @@ const ProdutoListComponent: React.FC<IProdutoList> = React.memo(
       const produto = {
         id,
         idProduto,
+        idPedido,
         detalhes,
       };
 
       removeProduto(produto);
-    }, [id, idProduto, detalhes, removeProduto]);
+    }, [id, idPedido, idProduto, detalhes, removeProduto]);
 
     return (
       <div className="shadow p-2">

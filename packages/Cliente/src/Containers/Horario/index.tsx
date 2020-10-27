@@ -81,7 +81,7 @@ const HorarioContainer: React.FC<IHorariosContainer> = React.memo(
 
     const onClickButton = useCallback(() => {
       MarcarHorarioRequestAPI(
-        data.format('YYYY-MM-DD hh:mm'),
+        data.format('YYYY-MM-DD h:mm'),
         id,
         onClickButtonLogin,
         verificaData,
