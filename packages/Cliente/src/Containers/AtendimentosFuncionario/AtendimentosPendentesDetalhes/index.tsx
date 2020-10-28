@@ -11,6 +11,7 @@ import AtendimentoPendenteHeader from './Components/Header';
 import useAtendimentosPendentes from '../../../Hooks/useAtendimentosPendentes';
 import IHorarios from '../../../Interfaces/IHorarios';
 import DetalhesProdutosCadastro from './ProdutosCadastro';
+import { useUsuarioContext } from '../../../Context/Usuario';
 
 interface IAtendimentosPendentesDetalhes {
   data: moment.Moment;
@@ -20,6 +21,7 @@ interface IAtendimentosPendentesDetalhes {
 
 const AtendimentosPendentesDetalhes: React.FC<IAtendimentosPendentesDetalhes> = React.memo(
   ({ data, visible, onCancel }: IAtendimentosPendentesDetalhes) => {
+    const { resetDadosUsuario } = useUsuarioContext();
     const { state, getAtendimentosPendentes } = useAtendimentosPendentes();
 
     const dataAtendimento: string = useMemo(
@@ -36,8 +38,8 @@ const AtendimentosPendentesDetalhes: React.FC<IAtendimentosPendentesDetalhes> = 
         document.body.style.overflow = 'initial';
       }
 
-      getAtendimentosPendentes(data);
-    }, [visible, getAtendimentosPendentes, data]);
+      getAtendimentosPendentes(data, resetDadosUsuario);
+    }, [visible, getAtendimentosPendentes, data, resetDadosUsuario]);
 
     const arrayHorarios = useMemo(() => {
       if (data.weekday() === 6) {

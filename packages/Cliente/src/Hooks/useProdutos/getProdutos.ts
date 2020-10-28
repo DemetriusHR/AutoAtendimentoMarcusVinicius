@@ -4,6 +4,7 @@ import IProdutoList from '../../Interfaces/IProdutoList';
 
 export default function getProdutos(
   dispatch: (value: ProdutoActions) => void,
+  onLogin: () => void,
 ): void {
   function errorDispatch(): void {
     dispatch({
@@ -21,5 +22,5 @@ export default function getProdutos(
     });
   }
 
-  ProdutosRequestAPI(errorDispatch, sucessDispatch);
+  ProdutosRequestAPI(errorDispatch, sucessDispatch, onLogin);
 }

@@ -3,6 +3,6 @@
 export default interface IPedidoProduto {
   id: number;
   idProduto: number;
-  idPedido: number;
+  idAtendimento: number;
   detalhes: string;
 }

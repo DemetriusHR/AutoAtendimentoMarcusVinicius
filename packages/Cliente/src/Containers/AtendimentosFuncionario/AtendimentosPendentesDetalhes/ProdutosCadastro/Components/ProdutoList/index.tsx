@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
+import { useUsuarioContext } from '../../../../../../Context/Usuario';
 
 import useProdutoListado from '../../../../../../Hooks/useProdutoListado';
 import IPedidoProduto from '../../../../../../Interfaces/IPedidoProduto';
@@ -16,26 +17,27 @@ const ProdutoListComponent: React.FC<IProdutoList> = React.memo(
   ({
     id,
     idProduto,
-    idPedido,
+    idAtendimento,
     detalhes,
     removeProduto,
   }: IProdutoList) => {
+    const { resetDadosUsuario } = useUsuarioContext();
     const { state, getProduto } = useProdutoListado();
 
     useEffect(() => {
-      getProduto(idProduto);
-    }, [getProduto, idProduto]);
+      getProduto(idProduto, resetDadosUsuario);
+    }, [getProduto, idProduto, resetDadosUsuario]);
 
     const onClickButton = useCallback(() => {
       const produto = {
         id,
         idProduto,
-        idPedido,
+        idAtendimento,
         detalhes,
       };
 
       removeProduto(produto);
-    }, [id, idPedido, idProduto, detalhes, removeProduto]);
+    }, [id, idAtendimento, idProduto, detalhes, removeProduto]);
 
     return (
       <div className="shadow p-2">

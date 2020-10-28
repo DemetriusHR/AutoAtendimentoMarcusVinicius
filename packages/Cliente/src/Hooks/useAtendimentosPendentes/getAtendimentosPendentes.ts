@@ -10,6 +10,7 @@ import {
 export default function getAtendimentosPendentes(
   dispatch: (value: AtendimentosPendentesActions) => void,
   data: moment.Moment,
+  onLogin: () => void,
 ): void {
   function errorDispatch(): void {
     dispatch({
@@ -27,5 +28,12 @@ export default function getAtendimentosPendentes(
     });
   }
 
-  AtendimentosPendentesRequestAPI(data.format('YYYY-MM-DD'), '09:00', '18:00', errorDispatch, sucessDispatch);
+  AtendimentosPendentesRequestAPI(
+    data.format('YYYY-MM-DD'),
+    '09:00',
+    '18:00',
+    errorDispatch,
+    sucessDispatch,
+    onLogin,
+  );
 }

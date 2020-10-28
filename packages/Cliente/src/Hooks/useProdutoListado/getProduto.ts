@@ -5,6 +5,7 @@ import { ProdutoEspecificoRequestAPI } from '../../RequestAPI/Produto';
 export default function getProdutos(
   dispatch: (value: ProdutoActions) => void,
   id: number,
+  onLogin: () => void,
 ): void {
   function errorDispatch(): void {
     dispatch({
@@ -22,5 +23,5 @@ export default function getProdutos(
     });
   }
 
-  ProdutoEspecificoRequestAPI(id, errorDispatch, sucessDispatch);
+  ProdutoEspecificoRequestAPI(id, errorDispatch, sucessDispatch, onLogin);
 }

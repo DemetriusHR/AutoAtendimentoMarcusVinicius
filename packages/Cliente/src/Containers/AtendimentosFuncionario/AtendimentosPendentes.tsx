@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import moment from 'moment';
 
 import useAtendimentosPendentes from '../../Hooks/useAtendimentosPendentes';
+import { useUsuarioContext } from '../../Context/Usuario';
 
 interface IAtendimentosPendentes {
   data: moment.Moment;
@@ -10,11 +11,12 @@ interface IAtendimentosPendentes {
 const AtendimentosPendentes: React.FC<IAtendimentosPendentes> = ({
   data,
 }: IAtendimentosPendentes) => {
+  const { resetDadosUsuario } = useUsuarioContext();
   const { state, getAtendimentosPendentes } = useAtendimentosPendentes();
 
   useEffect(() => {
-    getAtendimentosPendentes(data);
-  }, [getAtendimentosPendentes, data]);
+    getAtendimentosPendentes(data, resetDadosUsuario);
+  }, [getAtendimentosPendentes, data, resetDadosUsuario]);
 
   const textRetornado = useMemo(() => {
     if (state.progress === 'sucess' && state.atendimentosPendentes.length >= 1) {

@@ -9,19 +9,19 @@ interface IuseProdutos {
     progress: string;
     produtos: IProduto[];
   };
-  getProdutos: () => void;
+  getProdutos: (onLogin: () => void) => void;
 }
 
 function useProdutos(): IuseProdutos {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getProdutos = useCallback(() => {
+  const getProdutos = useCallback((onLogin) => {
     dispatch({
       type: ProdutosTypes.initial,
       payload: '',
     });
 
-    getProdutosAPI(dispatch);
+    getProdutosAPI(dispatch, onLogin);
   }, []);
 
   return {

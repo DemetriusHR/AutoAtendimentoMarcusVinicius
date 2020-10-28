@@ -10,19 +10,19 @@ interface IuseAtendimentosPendentes {
     progress: string;
     atendimentosPendentes: IAtendimentoPendente[];
   };
-  getAtendimentosPendentes: (data: moment.Moment) => void;
+  getAtendimentosPendentes: (data: moment.Moment, onLogin: () => void) => void;
 }
 
 function useAtendimentosPendentes(): IuseAtendimentosPendentes {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getAtendimentosPendentes = useCallback((data) => {
+  const getAtendimentosPendentes = useCallback((data, onLogin) => {
     dispatch({
       type: AtendimentosPendentesTypes.initial,
       payload: '',
     });
 
-    getAtendimentosPendentesAPI(dispatch, data);
+    getAtendimentosPendentesAPI(dispatch, data, onLogin);
   }, []);
 
   return {

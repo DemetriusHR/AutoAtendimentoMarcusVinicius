@@ -87,25 +87,6 @@ function cancelaAtendimentoService(req, res) {
     });
 }
 
-function marcarHorarioService(req, res) {
-  const { idAtendimento } = req.body;
-
-  atualizaAtendimentoRepository(idAtendimento)
-    .then(() => {
-      res.json({
-        status: 200,
-        message: 'ok',
-      });
-    })
-    .catch((e) => {
-      log.error(e.toString());
-      res.status(500).json({
-        status: 500,
-        message: e.toString(),
-      });
-    });
-}
-
 function confirmaAtendimentoService(req, res) {
   const {
     idAtendimento,

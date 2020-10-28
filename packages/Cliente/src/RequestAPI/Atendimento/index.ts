@@ -107,12 +107,13 @@ function AtendimentosPendentesRequestAPI(
   horarioFinal = '',
   error: () => void,
   sucess: (entrada: IAtendimentoPendente[]) => void,
+  onLogin: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
 
   if (!idUsuario || !token) {
-    NotificationLogin();
+    NotificationLogin(onLogin);
     return;
   }
 
@@ -138,7 +139,7 @@ function AtendimentosPendentesRequestAPI(
     .then((response) => response.json())
     .then((dataRetornada) => {
       if (dataRetornada.status === 401) {
-        NotificationLogin();
+        NotificationLogin(onLogin);
       } else if (dataRetornada.status !== 200) {
         Notification.error({
           message: 'Ocorreu um erro no Login!',
@@ -161,12 +162,13 @@ function AtendimentosPendentesRequestAPI(
 function CancelarPedidoRequestAPI(
   idAtendimento = 0,
   fechaModal: () => void,
+  onLogin: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
 
   if (!idUsuario || !token) {
-    NotificationLogin();
+    NotificationLogin(onLogin);
     return;
   }
 
@@ -188,7 +190,7 @@ function CancelarPedidoRequestAPI(
     .then((response) => response.json())
     .then((dataRetornada) => {
       if (dataRetornada.status === 401) {
-        NotificationLogin();
+        NotificationLogin(onLogin);
       } else if (dataRetornada.status !== 200) {
         Notification.error({
           message: 'Ocorreu um erro no Cancelamento do Pedido!',
@@ -216,12 +218,13 @@ function ConfirmarPedidoRequestAPI(
   vlPedido = 200,
   produtos: IPedidoProduto[],
   fechaModal: () => void,
+  onLogin: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
 
   if (!idUsuario || !token) {
-    NotificationLogin();
+    NotificationLogin(onLogin);
     return;
   }
 
@@ -247,7 +250,7 @@ function ConfirmarPedidoRequestAPI(
     .then((response) => response.json())
     .then((dataRetornada) => {
       if (dataRetornada.status === 401) {
-        NotificationLogin();
+        NotificationLogin(onLogin);
       } else if (dataRetornada.status !== 200) {
         Notification.error({
           message: 'Ocorreu um erro na Confirmação do Pedido!',

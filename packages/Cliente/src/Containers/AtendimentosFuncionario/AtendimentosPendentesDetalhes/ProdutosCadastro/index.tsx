@@ -16,6 +16,7 @@ import {
   ConfirmarPedidoRequestAPI,
 } from '../../../../RequestAPI/Atendimento';
 import IPedidoProduto from '../../../../Interfaces/IPedidoProduto';
+import { useUsuarioContext } from '../../../../Context/Usuario';
 
 const spanConfig = {
   span: 24,
@@ -37,20 +38,21 @@ interface IDetalhesProdutosCadastro {
 
 const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo(
   ({ idPedido, onFechaModal, data }: IDetalhesProdutosCadastro) => {
+    const { resetDadosUsuario } = useUsuarioContext();
     const { state, getProdutos } = useProdutos();
     const [form] = Form.useForm();
     const [produtos, setProdutos] = useState<IPedidoProduto[]>([]);
 
     useEffect(() => {
-      getProdutos();
-    }, [getProdutos]);
+      getProdutos(resetDadosUsuario);
+    }, [getProdutos, resetDadosUsuario]);
 
     const onFinish = useCallback(
       (values) => {
         setProdutos((prevState) => {
           const produtoNovo = {
             id: Math.floor(Math.random() * 100),
-            idPedido,
+            idAtendimento: idPedido,
             idProduto: values.produto,
             detalhes: values.detalhes,
           };
@@ -69,11 +71,11 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
 
     const cancelarPedido = useCallback(() => {
       async function cancelaPedido(): Promise<void> {
-        await CancelarPedidoRequestAPI(idPedido, onFechaModal);
+        await CancelarPedidoRequestAPI(idPedido, onFechaModal, resetDadosUsuario);
       }
 
       cancelaPedido();
-    }, [idPedido, onFechaModal]);
+    }, [idPedido, onFechaModal, resetDadosUsuario]);
 
     const removeProduto = useCallback((produto) => {
       setProdutos((prevState) => {
@@ -102,6 +104,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
           200,
           produtos,
           onFechaModal,
+          resetDadosUsuario,
         );
       } else {
         Notification.error({
@@ -109,7 +112,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
           description: 'Você deve cadastrar pelo menos um produto',
         });
       }
-    }, [produtos, idPedido, data, onFechaModal]);
+    }, [produtos, idPedido, data, onFechaModal, resetDadosUsuario]);
 
     return (
       <div className="py-8">

@@ -7,12 +7,13 @@ import ConnectAPI from '../ConnectAPI';
 function ProdutosRequestAPI(
   error: () => void,
   sucess: (entrada: IProdutoList[]) => void,
+  onLogin: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
 
   if (!idUsuario || !token) {
-    NotificationLogin();
+    NotificationLogin(onLogin);
     return;
   }
 
@@ -29,7 +30,7 @@ function ProdutosRequestAPI(
     .then((response) => response.json())
     .then((dataRetornada) => {
       if (dataRetornada.status === 401) {
-        NotificationLogin();
+        NotificationLogin(onLogin);
       } else if (dataRetornada.status !== 200) {
         Notification.error({
           message: 'Ocorreu um erro na Listagem de Produtos!',
@@ -53,12 +54,13 @@ function ProdutoEspecificoRequestAPI(
   id: number,
   error: () => void,
   sucess: (entrada: IProdutoList) => void,
+  onLogin: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
 
   if (!idUsuario || !token) {
-    NotificationLogin();
+    NotificationLogin(onLogin);
     return;
   }
 
@@ -75,7 +77,7 @@ function ProdutoEspecificoRequestAPI(
     .then((response) => response.json())
     .then((dataRetornada) => {
       if (dataRetornada.status === 401) {
-        NotificationLogin();
+        NotificationLogin(onLogin);
       } else if (dataRetornada.status !== 200) {
         Notification.error({
           message: 'Ocorreu um erro na Listagem do Produto!',
