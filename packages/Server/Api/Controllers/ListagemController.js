@@ -20,11 +20,14 @@ const {
 const {
   verificaAtendimentosPendentesService,
   listaPedidosPendentesClienteService,
+  listaPedidosPendentesService,
 } = require('../../Core/Services/HorarioService');
 
 const {
   listaProdutosService,
   listaProdutoEspecificoService,
+  listaPedidoPendenteProdutosService,
+  listaPedidoPendenteProdutosClienteService,
 } = require('../../Core/Services/ProdutoService');
 
 // ROTAS
@@ -48,10 +51,42 @@ rotasAutorizadasGetFuncionario(router, '/produtos', listaProdutosService);
 
 // GET - Lista de Produto Especifico
 
-rotasAutorizadasGetFuncionario(router, '/produto/:id', listaProdutoEspecificoService);
+rotasAutorizadasGetFuncionario(
+  router,
+  '/produto/:id',
+  listaProdutoEspecificoService
+);
+
+// GET - Lista de Pedidos Pendentes
+
+rotasAutorizadasGetFuncionario(
+  router,
+  '/pedidos-pendentes',
+  listaPedidosPendentesService
+);
 
 // GET - Lista de Pedidos Pendentes do Cliente
 
-rotasAutorizadasGetFuncionario(router, '/pedidos-pendentes/:id', listaPedidosPendentesClienteService);
+rotasAutorizadasGet(
+  router,
+  '/pedidos-pendentes/:id',
+  listaPedidosPendentesClienteService
+);
+
+// GET - Lista de Produtos do Pedido Pendente do Cliente
+
+rotasAutorizadasGet(
+  router,
+  '/pedido-pendente/:id/produtos',
+  listaPedidoPendenteProdutosClienteService
+);
+
+// GET - Lista de Produtos do Pedido Pendente do Funcionario
+
+rotasAutorizadasGetFuncionario(
+  router,
+  '/pedido-pendente-funcionario/:id/produtos',
+  listaPedidoPendenteProdutosService
+);
 
 module.exports = router;

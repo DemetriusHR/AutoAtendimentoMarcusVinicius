@@ -2,24 +2,29 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import Card from '../../Components/Card';
+import { useUsuarioContext } from '../../Context/Usuario';
 import usePedidosCliente from '../../Hooks/usePedidosCliente';
-import PedidoComponent from './Components/Pedido';
+import MeusPedidosPedido from './Pedido';
 
 const TextNotFound = styled.span`
   color: var(--text-not-found-color);
 `;
 
 const MeusPedidosContainer: React.FC = () => {
+  const {
+    usuario: { id },
+    resetDadosUsuario,
+  } = useUsuarioContext();
   const { state, getPedidos } = usePedidosCliente();
 
   useEffect(() => {
-    getPedidos();
-  }, [getPedidos]);
+    getPedidos(id, resetDadosUsuario);
+  }, [getPedidos, id, resetDadosUsuario]);
   return (
     <Card>
       {state.pedidos.length ? (
         state.pedidos.map((pedido) => (
-          <PedidoComponent key={pedido.idPedido} pedido={pedido} />
+          <MeusPedidosPedido key={pedido.idatendimento} pedido={pedido} />
         ))
       ) : (
         <TextNotFound>Não há pedidos pendentes</TextNotFound>

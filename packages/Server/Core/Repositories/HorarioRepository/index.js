@@ -191,6 +191,46 @@ function cadastrarProdutosPedidoRepository(produtos = [{}]) {
   });
 }
 
+function listaPedidosPendentesRepository() {
+  return new Promise(async function (resolve, reject) {
+    pool.connect(function (err, client, done) {
+      if (err) {
+        reject('Erro na listagem de pedidos pendentes: ' + err);
+        console.log('Erro na listagem de pedidos pendentes: ' + err);
+        return;
+      }
+
+      client.query(
+        `SELECT Pedido.ID_Atendimento as idAtendimento 
+               ,CASE
+                  WHEN entregue = 'f'                     THEN DT_Entrega_Pedido
+                  WHEN entregue = 't' AND devolvido = 'f' THEN DT_Devolucao_Pedido
+                END AS dtPedido
+               ,Usuario.ID_Usuario as idCliente
+               ,Usuario.NM_Usuario as nomeCliente
+               ,entregue
+               ,devolvido
+         FROM Atendimento
+           INNER JOIN Pedido
+           ON Pedido.ID_Atendimento = Atendimento.ID_Atendimento
+           INNER JOIN Usuario
+           ON Usuario.ID_Usuario = Atendimento.ID_Usuario
+         WHERE Pedido.devolvido = 'f'`,
+        function (erro, result) {
+          if (erro) {
+            reject('Erro na listagem de pedidos pendentes: ' + erro);
+            console.log('Erro na listagem de pedidos pendentes: ' + erro);
+            return;
+          }
+
+          resolve(result.rows);
+          done();
+        }
+      );
+    });
+  });
+}
+
 function listaPedidosPendentesClienteRepository(idUsuario) {
   return new Promise(async function (resolve, reject) {
     pool.connect(function (err, client, done) {
@@ -201,12 +241,13 @@ function listaPedidosPendentesClienteRepository(idUsuario) {
       }
 
       client.query(
-        `SELECT CASE
+        `SELECT Pedido.ID_Atendimento
+               ,CASE
                   WHEN entregue = 'f'                     THEN DT_Entrega_Pedido
                   WHEN entregue = 't' AND devolvido = 'f' THEN DT_Devolucao_Pedido
                 END AS dtPedido
-             ,entregue
-             ,devolvido
+               ,entregue
+               ,devolvido
          FROM Atendimento
            INNER JOIN Pedido
            ON Pedido.ID_Atendimento = Atendimento.ID_Atendimento
@@ -228,6 +269,65 @@ function listaPedidosPendentesClienteRepository(idUsuario) {
   });
 }
 
+function pedidosPendentesConfirmaEntregaRepository(idPedido) {
+  return new Promise(async function (resolve, reject) {
+    pool.connect(function (err, client, done) {
+      if (err) {
+        reject('Erro na confirmação da entrega do pedido pendente: ' + err);
+        console.log('Erro na confirmação da entrega do pedido pendente: ' + err);
+        return;
+      }
+
+      client.query(
+        `UPDATE Pedido
+         SET entregue = 't'
+         WHERE ID_Atendimento = $1`,
+        [idPedido],
+        function (erro, result) {
+          if (erro) {
+            reject('Erro na confirmação da entrega do pedido pendente: ' + erro);
+            console.log('Erro na confirmação da entrega do pedido pendente: ' + erro);
+            return;
+          }
+
+          resolve(result.rows);
+          done();
+        }
+      );
+    });
+  });
+}
+
+
+function pedidosPendentesConfirmaDevolucaoRepository(idPedido) {
+  return new Promise(async function (resolve, reject) {
+    pool.connect(function (err, client, done) {
+      if (err) {
+        reject('Erro na confirmação da devolução do pedido pendente: ' + err);
+        console.log('Erro na confirmação da devolução do pedido pendente: ' + err);
+        return;
+      }
+
+      client.query(
+        `UPDATE Pedido
+         SET devolvido = 't'
+         WHERE ID_Atendimento = $1`,
+        [idPedido],
+        function (erro, result) {
+          if (erro) {
+            reject('Erro na confirmação da devolução do pedido pendente: ' + erro);
+            console.log('Erro na confirmação da devolução do pedido pendente: ' + erro);
+            return;
+          }
+
+          resolve(result.rows);
+          done();
+        }
+      );
+    });
+  });
+}
+
 module.exports = {
   verificaHorarioRepository,
   marcarHorarioRepository,
@@ -236,4 +336,7 @@ module.exports = {
   cadastrarProdutosPedidoRepository,
   cadastrarPedidoRepository,
   listaPedidosPendentesClienteRepository,
+  listaPedidosPendentesRepository,
+  pedidosPendentesConfirmaEntregaRepository,
+  pedidosPendentesConfirmaDevolucaoRepository,
 };

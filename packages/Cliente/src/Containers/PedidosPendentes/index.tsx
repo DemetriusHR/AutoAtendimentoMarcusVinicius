@@ -7,17 +7,19 @@ import PedidoPanelComponent from './Components/PedidoPanel';
 import Card from '../../Components/Card';
 import CustomScroll from '../../Components/CustomScroll';
 import usePedidosFuncionario from '../../Hooks/usePedidosFuncionario';
+import { useUsuarioContext } from '../../Context/Usuario';
 
 const TextNotFound = styled.span`
   color: var(--text-not-found-color);
 `;
 
 const PedidosPendentesContainer: React.FC = () => {
+  const { resetDadosUsuario } = useUsuarioContext();
   const { state, getPedidos } = usePedidosFuncionario();
 
   useEffect(() => {
-    getPedidos();
-  }, [getPedidos]);
+    getPedidos(resetDadosUsuario);
+  }, [getPedidos, resetDadosUsuario]);
   return (
     <Card>
       <CustomScroll className="max-h-full h-64">
@@ -25,11 +27,11 @@ const PedidosPendentesContainer: React.FC = () => {
           <Collapse bordered={false} className="pedido-collapse">
             {state.pedidos.map((pedido) => (
               <Collapse.Panel
-                key={pedido.idCliente}
+                key={pedido.idatendimento}
                 header={<PedidoPanelComponent pedido={pedido} />}
                 className="pedido-collapse-panel"
               >
-                <PedidoPendenteProduto idPedido={pedido.idPedido} />
+                <PedidoPendenteProduto idPedido={pedido.idatendimento} />
               </Collapse.Panel>
             ))}
           </Collapse>

@@ -4,6 +4,7 @@ const validate = require('express-validation');
 const {
   rotasAutorizadasPost,
   rotasAutorizadasDeleteFuncionario,
+  rotasAutorizadasPostFuncionario,
 } = require('../Utils/rotasAutorizadas');
 
 // VALIDATORS
@@ -14,6 +15,8 @@ const verificaAtendimentoValidator = require('../../Core/Validators/VerificaAten
 const marcarHorarioValidator = require('../../Core/Validators/MarcarHorarioValidator');
 const cancelaAtendimentoValidator = require('../../Core/Validators/CancelaAtendimentoValidator');
 const confirmarAtendimentoValidator = require('../../Core/Validators/ConfirmarAtendimentoValidator');
+const confirmaEntregaPedidoValidator = require('../../Core/Validators/ConfirmaEntregaPedidoValidator');
+const confirmaDevolucaoPedidoValidator = require('../../Core/Validators/ConfirmaDevolucaoPedidoValidator');
 
 // SERVICES
 
@@ -26,6 +29,8 @@ const {
   marcarHorarioService,
   cancelaAtendimentoService,
   confirmaAtendimentoService,
+  pedidosPendentesConfirmaEntregaService,
+  pedidosPendentesConfirmaDevolucaoService,
 } = require('../../Core/Services/HorarioService');
 
 // ROTAS
@@ -69,6 +74,24 @@ rotasAutorizadasPost(
   '/confirmar-atendimento',
   validate(confirmarAtendimentoValidator),
   confirmaAtendimentoService
+);
+
+// POST - PEDIDO-PENDENTE/CONFIRMA-ENTREGA
+
+rotasAutorizadasPostFuncionario(
+  router,
+  '/pedido-pendente/confirma-entrega',
+  validate(confirmaEntregaPedidoValidator),
+  pedidosPendentesConfirmaEntregaService,
+);
+
+// POST - PEDIDO-PENDENTE/CONFIRMA-DEVOLUCAO
+
+rotasAutorizadasPostFuncionario(
+  router,
+  '/pedido-pendente/confirma-devolucao',
+  validate(confirmaDevolucaoPedidoValidator),
+  pedidosPendentesConfirmaDevolucaoService
 );
 
 module.exports = router;

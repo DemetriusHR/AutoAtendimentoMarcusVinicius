@@ -1,7 +1,7 @@
 import IPedido from '../IPedido';
 
 export default interface IPedidoFuncionario extends IPedido {
-  idCliente: number;
-  cliente: string;
+  idcliente: number;
+  nomecliente: string;
   /* eslint-disable-next-line */
 }

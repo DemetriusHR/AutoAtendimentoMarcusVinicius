@@ -7,6 +7,9 @@ const {
   cadastrarPedidoRepository,
   cadastrarProdutosPedidoRepository,
   listaPedidosPendentesClienteRepository,
+  listaPedidosPendentesRepository,
+  pedidosPendentesConfirmaDevolucaoRepository,
+  pedidosPendentesConfirmaEntregaRepository,
 } = require('../../Repositories/HorarioRepository');
 
 function verificaHorarioService(req, res) {
@@ -157,6 +160,62 @@ function listaPedidosPendentesClienteService(req, res) {
     });
 }
 
+function listaPedidosPendentesService(_, res) {
+  listaPedidosPendentesRepository()
+    .then((dataRetornada) => {
+      res.json({
+        status: 200,
+        message: 'ok',
+        data: dataRetornada,
+      });
+    })
+    .catch((e) => {
+      log.error(e.toString());
+      res.status(500).json({
+        status: 500,
+        message: e.toString(),
+      });
+    });
+}
+
+function pedidosPendentesConfirmaEntregaService(req, res) {
+  const { idPedido } = req.body;
+
+  pedidosPendentesConfirmaEntregaRepository(idPedido)
+    .then(() => {
+      res.json({
+        status: 200,
+        message: 'ok',
+      });
+    })
+    .catch((e) => {
+      log.error(e.toString());
+      res.status(500).json({
+        status: 500,
+        message: e.toString(),
+      });
+    });
+}
+
+function pedidosPendentesConfirmaDevolucaoService(req, res) {
+  const { idPedido } = req.body;
+
+  pedidosPendentesConfirmaDevolucaoRepository(idPedido)
+    .then(() => {
+      res.json({
+        status: 200,
+        message: 'ok',
+      });
+    })
+    .catch((e) => {
+      log.error(e.toString());
+      res.status(500).json({
+        status: 500,
+        message: e.toString(),
+      });
+    });
+}
+
 module.exports = {
   verificaHorarioService,
   marcarHorarioService,
@@ -164,4 +223,7 @@ module.exports = {
   cancelaAtendimentoService,
   confirmaAtendimentoService,
   listaPedidosPendentesClienteService,
+  listaPedidosPendentesService,
+  pedidosPendentesConfirmaEntregaService,
+  pedidosPendentesConfirmaDevolucaoService,
 };

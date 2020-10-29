@@ -1,49 +1,27 @@
-import {
-  PedidosActions,
-  PedidosTypes,
-} from './reducer';
+import { PedidosActions, PedidosTypes } from './reducer';
 import IPedido from '../../Interfaces/IPedido';
-
-const pedidosTeste: IPedido[] = [
-  {
-    idPedido: 1,
-    dataPedido: new Date(
-      2020,
-      6,
-      12,
-      10,
-      30,
-    ),
-    dataEntrega: null,
-    dataDevolucao: null,
-  },
-];
+import { PedidosPendentesClienteRequestAPI } from '../../RequestAPI/Atendimento';
 
 export default function getPedidos(
-  dispatch: (
-    value: PedidosActions
-  ) => void,
+  dispatch: (value: PedidosActions) => void,
+  id: number,
+  onLogin: () => void,
 ): void {
-  if (
-    pedidosTeste.length
-  ) {
-    dispatch(
-      {
-        type:
-          PedidosTypes.sucess,
-        payload: {
-          data: pedidosTeste,
-        },
-      },
-    );
-  } else {
-    dispatch(
-      {
-        type:
-          PedidosTypes.error,
-        payload:
-          '',
-      },
-    );
+  function errorDispatch(): void {
+    dispatch({
+      type: PedidosTypes.error,
+      payload: '',
+    });
   }
+
+  function sucessDispatch(retorno: IPedido[]): void {
+    dispatch({
+      type: PedidosTypes.sucess,
+      payload: {
+        data: retorno,
+      },
+    });
+  }
+
+  PedidosPendentesClienteRequestAPI(id, errorDispatch, sucessDispatch, onLogin);
 }

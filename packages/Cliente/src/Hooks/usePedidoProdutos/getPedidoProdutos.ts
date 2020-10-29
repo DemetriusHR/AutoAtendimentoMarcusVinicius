@@ -3,13 +3,13 @@ import IProduto from '../../Interfaces/IProduto';
 
 const produto: IProduto[] = [
   {
-    idProduto: 1,
-    nmProduto: 'Produto 1',
+    idproduto: 1,
+    nmproduto: 'Produto 1',
     detalhesProduto: 'Detalhes do detalhes',
   },
   {
-    idProduto: 2,
-    nmProduto: 'Produto 2',
+    idproduto: 2,
+    nmproduto: 'Produto 2',
     detalhesProduto: 'Detalhes do detalhes',
   },
 ];

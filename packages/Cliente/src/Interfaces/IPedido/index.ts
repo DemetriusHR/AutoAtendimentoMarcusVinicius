@@ -1,8 +1,8 @@
 /* eslint semi: ["error", "never"] */
 
 export default interface IPedido {
-  idPedido: number,
-  dataPedido: Date;
-  dataEntrega: Date | null;
-  dataDevolucao: Date | null;
+  idatendimento: number,
+  dtpedido: moment.Moment;
+  entregue: boolean;
+  devolvido: boolean;
 }

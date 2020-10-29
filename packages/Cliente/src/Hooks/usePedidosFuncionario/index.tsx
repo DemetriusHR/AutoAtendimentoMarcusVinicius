@@ -9,19 +9,19 @@ interface IusePedidosCliente {
     progress: string;
     pedidos: IPedidoFuncionario[];
   };
-  getPedidos: () => void;
+  getPedidos: (onLogin: () => void) => void;
 }
 
 function usePedidosCliente(): IusePedidosCliente {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getPedidos = useCallback(() => {
+  const getPedidos = useCallback((onLogin) => {
     dispatch({
       type: PedidosTypes.initial,
       payload: '',
     });
 
-    getPedidosAPI(dispatch);
+    getPedidosAPI(dispatch, onLogin);
   }, []);
 
   return {

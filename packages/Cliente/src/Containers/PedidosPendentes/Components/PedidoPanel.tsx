@@ -1,10 +1,15 @@
 import React, { useCallback, useMemo } from 'react';
+import moment from 'moment';
 import styled from 'styled-components';
 import CheckCircleOutlined from '@ant-design/icons/CheckCircleOutlined';
 
 import IPedidoFuncionario from '../../../Interfaces/IPedidoFuncionario';
 import ButtonConfirm from '../../../Components/ButtonConfirm';
-import useAcoesPedido from '../../../Hooks/useAcoesPedido';
+import {
+  PedidoPendenteConfirmaEntregueRequestAPI,
+  PedidoPendenteConfirmaDevolucaoRequestAPI,
+} from '../../../RequestAPI/Atendimento';
+import { useUsuarioContext } from '../../../Context/Usuario';
 
 const TextStatus = styled.span`
   color: var(--error-color);
@@ -21,76 +26,67 @@ interface IPedidoComponent {
 }
 
 const PedidoPanelComponent: React.FC<IPedidoComponent> = ({
-  pedido,
+  pedido: {
+    dtpedido,
+    entregue,
+    idatendimento,
+    nomecliente,
+  },
 }: IPedidoComponent) => {
-  const { setPedido } = useAcoesPedido();
+  const { resetDadosUsuario } = useUsuarioContext();
 
   const data = useMemo(() => {
-    let retorno = '';
-    if (pedido.dataEntrega) {
-      retorno = `${`00${pedido.dataEntrega.getUTCDate()}`.slice(
-        -2,
-      )}/${`00${pedido.dataEntrega.getUTCMonth()}`.slice(-2)}`;
-    } else {
-      retorno = `${`00${pedido.dataPedido.getUTCDate()}`.slice(
-        -2,
-      )}/${`00${pedido.dataPedido.getUTCMonth()}`.slice(-2)}`;
-    }
+    const retorno = moment(dtpedido).format('DD/MM');
 
     return retorno;
-  }, [pedido.dataEntrega, pedido.dataPedido]);
+  }, [dtpedido]);
 
   const horario = useMemo(() => {
-    let retorno = '';
-    if (pedido.dataEntrega) {
-      retorno = `${`00${pedido.dataEntrega.getHours()}`.slice(
-        -2,
-      )}:${`00${pedido.dataEntrega.getMinutes()}`.slice(-2)}`;
-    } else {
-      retorno = `${`00${pedido.dataPedido.getHours()}`.slice(
-        -2,
-      )}:${`00${pedido.dataPedido.getMinutes()}`.slice(-2)}`;
-    }
+    const retorno = moment(dtpedido).format('hh:mm');
 
     return retorno;
-  }, [pedido.dataEntrega, pedido.dataPedido]);
+  }, [dtpedido]);
 
   const status = useMemo(() => {
     let retorno = '';
-    if (pedido.dataEntrega) {
+    if (entregue) {
       retorno = 'Não Devolvido X';
     } else {
       retorno = 'Não Entregue X';
     }
 
     return retorno;
-  }, [pedido.dataEntrega]);
+  }, [entregue]);
 
   const textoBotao = useMemo(() => {
     let retorno = '';
-    if (pedido.dataEntrega) {
+    if (entregue) {
       retorno = 'Confirmar Devolução';
     } else {
       retorno = 'Confirmar Entrega';
     }
 
     return retorno;
-  }, [pedido.dataEntrega]);
+  }, [entregue]);
 
   const onClickConfirma = useCallback(() => {
-    setPedido(pedido);
-  }, [pedido, setPedido]);
+    if (entregue) {
+      PedidoPendenteConfirmaDevolucaoRequestAPI(idatendimento, resetDadosUsuario);
+    } else {
+      PedidoPendenteConfirmaEntregueRequestAPI(idatendimento, resetDadosUsuario);
+    }
+  }, [idatendimento, entregue, resetDadosUsuario]);
 
   return (
     <PedidoPanelComponentWrapper className="flex justify-between items-center text-lg">
       <div>
-        {pedido.dataEntrega && <p className="m-0">Saiu:</p>}
+        {entregue && <p className="m-0">Saiu:</p>}
         <p className="m-0">{`Dia ${data}`}</p>
         <p className="m-0">{`Horário ${horario}`}</p>
       </div>
       <div className="max-w-4xl">
         <p className="m-0">Cliente: </p>
-        <p className="m-0">{pedido.cliente}</p>
+        <p className="m-0">{nomecliente}</p>
       </div>
       <div className="flex flex-col">
         <p className="m-0">
