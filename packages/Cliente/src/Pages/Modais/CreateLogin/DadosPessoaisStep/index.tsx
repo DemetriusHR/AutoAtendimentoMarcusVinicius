@@ -6,6 +6,7 @@ import ButtonConfirm from '../../../../Components/ButtonConfirm';
 import Input from '../../../../Components/Input';
 import InputCPF from '../../../../Components/InputCPF';
 import InputCelular from '../../../../Components/InputCelular';
+import VerificaCPF from '../../../../Utils/VerificaCPF';
 
 const spanConfig = {
   span: 24,
@@ -19,9 +20,16 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
   ({ setNextStep }: ICreateLoginDadosPessoaisStep) => {
     const onFinish = useCallback(
       (values) => {
-        if (values.senha === values.confirmasenha) {
-          console.log(values);
-          setNextStep(1);
+        console.log(values);
+        if (values.senha === values.confirmarsenha) {
+          console.log(values, VerificaCPF(values.cpf));
+          if (VerificaCPF(values.cpf)) {
+            setNextStep(1);
+          } else {
+            Notification.warning({
+              message: 'CPF Inválido!',
+            });
+          }
         } else {
           Notification.warning({
             message: 'Senha e Confirmação de Senha não iguais!',
@@ -92,7 +100,7 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
               },
             ]}
           >
-            <Input />
+            <Input type="password" />
           </Form.Item>
           <div className="w-full h-4" />
           <Form.Item
@@ -106,7 +114,7 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
               },
             ]}
           >
-            <Input />
+            <Input type="password" />
           </Form.Item>
           <div className="w-full h-8" />
           <div className="flex flex-row-reverse">
