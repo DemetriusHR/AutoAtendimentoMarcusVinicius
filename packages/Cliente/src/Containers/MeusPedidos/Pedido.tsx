@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 
 import IPedido from '../../Interfaces/IPedido';
+import useProdutosPedidoCliente from '../../Hooks/useProdutosPedidoCliente';
+import { useUsuarioContext } from '../../Context/Usuario';
 
 const TextStatus = styled.span`
   color: var(--error-color);
@@ -13,8 +15,15 @@ interface IMeusPedidosPedido {
 }
 
 const MeusPedidosPedido: React.FC<IMeusPedidosPedido> = ({
-  pedido: { dtpedido, entregue },
+  pedido: { idatendimento, dtpedido, entregue },
 }: IMeusPedidosPedido) => {
+  const { resetDadosUsuario } = useUsuarioContext();
+  const { state, getPedidoProdutos } = useProdutosPedidoCliente();
+
+  useEffect(() => {
+    getPedidoProdutos(idatendimento, resetDadosUsuario);
+  }, [idatendimento, getPedidoProdutos, resetDadosUsuario]);
+
   const data = useMemo(() => {
     const retorno = moment(dtpedido).format('DD/MM');
 
@@ -46,6 +55,9 @@ const MeusPedidosPedido: React.FC<IMeusPedidosPedido> = ({
       </div>
       <div className="max-w-4xl">
         <p className="m-0">Produtos: </p>
+        {state.produtos.map((produto) => (
+          <span key={produto.idproduto}>{`${produto.nmproduto} `}</span>
+        ))}
       </div>
       <div>
         <p className="m-0">Status </p>

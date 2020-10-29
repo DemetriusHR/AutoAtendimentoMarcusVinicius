@@ -241,7 +241,7 @@ function listaPedidosPendentesClienteRepository(idUsuario) {
       }
 
       client.query(
-        `SELECT Pedido.ID_Atendimento
+        `SELECT Pedido.ID_Atendimento as idAtendimento 
                ,CASE
                   WHEN entregue = 'f'                     THEN DT_Entrega_Pedido
                   WHEN entregue = 't' AND devolvido = 'f' THEN DT_Devolucao_Pedido
