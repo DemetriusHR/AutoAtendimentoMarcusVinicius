@@ -1,8 +1,7 @@
 import ActionMap from '../../Interfaces/ActionMap';
 
 export const initialState = {
-  progress:
-    'initial',
+  progress: 'initial',
   atendimento: false,
 };
 
@@ -25,9 +24,7 @@ type AtendimentoPayload = {
   [AtendimentoTypes.error]: '';
 };
 
-export type AtendimentoActions = ActionMap<
-  AtendimentoPayload
->[keyof ActionMap<
+export type AtendimentoActions = ActionMap<AtendimentoPayload>[keyof ActionMap<
   AtendimentoPayload
 >];
 
@@ -35,30 +32,22 @@ export function reducer(
   state: IStateReducer,
   action: AtendimentoActions,
 ): IStateReducer {
-  switch (
-    action.type
-  ) {
+  switch (action.type) {
     case AtendimentoTypes.initial:
       return {
         ...state,
-        progress:
-          'initial',
+        progress: 'initial',
       };
     case AtendimentoTypes.sucess:
       return {
         ...state,
-        progress:
-          'sucess',
-        atendimento:
-          action
-            .payload
-            .data,
+        progress: 'sucess',
+        atendimento: action.payload.data,
       };
     case AtendimentoTypes.error:
       return {
         ...state,
-        progress:
-          'error',
+        progress: 'error',
       };
     default:
       return {

@@ -3,5 +3,5 @@
 import IProdutoList from '../IProdutoList'
 
 export default interface IProduto extends IProdutoList {
-  detalhesProduto: string;
+  detalhes: string;
 }

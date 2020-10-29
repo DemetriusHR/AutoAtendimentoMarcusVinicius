@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useUsuarioContext } from '../../Context/Usuario';
 
 import usePedidoProdutos from '../../Hooks/usePedidoProdutos';
 
@@ -8,25 +9,36 @@ interface IPedidoPendenteProduto {
 
 const PedidoPendenteProduto: React.FC<IPedidoPendenteProduto> = React.memo(
   ({ idPedido }: IPedidoPendenteProduto) => {
+    const { resetDadosUsuario } = useUsuarioContext();
     const { state, getPedidoProdutos } = usePedidoProdutos();
 
     useEffect(() => {
-      getPedidoProdutos(idPedido);
-    }, [getPedidoProdutos, idPedido]);
+      getPedidoProdutos(idPedido, resetDadosUsuario);
+    }, [getPedidoProdutos, idPedido, resetDadosUsuario]);
     return (
-      <div className="p-4">
-        {state.produtos.map((produto) => (
-          <div key={produto.idProduto} className="flex">
-            <div className="flex-1">
-              <h1 className="text-sm">Produto</h1>
-              <p>{produto.nmProduto}</p>
+      <div>
+        {state.produtos.length ? (
+          <p className="text-lg mt-2">Informações sobre o Pedido</p>
+        ) : null}
+        <div className="px-4 py-1">
+          {state.produtos.length ? (
+            <p className="text-base">
+              {`${state.produtos.length > 1 ? 'Produtos' : 'Produto'}`}
+            </p>
+          ) : null}
+          {state.produtos.map((produto) => (
+            <div key={produto.idproduto} className="flex">
+              <div className="flex-1">
+                <h1 className="text-sm">Produto</h1>
+                <p>{produto.nmproduto}</p>
+              </div>
+              <div className="flex-1">
+                <h1 className="text-sm">Detalhes</h1>
+                <p>{produto.detalhes}</p>
+              </div>
             </div>
-            <div className="flex-1">
-              <h1 className="text-sm">Detalhes</h1>
-              <p>{produto.detalhesProduto}</p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   },

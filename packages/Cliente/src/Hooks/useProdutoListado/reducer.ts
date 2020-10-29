@@ -2,8 +2,7 @@ import ActionMap from '../../Interfaces/ActionMap';
 import IProduto from '../../Interfaces/IProdutoList';
 
 export const initialState = {
-  progress:
-    'initial',
+  progress: 'initial',
   produto: {
     idproduto: 0,
     nmproduto: '',
@@ -29,9 +28,7 @@ type ProdutoPayload = {
   [ProdutoTypes.error]: '';
 };
 
-export type ProdutoActions = ActionMap<
-  ProdutoPayload
->[keyof ActionMap<
+export type ProdutoActions = ActionMap<ProdutoPayload>[keyof ActionMap<
   ProdutoPayload
 >];
 
@@ -39,30 +36,22 @@ export function reducer(
   state: IStateReducer,
   action: ProdutoActions,
 ): IStateReducer {
-  switch (
-    action.type
-  ) {
+  switch (action.type) {
     case ProdutoTypes.initial:
       return {
         ...state,
-        progress:
-          'initial',
+        progress: 'initial',
       };
     case ProdutoTypes.sucess:
       return {
         ...state,
-        progress:
-          'sucess',
-        produto:
-          action
-            .payload
-            .data,
+        progress: 'sucess',
+        produto: action.payload.data,
       };
     case ProdutoTypes.error:
       return {
         ...state,
-        progress:
-          'error',
+        progress: 'error',
       };
     default:
       return {

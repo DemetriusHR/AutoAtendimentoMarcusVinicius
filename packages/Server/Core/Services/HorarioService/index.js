@@ -5,12 +5,14 @@ const {
   verificaAtendimentosPendentesRepository,
   atualizaAtendimentoRepository,
   cadastrarPedidoRepository,
-  cadastrarProdutosPedidoRepository,
   listaPedidosPendentesClienteRepository,
   listaPedidosPendentesRepository,
   pedidosPendentesConfirmaDevolucaoRepository,
   pedidosPendentesConfirmaEntregaRepository,
 } = require('../../Repositories/HorarioRepository');
+const {
+  cadastrarProdutosPedidoRepository,
+} = require('../../Repositories/ProdutoRepository');
 
 function verificaHorarioService(req, res) {
   const { data } = req.body;

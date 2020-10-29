@@ -1,10 +1,11 @@
 DROP TABLE IF EXISTS Endereco_Usuario;
 
 CREATE TABLE Endereco_Usuario (
-	ID_Endereco_Usuario          SERIAL PRIMARY KEY
+	ID_Endereco_Usuario           SERIAL PRIMARY KEY
    ,Rua_Endereco_Usuario         Varchar(50)
    ,NO_Endereco_Usuario          Integer
    ,Cidade_Endereco_Usuario      Varchar(50)
+   ,UF_Endereco                  Char(2)
    ,CEP_Endereco_Usuario         Char(9)
    ,Complemento_Endereco_Usuario Varchar(50)
    ,ID_Usuario                   Integer

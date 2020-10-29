@@ -1,7 +1,5 @@
 const { pool } = require('../../Connection');
 
-const format = require('pg-format');
-
 function verificaHorarioRepository(data) {
   return new Promise(async function (resolve, reject) {
     pool.connect(function (err, client, done) {
@@ -157,40 +155,6 @@ function cadastrarPedidoRepository(
   });
 }
 
-function cadastrarProdutosPedidoRepository(produtos = [{}]) {
-  return new Promise(async function (resolve, reject) {
-    const produtosMapeados = produtos.map(function (produto) {
-      return [produto.idAtendimento, produto.idProduto, produto.descricao];
-    });
-
-    await pool.connect(async function (err, client, done) {
-      if (err) {
-        reject('Erro no cadastro de produtos no pedido: ' + err);
-        console.log('Erro no cadastro de produtos no pedido: ' + err);
-        return;
-      }
-
-      const query = format(
-        `INSERT INTO PedidosProdutos(ID_Atendimento, ID_Produto, DES_Pedido_Pedido)
-         VALUES %L`,
-        produtosMapeados
-      );
-
-      await client.query(query, function (erro) {
-        if (erro) {
-          reject('Erro no cadastro de produtos no pedido: ' + erro);
-          console.log('Erro no cadastro de produtos no pedido: ' + erro);
-          return;
-        }
-
-        resolve();
-
-        done();
-      });
-    });
-  });
-}
-
 function listaPedidosPendentesRepository() {
   return new Promise(async function (resolve, reject) {
     pool.connect(function (err, client, done) {
@@ -206,8 +170,9 @@ function listaPedidosPendentesRepository() {
                   WHEN entregue = 'f'                     THEN DT_Entrega_Pedido
                   WHEN entregue = 't' AND devolvido = 'f' THEN DT_Devolucao_Pedido
                 END AS dtPedido
-               ,Usuario.ID_Usuario as idCliente
-               ,Usuario.NM_Usuario as nomeCliente
+               ,Usuario.ID_Usuario  as idCliente
+               ,Usuario.NM_Usuario  as nomeCliente
+               ,Usuario.TEL_Usuario as celCliente
                ,entregue
                ,devolvido
          FROM Atendimento
@@ -333,7 +298,6 @@ module.exports = {
   marcarHorarioRepository,
   verificaAtendimentosPendentesRepository,
   atualizaAtendimentoRepository,
-  cadastrarProdutosPedidoRepository,
   cadastrarPedidoRepository,
   listaPedidosPendentesClienteRepository,
   listaPedidosPendentesRepository,

@@ -1,6 +1,7 @@
 import Notification from 'antd/lib/notification';
 
 import NotificationLogin from '../../Components/NotificationLogin';
+import IProduto from '../../Interfaces/IProduto';
 import IProdutoList from '../../Interfaces/IProdutoList';
 import ConnectAPI from '../ConnectAPI';
 
@@ -147,7 +148,7 @@ function PedidoPendenteClienteProdutosRequestAPI(
 function PedidoPendenteProdutosRequestAPI(
   idPedido: number,
   error: () => void,
-  sucess: (entrada: IProdutoList[]) => void,
+  sucess: (entrada: IProduto[]) => void,
   onLogin: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');

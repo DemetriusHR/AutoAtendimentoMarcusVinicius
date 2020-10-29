@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import Card from '../../Components/Card';
-import { useUsuarioContext } from '../../Context/Usuario';
-import usePedidosCliente from '../../Hooks/usePedidosCliente';
 import MeusPedidosPedido from './Pedido';
+import Card from '../../Components/Card';
+import CustomScroll from '../../Components/CustomScroll';
+import usePedidosCliente from '../../Hooks/usePedidosCliente';
+import { useUsuarioContext } from '../../Context/Usuario';
 
 const TextNotFound = styled.span`
   color: var(--text-not-found-color);
@@ -21,15 +22,21 @@ const MeusPedidosContainer: React.FC = () => {
     getPedidos(id, resetDadosUsuario);
   }, [getPedidos, id, resetDadosUsuario]);
   return (
-    <Card>
+    <div>
       {state.pedidos.length ? (
-        state.pedidos.map((pedido) => (
-          <MeusPedidosPedido key={pedido.idatendimento} pedido={pedido} />
-        ))
+        <CustomScroll className="max-h-full h-64">
+          {state.pedidos.map((pedido) => (
+            <Card>
+              <MeusPedidosPedido key={pedido.idatendimento} pedido={pedido} />
+            </Card>
+          ))}
+        </CustomScroll>
       ) : (
-        <TextNotFound>Não há pedidos pendentes</TextNotFound>
+        <Card>
+          <TextNotFound>Não há pedidos pendentes</TextNotFound>
+        </Card>
       )}
-    </Card>
+    </div>
   );
 };
 

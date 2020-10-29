@@ -1,5 +1,7 @@
 const { pool } = require('../../Connection');
 
+const format = require('pg-format');
+
 function listaProdutosRepository() {
   return new Promise(async function (resolve, reject) {
     pool.connect(function (err, client, done) {
@@ -79,7 +81,9 @@ function listaPedidoPendenteProdutosRepository(idPedido) {
         function (erro, result) {
           if (erro) {
             reject('Erro na listagem de produtos do pedido pendente: ' + erro);
-            console.log('Erro na listagem de produtos do pedido pendente: ' + erro);
+            console.log(
+              'Erro na listagem de produtos do pedido pendente: ' + erro
+            );
             return;
           }
 
@@ -101,8 +105,8 @@ function listaPedidoPendenteProdutosClienteRepository(idPedido) {
       }
 
       client.query(
-        `SELECT Produto.ID_Produto AS idProduto
-                ,Produto.NM_Produto AS nmProduto
+        `SELECT Produto.ID_Produto                                    AS idProduto
+               ,concat(Produto.NM_Produto, ' - ', Produto.NO_Produto) AS nmProduto
            FROM PedidosProdutos
              INNER JOIN Produto
              ON Produto.ID_Produto = PedidosProdutos.ID_Produto
@@ -111,7 +115,9 @@ function listaPedidoPendenteProdutosClienteRepository(idPedido) {
         function (erro, result) {
           if (erro) {
             reject('Erro na listagem de produtos do pedido pendente: ' + erro);
-            console.log('Erro na listagem de produtos do pedido pendente: ' + erro);
+            console.log(
+              'Erro na listagem de produtos do pedido pendente: ' + erro
+            );
             return;
           }
 
@@ -123,9 +129,44 @@ function listaPedidoPendenteProdutosClienteRepository(idPedido) {
   });
 }
 
+function cadastrarProdutosPedidoRepository(produtos = [{}]) {
+  return new Promise(async function (resolve, reject) {
+    const produtosMapeados = produtos.map(function (produto) {
+      return [produto.idAtendimento, produto.idProduto, produto.descricao];
+    });
+
+    await pool.connect(async function (err, client, done) {
+      if (err) {
+        reject('Erro no cadastro de produtos no pedido: ' + err);
+        console.log('Erro no cadastro de produtos no pedido: ' + err);
+        return;
+      }
+
+      const query = format(
+        `INSERT INTO PedidosProdutos(ID_Atendimento, ID_Produto, DES_Pedido_Pedido)
+           VALUES %L`,
+        produtosMapeados
+      );
+
+      await client.query(query, function (erro) {
+        if (erro) {
+          reject('Erro no cadastro de produtos no pedido: ' + erro);
+          console.log('Erro no cadastro de produtos no pedido: ' + erro);
+          return;
+        }
+
+        resolve();
+
+        done();
+      });
+    });
+  });
+}
+
 module.exports = {
   listaProdutosRepository,
   listaProdutoEspecificoRepository,
   listaPedidoPendenteProdutosRepository,
   listaPedidoPendenteProdutosClienteRepository,
+  cadastrarProdutosPedidoRepository,
 };

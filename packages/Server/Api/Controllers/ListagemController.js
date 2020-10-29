@@ -15,6 +15,7 @@ const atendimentosPendentesValidator = require('../../Core/Validators/Atendiment
 
 const {
   listarInformacoesUsuarioService,
+  listarEnderecosUsuarioService,
 } = require('../../Core/Services/UsuarioService');
 
 const {
@@ -87,6 +88,14 @@ rotasAutorizadasGetFuncionario(
   router,
   '/pedido-pendente-funcionario/:id/produtos',
   listaPedidoPendenteProdutosService
+);
+
+// GET - Lista de Endereços do Usuario
+
+rotasAutorizadasGet(
+  router,
+  '/usuario/:id/enderecos',
+  listarEnderecosUsuarioService
 );
 
 module.exports = router;

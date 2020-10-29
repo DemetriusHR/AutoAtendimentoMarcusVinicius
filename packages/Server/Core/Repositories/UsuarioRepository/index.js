@@ -4,8 +4,8 @@ function listarInformacoesUsuarioRepository(idUsuario) {
   return new Promise(async function (resolve, reject) {
     pool.connect(function (err, client, done) {
       if (err) {
-        reject('Erro na procura de dados: ' + err);
-        console.log('Erro na procura de dados: ' + err);
+        reject('Erro na listagem de informações do usuário: ' + err);
+        console.log('Erro na listagem de informações do usuário: ' + err);
         return;
       }
 
@@ -18,8 +18,37 @@ function listarInformacoesUsuarioRepository(idUsuario) {
         [idUsuario],
         function (erro, result) {
           if (erro) {
-            reject('Erro na procura de dados: ' + erro);
-            console.log('Erro na procura de dados: ' + erro);
+            reject('Erro na listagem de informações do usuário: ' + erro);
+            console.log('Erro na listagem de informações do usuário: ' + erro);
+            return;
+          }
+          resolve(result.rows);
+          done();
+        }
+      );
+    });
+  });
+}
+
+function listarEnderecosUsuarioRepository(idUsuario) {
+  return new Promise(async function (resolve, reject) {
+    pool.connect(function (err, client, done) {
+      if (err) {
+        reject('Erro na listagem de endereços: ' + err);
+        console.log('Erro na listagem de endereços: ' + err);
+        return;
+      }
+
+      client.query(
+        `SELECT Endereco_Usuario.id_endereco_usuario as idendereco
+               ,concat(Endereco_Usuario.rua_endereco_usuario, ', ', Endereco_Usuario.no_endereco_usuario, ' ', Endereco_Usuario.cidade_endereco_usuario, '-', Endereco_Usuario.uf_endereco) as endereco
+         FROM Endereco_Usuario
+         WHERE id_usuario = $1`,
+        [idUsuario],
+        function (erro, result) {
+          if (erro) {
+            reject('Erro na listagem de endereços: ' + erro);
+            console.log('Erro na listagem de endereços: ' + erro);
             return;
           }
           resolve(result.rows);
@@ -32,4 +61,5 @@ function listarInformacoesUsuarioRepository(idUsuario) {
 
 module.exports = {
   listarInformacoesUsuarioRepository,
+  listarEnderecosUsuarioRepository,
 };

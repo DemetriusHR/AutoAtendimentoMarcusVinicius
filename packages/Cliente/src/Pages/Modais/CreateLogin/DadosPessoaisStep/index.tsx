@@ -1,8 +1,11 @@
 import React, { useCallback } from 'react';
 import Form from 'antd/lib/form';
+import Notification from 'antd/lib/notification';
 
 import ButtonConfirm from '../../../../Components/ButtonConfirm';
 import Input from '../../../../Components/Input';
+import InputCPF from '../../../../Components/InputCPF';
+import InputCelular from '../../../../Components/InputCelular';
 
 const spanConfig = {
   span: 24,
@@ -16,8 +19,14 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
   ({ setNextStep }: ICreateLoginDadosPessoaisStep) => {
     const onFinish = useCallback(
       (values) => {
-        console.log(values);
-        setNextStep(1);
+        if (values.senha === values.confirmasenha) {
+          console.log(values);
+          setNextStep(1);
+        } else {
+          Notification.warning({
+            message: 'Senha e Confirmação de Senha não iguais!',
+          });
+        }
       },
       [setNextStep],
     );
@@ -55,7 +64,7 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
               },
             ]}
           >
-            <Input />
+            <InputCPF />
           </Form.Item>
           <div className="w-full h-4" />
           <Form.Item
@@ -69,7 +78,7 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
               },
             ]}
           >
-            <Input />
+            <InputCelular />
           </Form.Item>
           <div className="w-full h-4" />
           <Form.Item
@@ -88,7 +97,7 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
           <div className="w-full h-4" />
           <Form.Item
             label="Confirmar Senha"
-            name="confirmar-senha"
+            name="confirmarsenha"
             required={false}
             rules={[
               {
