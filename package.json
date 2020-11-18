@@ -12,6 +12,7 @@
     "husky": "4.2.3"
   },
   "scripts": {
+    "postinstall": "lerna bootstrap --progress",
     "server": "lerna run --scope server dev:api --stream",
     "client": "lerna run --scope cliente start",
     "start": "start npm run server && npm run client",

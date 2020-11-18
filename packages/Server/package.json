@@ -4,10 +4,10 @@
   "description": "",
   "main": "bin/server.js",
   "scripts": {
-    "dev": "node node_modules/nodemon/bin/nodemon bin/server",
-    "dev:api": "set NODE_ENV=development && node ./bin/server.js",
-    "prod:api": "set NODE_ENV=production && node ./bin/server.js",
-    "lint": "eslint -c .eslintrc.js --ext .js ./**/*"
+    "dev": "node node_modules/nodemon/bin/nodemon ./index.ts",
+    "dev:api": "set NODE_ENV=development && node ./index.ts",
+    "prod:api": "set NODE_ENV=production && node ./index.ts",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +18,15 @@
     "nodemon": "2.0.4"
   },
   "dependencies": {
+    "@types/express": "4.17.9",
+    "@types/jest": "24.0.0",
+    "@types/supertest": "2.0.10",
+    "@types/bunyan": "1.8.6",
+    "@types/jsonwebtoken": "8.5.0",
+    "@types/cors": "2.8.8",
+    "@types/http-errors": "1.8.0",
+    "@types/compression": "1.7.0",
+    "@types/method-override": "0.0.31",
     "babel-loader": "8.1.0",
     "body-parser": "1.19.0",
     "bunyan": "^1.8.12",
@@ -39,6 +48,31 @@
     "pg": "8.3.3",
     "pg-format": "1.0.4",
     "jsonwebtoken": "8.5.1",
-    "express-jwt": "6.0.0"
+    "express-jwt": "6.0.0",
+    "reflect-metadata": "0.1.13",
+    "supertest": "6.0.1",
+    "ts-jest": "26.4.4",
+    "ts-node": "9.0.0",
+    "typescript": "~3.7.2",
+    "tsyringe": "4.4.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "\\.test\\.ts",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "arrowParens": "always"
   }
 }

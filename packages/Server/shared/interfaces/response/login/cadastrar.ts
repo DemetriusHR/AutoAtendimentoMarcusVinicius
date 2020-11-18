@@ -1,0 +1,3 @@
+interface IResponseLoginCadastrar {
+  idUsuario: number;
+}

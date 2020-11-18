@@ -6,7 +6,7 @@ function comparaProduto(prevState: IPedidoProduto[], novoProduto: IPedidoProduto
   prevState.forEach((produto) => {
     if (
       produto.idProduto === novoProduto.idProduto
-      && produto.idPedido === novoProduto.idPedido
+      && produto.id === novoProduto.id
       && produto.detalhes === novoProduto.detalhes
     ) {
       retornoComparacao = false;

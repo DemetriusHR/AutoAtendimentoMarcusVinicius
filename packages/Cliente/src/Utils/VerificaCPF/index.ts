@@ -4,8 +4,6 @@ function VerificaCPF(cpfEntrada: string): boolean {
 
   const cpf = cpfEntrada.replace(/\D/g, '');
 
-  console.log(cpf);
-
   if (cpf === '00000000000') return false;
 
   for (let i = 1; i <= 9; i += 1) {

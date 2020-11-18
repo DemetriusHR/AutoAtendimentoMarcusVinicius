@@ -13,6 +13,7 @@ module.exports = {
           no_endereco_usuario: Joi.number(),
           cidade_endereco_usuario: Joi.string().max(50),
           cep_endereco_usuario: Joi.string().max(9),
+          complemento_endereco_usuario: Joi.string().max(50),
         })
       )
       .required(),

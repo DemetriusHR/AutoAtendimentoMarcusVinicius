@@ -17,6 +17,7 @@ import {
 } from '../../../../RequestAPI/Atendimento';
 import IPedidoProduto from '../../../../Interfaces/IPedidoProduto';
 import { useUsuarioContext } from '../../../../Context/Usuario';
+import IAtendimentoPendente from '../../../../Interfaces/IAtendimentoPendente';
 
 const spanConfig = {
   span: 24,
@@ -31,13 +32,13 @@ const ButtonAdicionar = styled.button`
 `;
 
 interface IDetalhesProdutosCadastro {
-  idPedido: number;
+  atendimento: IAtendimentoPendente;
   onFechaModal: () => void;
   data: moment.Moment;
 }
 
 const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo(
-  ({ idPedido, onFechaModal, data }: IDetalhesProdutosCadastro) => {
+  ({ atendimento, onFechaModal, data }: IDetalhesProdutosCadastro) => {
     const { resetDadosUsuario } = useUsuarioContext();
     const { state, getProdutos } = useProdutos();
     const [form] = Form.useForm();
@@ -52,7 +53,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
         setProdutos((prevState) => {
           const produtoNovo = {
             id: Math.floor(Math.random() * 100),
-            idAtendimento: idPedido,
+            idAtendimento: atendimento.idatendimento,
             idProduto: values.produto,
             detalhes: values.detalhes,
           };
@@ -66,16 +67,16 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
 
         form.resetFields();
       },
-      [form, idPedido],
+      [form, atendimento.idatendimento],
     );
 
     const cancelarPedido = useCallback(() => {
       async function cancelaPedido(): Promise<void> {
-        await CancelarPedidoRequestAPI(idPedido, onFechaModal, resetDadosUsuario);
+        await CancelarPedidoRequestAPI(atendimento.idatendimento, onFechaModal, resetDadosUsuario);
       }
 
       cancelaPedido();
-    }, [idPedido, onFechaModal, resetDadosUsuario]);
+    }, [atendimento.idatendimento, onFechaModal, resetDadosUsuario]);
 
     const removeProduto = useCallback((produto) => {
       setProdutos((prevState) => {
@@ -98,7 +99,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
         ).format('YYYY-MM-DD h:mm');
 
         ConfirmarPedidoRequestAPI(
-          idPedido,
+          atendimento.idatendimento,
           dataEntrega,
           dataDevolucao,
           200,
@@ -112,7 +113,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
           description: 'Você deve cadastrar pelo menos um produto',
         });
       }
-    }, [produtos, idPedido, data, onFechaModal, resetDadosUsuario]);
+    }, [produtos, atendimento.idatendimento, data, onFechaModal, resetDadosUsuario]);
 
     return (
       <div className="py-8">

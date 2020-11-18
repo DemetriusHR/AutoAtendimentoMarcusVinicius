@@ -90,7 +90,7 @@ const AtendimentosPendentesDetalhes: React.FC<IAtendimentosPendentesDetalhes> = 
               className="pedido-collapse-panel"
             >
               <DetalhesProdutosCadastro
-                idPedido={atendimento.idatendimento}
+                atendimento={atendimento}
                 onFechaModal={onCancel}
                 data={data}
               />
