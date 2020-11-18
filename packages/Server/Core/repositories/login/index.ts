@@ -3,6 +3,9 @@ import { Identifier } from 'shared/injection/identifiers';
 import IBDConnect from 'shared/interfaces/bdConnect/interface';
 import IEntranceEndereco from 'shared/interfaces/entrances/endereco';
 import ILoginRepository from 'shared/interfaces/repositories/login';
+import IResponseLoginCadastrar from 'shared/interfaces/response/login/cadastrar';
+import IResponseLogin from 'shared/interfaces/response/login/login';
+import IResponseLoginBD from 'shared/interfaces/response/login/logindb';
 import { autoInjectable, inject, singleton } from 'tsyringe';
 
 @singleton()

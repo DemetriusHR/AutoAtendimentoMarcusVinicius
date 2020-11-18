@@ -1,6 +1,8 @@
 import { Identifier } from 'shared/injection/identifiers';
 import IBDConnect from 'shared/interfaces/bdConnect/interface';
 import IUsuarioRepository from 'shared/interfaces/repositories/usuario';
+import IResponseUsuarioListarEndereco from 'shared/interfaces/response/usuario/listarendereco';
+import IResponseUsuarioListarInformacoes from 'shared/interfaces/response/usuario/listarinformacoes';
 import { autoInjectable, inject, singleton } from 'tsyringe';
 
 @singleton()

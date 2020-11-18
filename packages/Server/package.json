@@ -4,9 +4,9 @@
   "description": "",
   "main": "bin/server.js",
   "scripts": {
-    "dev": "node node_modules/nodemon/bin/nodemon ./index.ts",
-    "dev:api": "set NODE_ENV=development && node ./index.ts",
-    "prod:api": "set NODE_ENV=production && node ./index.ts",
+    "dev": "nodemon ./bin/index.ts",
+    "dev:api": "set NODE_ENV=development && nodemon ./bin/index.ts",
+    "prod:api": "set NODE_ENV=production && nodemon ./bin/index.ts",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "keywords": [],
@@ -34,6 +34,7 @@
     "colors": "1.4.0",
     "compression": "1.7.4",
     "cors": "2.8.5",
+    "cross-env": "7.0.2",
     "dotenv": "8.2.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.12.0",

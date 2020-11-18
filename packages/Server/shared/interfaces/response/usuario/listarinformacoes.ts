@@ -3,3 +3,5 @@ interface IResponseUsuarioListarInformacoes {
   cpf: string;
   celular: string;
 }
+
+export default IResponseUsuarioListarInformacoes;

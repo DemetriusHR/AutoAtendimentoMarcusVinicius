@@ -15,13 +15,16 @@ class APIController {
   constructor(
     @inject(Identifier.ROUTES)
     private _router?: Router,
-    @inject(Identifier.ATENDIMENTO_SERVICE)
+    @inject(Identifier.ACOES_CONTROLLER)
     private _acoesController?: AcoesController,
-    @inject(Identifier.HORARIO_SERVICE)
+    @inject(Identifier.LISTAGEM_CONTROLLER)
     private _listagemController?: ListagemController
   ) {
+    this.router = _router;
     this.acoesController = _acoesController;
     this.listagemController = _listagemController;
+
+    this.registerRouters();
   }
 
   registerRouters() {

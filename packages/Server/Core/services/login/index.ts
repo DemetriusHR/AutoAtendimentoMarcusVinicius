@@ -71,7 +71,7 @@ class LoginService implements ILoginService {
 
           this.response.success(res, data);
         } else {
-          const erro = new Error('Usuário não Existente! Reveja seu Login');
+          const erro = Error('Usuário não Existente! Reveja seu Login');
 
           this.response.errorBadRequest(res, erro);
         }

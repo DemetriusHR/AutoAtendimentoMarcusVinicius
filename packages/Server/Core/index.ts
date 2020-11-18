@@ -1,5 +1,4 @@
 import bodyParser from 'body-parser';
-import colors from 'colors';
 import compression from 'compression';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -21,14 +20,12 @@ class Server {
   private rotas: Router;
 
   constructor(
-    @inject(Identifier.ATENDIMENTO_SERVICE)
+    @inject(Identifier.API_CONTROLLER)
     private _apiController?: APIController
   ) {
     this.rotas = _apiController.router;
-  }
 
-  registerRouters() {
-    this.app.use('/v1', this.rotas);
+    this.initializeServer();
   }
 
   initializeServer() {
@@ -58,7 +55,7 @@ class Server {
       })
     );
 
-    this.registerRouters();
+    this.app.use('/v1', this.rotas);
 
     this.app.use(helmet());
 
@@ -68,6 +65,10 @@ class Server {
     });
 
     dotenv.config();
+
+    this.app.listen(3120, () => {
+      console.log('Exec in: http://localhost:3120');
+    });
   }
 }
 
