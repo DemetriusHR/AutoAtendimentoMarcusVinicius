@@ -1,0 +1,8 @@
+{
+  "watch": ["./"],
+  "execMap": {
+    "ts": "ts-node-dev -r tsconfig-paths/register bin/index.ts"
+  },
+  "ext": "ts",
+  "ignoreRoot": ["**/__tests__/**"]
+}
