@@ -9,12 +9,17 @@ interface IPedidoPendenteProduto {
 
 const PedidoPendenteProduto: React.FC<IPedidoPendenteProduto> = React.memo(
   ({ idPedido }: IPedidoPendenteProduto) => {
-    const { resetDadosUsuario } = useUsuarioContext();
+    const {
+      usuario: { id },
+      resetDadosUsuario,
+    } = useUsuarioContext();
     const { state, getPedidoProdutos } = usePedidoProdutos();
 
     useEffect(() => {
-      getPedidoProdutos(idPedido, resetDadosUsuario);
-    }, [getPedidoProdutos, idPedido, resetDadosUsuario]);
+      if (id) {
+        getPedidoProdutos(idPedido, resetDadosUsuario);
+      }
+    }, [getPedidoProdutos, id, idPedido, resetDadosUsuario]);
     return (
       <div>
         {state.produtos.length ? (

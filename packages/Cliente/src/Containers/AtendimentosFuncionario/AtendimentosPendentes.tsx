@@ -11,15 +11,22 @@ interface IAtendimentosPendentes {
 const AtendimentosPendentes: React.FC<IAtendimentosPendentes> = ({
   data,
 }: IAtendimentosPendentes) => {
-  const { resetDadosUsuario } = useUsuarioContext();
+  const {
+    usuario: { id },
+    resetDadosUsuario,
+  } = useUsuarioContext();
   const { state, getAtendimentosPendentes } = useAtendimentosPendentes();
 
   useEffect(() => {
-    getAtendimentosPendentes(data, resetDadosUsuario);
-  }, [getAtendimentosPendentes, data, resetDadosUsuario]);
+    if (id) {
+      getAtendimentosPendentes(data, resetDadosUsuario);
+    }
+  }, [id, getAtendimentosPendentes, data, resetDadosUsuario]);
 
   const textRetornado = useMemo(() => {
-    if (state.progress === 'sucess' && state.atendimentosPendentes.length >= 1) {
+    if (
+      state.progress === 'sucess' && state.atendimentosPendentes.length >= 1
+    ) {
       if (state.atendimentosPendentes.length > 1) {
         return `${state.atendimentosPendentes.length} atendimentos pendentes`;
       }

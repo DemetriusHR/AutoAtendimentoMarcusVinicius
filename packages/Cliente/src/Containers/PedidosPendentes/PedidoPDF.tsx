@@ -28,12 +28,17 @@ interface IReport {
 }
 
 const PedidosPendentesPedidoPDF: React.FC<IReport> = ({ pedido }: IReport) => {
-  const { resetDadosUsuario } = useUsuarioContext();
+  const {
+    usuario: { id },
+    resetDadosUsuario,
+  } = useUsuarioContext();
   const { state, getPedidoProdutos } = usePedidoProdutos();
 
   useEffect(() => {
-    getPedidoProdutos(pedido.idatendimento, resetDadosUsuario);
-  }, [getPedidoProdutos, pedido.idatendimento, resetDadosUsuario]);
+    if (id) {
+      getPedidoProdutos(pedido.idatendimento, resetDadosUsuario);
+    }
+  }, [id, getPedidoProdutos, pedido.idatendimento, resetDadosUsuario]);
 
   const data = useMemo(() => {
     const retorno = moment(pedido.dtpedido).format('DD/MM');

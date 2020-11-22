@@ -21,12 +21,17 @@ const TextNotFound = styled.span`
 
 const PedidosPendentesContainer: React.FC = () => {
   const [modal, setModal] = useState(false);
-  const { resetDadosUsuario } = useUsuarioContext();
+  const {
+    usuario: { id },
+    resetDadosUsuario,
+  } = useUsuarioContext();
   const { state, getPedidos } = usePedidosFuncionario();
 
   useEffect(() => {
-    getPedidos(resetDadosUsuario);
-  }, [getPedidos, resetDadosUsuario]);
+    if (id) {
+      getPedidos(resetDadosUsuario);
+    }
+  }, [getPedidos, id, resetDadosUsuario]);
 
   const modalVisible = useCallback(() => {
     setModal(true);

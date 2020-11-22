@@ -20,7 +20,7 @@ const ButtonUsuarioHeader: React.FC = React.memo(() => {
     },
     resetDadosUsuario,
   } = useUsuarioContext();
-  const { onModalLoginVisible } = useModaisContext();
+  const { onModalLoginVisible, onModalEditAccountVisible } = useModaisContext();
 
   const nomeRetornado = useMemo(() => {
     if (nome === 'Log In' && !id) {
@@ -64,7 +64,10 @@ const ButtonUsuarioHeader: React.FC = React.memo(() => {
         <div>
           <p>{`Celular: ${celular}`}</p>
           <p>{`CPF: ${cpf}`}</p>
-          <ButtonConfirm className="w-full my-2 flex items-center">
+          <ButtonConfirm
+            className="w-full my-2 flex items-center"
+            onClick={onModalEditAccountVisible}
+          >
             <i className="flex items-center text-lg mr-2">
               <EditOutlined translate="span" />
             </i>

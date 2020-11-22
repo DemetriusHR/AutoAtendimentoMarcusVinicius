@@ -10,6 +10,8 @@ import shadeColor from '../../../../Utils/ShadeColor';
 import EnderecoListComponent from './Components/EnderecoList';
 import comparaEndereco from './Utils/comparaEndereco';
 import { useModaisContext } from '../../../../Context/Modais';
+import { CadastrarRequestAPI } from '../../../../RequestAPI/Login';
+import InputCEP from '../../../../Components/InputCEP';
 
 const spanConfig = {
   span: 24,
@@ -45,26 +47,29 @@ const CreateLoginDadosResidenciaisStep: React.FC<IDadosResidenciaisStep> = React
     } = useModaisContext();
     const [enderecos, setEnderecos] = useState<IEndereco[]>([]);
 
-    const onFinish = useCallback((values) => {
-      setEnderecos((prevState) => {
-        const enderecoNovo = {
-          id: Math.floor(Math.random() * 100),
-          rua_endereco_usuario: values.endereco,
-          no_endereco_usuario: values.numero,
-          complemento_endereco_usuario: values.complemento,
-          cidade_endereco_usuario: values.cidade,
-          cep_endereco_usuario: values.cep,
-        };
+    const onFinish = useCallback(
+      (values) => {
+        setEnderecos((prevState) => {
+          const enderecoNovo = {
+            id: Math.floor(Math.random() * 100),
+            rua_endereco_usuario: values.endereco,
+            no_endereco_usuario: values.numero,
+            complemento_endereco_usuario: values.complemento,
+            cidade_endereco_usuario: values.cidade,
+            cep_endereco_usuario: values.cep,
+          };
 
-        if (comparaEndereco(prevState, enderecoNovo)) {
-          return [...prevState, enderecoNovo];
-        }
+          if (comparaEndereco(prevState, enderecoNovo)) {
+            return [...prevState, enderecoNovo];
+          }
 
-        return [...prevState];
-      });
+          return [...prevState];
+        });
 
-      form.resetFields();
-    }, [form]);
+        form.resetFields();
+      },
+      [form],
+    );
 
     const voltarStep = useCallback(() => {
       setNextStep(0);
@@ -81,21 +86,34 @@ const CreateLoginDadosResidenciaisStep: React.FC<IDadosResidenciaisStep> = React
       });
     }, []);
 
+    const confirmarFunc = useCallback(() => {
+      onModalCreateLoginUnVisible();
+      onModalLoginVisible();
+    }, [onModalCreateLoginUnVisible, onModalLoginVisible]);
+
     const confirmar = useCallback(() => {
+      let formSession = sessionStorage.getItem('form')?.toString();
+      // eslint-disable-next-line
+      formSession = formSession ? formSession : '{}';
+      const dados = JSON.parse(formSession);
+
       if (enderecos.length) {
-        onModalCreateLoginUnVisible();
-        onModalLoginVisible();
-        Notification.success({
-          message: 'Perfil criado!',
-          description: 'Faça o Login para continuar',
-        });
+        sessionStorage.removeItem('form');
+        CadastrarRequestAPI(
+          dados.nome,
+          dados.cpf,
+          dados.telefone,
+          dados.senha,
+          enderecos,
+          confirmarFunc,
+        );
       } else {
         Notification.error({
           message: 'Não é possível Confirmar o Cadastro!',
           description: 'Você deve cadastrar pelo menos um endereço',
         });
       }
-    }, [enderecos, onModalCreateLoginUnVisible, onModalLoginVisible]);
+    }, [enderecos, confirmarFunc]);
 
     return (
       <div className="py-8">
@@ -140,11 +158,7 @@ const CreateLoginDadosResidenciaisStep: React.FC<IDadosResidenciaisStep> = React
             <Input />
           </Form.Item>
           <div className="w-full h-4" />
-          <Form.Item
-            label="Complemento"
-            name="complemento"
-            required={false}
-          >
+          <Form.Item label="Complemento" name="complemento" required={false}>
             <Input />
           </Form.Item>
           <div className="w-full h-4" />
@@ -157,9 +171,18 @@ const CreateLoginDadosResidenciaisStep: React.FC<IDadosResidenciaisStep> = React
                 required: true,
                 message: 'Insira o CEP do Endereço',
               },
+              () => ({
+                validator(rule, value) {
+                  if (value.length === 9) {
+                    return Promise.resolve();
+                  }
+                  // eslint-disable-next-line
+                  return Promise.reject('Insira um CEP correto');
+                },
+              }),
             ]}
           >
-            <Input />
+            <InputCEP />
           </Form.Item>
           <div className="w-full h-4" />
           <Form.Item

@@ -19,8 +19,11 @@ const MeusPedidosContainer: React.FC = () => {
   const { state, getPedidos } = usePedidosCliente();
 
   useEffect(() => {
-    getPedidos(id, resetDadosUsuario);
+    if (id) {
+      getPedidos(id, resetDadosUsuario);
+    }
   }, [getPedidos, id, resetDadosUsuario]);
+
   return (
     <div>
       {state.pedidos.length ? (

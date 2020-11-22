@@ -20,6 +20,7 @@ const initialValue = {
   celular: '',
   cpf: '',
   nome: 'Log In',
+  senha: '',
 };
 
 const UsuarioContext = React.createContext<IUsuarioContext>({

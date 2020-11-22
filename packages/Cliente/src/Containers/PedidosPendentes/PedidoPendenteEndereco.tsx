@@ -8,12 +8,17 @@ interface IPedidoPendenteEndereco {
 
 const PedidoPendenteEndereco: React.FC<IPedidoPendenteEndereco> = React.memo(
   ({ idCliente }: IPedidoPendenteEndereco) => {
-    const { resetDadosUsuario } = useUsuarioContext();
+    const {
+      usuario: { id },
+      resetDadosUsuario,
+    } = useUsuarioContext();
     const { state, getEnderecos } = useEnderecoCliente();
 
     useEffect(() => {
-      getEnderecos(idCliente, resetDadosUsuario);
-    }, [getEnderecos, idCliente, resetDadosUsuario]);
+      if (id) {
+        getEnderecos(idCliente, resetDadosUsuario);
+      }
+    }, [getEnderecos, id, idCliente, resetDadosUsuario]);
     return (
       <div className="px-4 py-2">
         {state.enderecos.length ? (
@@ -24,7 +29,7 @@ const PedidoPendenteEndereco: React.FC<IPedidoPendenteEndereco> = React.memo(
         {state.enderecos.map((endereco) => (
           <div key={endereco.idendereco} className="flex">
             <div className="flex-1">
-              <p>{endereco.endereco}</p>
+              <p>{`${endereco.rua}, nº ${endereco.numero} - ${endereco.cidade}`}</p>
             </div>
           </div>
         ))}

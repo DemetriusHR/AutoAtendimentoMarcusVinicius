@@ -5,19 +5,25 @@ import Notification from 'antd/lib/notification';
 interface IModaisContext {
   modalLoginVisible: boolean;
   modalCreateLoginVisible: boolean;
+  modalEditAccountVisible: boolean;
   onModalLoginVisible: () => void;
   onModalLoginUnVisible: () => void;
   onModalCreateLoginVisible: () => void;
   onModalCreateLoginUnVisible: () => void;
+  onModalEditAccountVisible: () => void;
+  onModalEditAccountUnVisible: () => void;
 }
 
 const ModaisContext = React.createContext<IModaisContext>({
-  modalLoginVisible: true,
-  modalCreateLoginVisible: true,
+  modalLoginVisible: false,
+  modalCreateLoginVisible: false,
+  modalEditAccountVisible: false,
   onModalLoginVisible: () => null,
   onModalLoginUnVisible: () => null,
   onModalCreateLoginVisible: () => null,
   onModalCreateLoginUnVisible: () => null,
+  onModalEditAccountVisible: () => null,
+  onModalEditAccountUnVisible: () => null,
 });
 
 const useModaisContext: () => IModaisContext = () => {
@@ -32,6 +38,7 @@ const useModaisContext: () => IModaisContext = () => {
 
 const ModaisProvider: React.FC = React.memo(
   ({ children }: { children?: React.ReactNode }) => {
+    const [modalEditAccountVisible, setModalEditAccountVisible] = useState(false);
     const [modalLoginVisible, setModalLoginVisible] = useState(false);
     const [modalCreateLoginVisible, setModalCreateLoginVisible] = useState(
       false,
@@ -62,24 +69,42 @@ const ModaisProvider: React.FC = React.memo(
       setModalCreateLoginVisible(false);
     }, []);
 
+    const onModalEditAccountVisible = React.useCallback(() => {
+      Modal.destroyAll();
+      Notification.destroy();
+      document.body.style.overflow = 'hidden';
+      setModalEditAccountVisible(true);
+    }, []);
+
+    const onModalEditAccountUnVisible = React.useCallback(() => {
+      document.body.style.overflow = 'initial';
+      setModalEditAccountVisible(false);
+    }, []);
+
     const contextValue = useMemo(() => {
       const value = {
         modalLoginVisible,
         modalCreateLoginVisible,
+        modalEditAccountVisible,
         onModalLoginVisible,
         onModalLoginUnVisible,
         onModalCreateLoginVisible,
         onModalCreateLoginUnVisible,
+        onModalEditAccountVisible,
+        onModalEditAccountUnVisible,
       };
 
       return value;
     }, [
       modalLoginVisible,
       modalCreateLoginVisible,
+      modalEditAccountVisible,
       onModalLoginVisible,
       onModalLoginUnVisible,
       onModalCreateLoginVisible,
       onModalCreateLoginUnVisible,
+      onModalEditAccountVisible,
+      onModalEditAccountUnVisible,
     ]);
 
     return (

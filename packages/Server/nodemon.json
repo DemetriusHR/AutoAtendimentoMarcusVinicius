@@ -1,8 +1,0 @@
-{
-  "watch": ["./"],
-  "execMap": {
-    "ts": "cross-env NODE_ENV=development ts-node -r tsconfig-paths/register bin/index.ts"
-  },
-  "ext": "ts",
-  "ignoreRoot": ["**/__tests__/**"]
-}

@@ -14,7 +14,7 @@ const formataCPF: (value: string) => string = (value: string) => mapToNumeric(va
 
 const InputCPF: React.FC<InputProps> = React.memo(
   ({ onChange, ...rest }: InputProps) => {
-    const [valueInput, setValue] = useState('');
+    const [valueInput, setValue] = useState(rest.value);
 
     const onChangeInput = useCallback(
       (e) => {

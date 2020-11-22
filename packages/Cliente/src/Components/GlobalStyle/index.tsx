@@ -153,6 +153,14 @@ const GlobalStyle = createGlobalStyle`
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     color: var(--text-color);
   }
+
+  .ant-popover {
+    z-index: 999;
+  }
+
+  .b-bottom-1 {
+    border-bottom: 1px solid var(--text-color);
+  }
 `;
 
 export default GlobalStyle;

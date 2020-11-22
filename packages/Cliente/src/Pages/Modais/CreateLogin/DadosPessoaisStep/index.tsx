@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import Form from 'antd/lib/form';
-import Notification from 'antd/lib/notification';
 
 import ButtonConfirm from '../../../../Components/ButtonConfirm';
 import Input from '../../../../Components/Input';
@@ -20,21 +19,10 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
   ({ setNextStep }: ICreateLoginDadosPessoaisStep) => {
     const onFinish = useCallback(
       (values) => {
-        console.log(values);
-        if (values.senha === values.confirmarsenha) {
-          console.log(values, VerificaCPF(values.cpf));
-          if (VerificaCPF(values.cpf)) {
-            setNextStep(1);
-          } else {
-            Notification.warning({
-              message: 'CPF Inválido!',
-            });
-          }
-        } else {
-          Notification.warning({
-            message: 'Senha e Confirmação de Senha não iguais!',
-          });
-        }
+        const form = JSON.stringify(values);
+        sessionStorage.setItem('form', form);
+
+        setNextStep(1);
       },
       [setNextStep],
     );
@@ -56,6 +44,15 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
                 required: true,
                 message: 'Insira seu Nome Completo',
               },
+              () => ({
+                validator(rule, value) {
+                  if (value.length > 5) {
+                    return Promise.resolve();
+                  }
+                  // eslint-disable-next-line
+                  return Promise.reject('Digite seu nome completo!');
+                },
+              }),
             ]}
           >
             <Input />
@@ -70,6 +67,15 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
                 required: true,
                 message: 'Insira seu CPF',
               },
+              () => ({
+                validator(rule, value) {
+                  if (VerificaCPF(value)) {
+                    return Promise.resolve();
+                  }
+                  // eslint-disable-next-line
+                  return Promise.reject('Insira um CPF correto');
+                },
+              }),
             ]}
           >
             <InputCPF />
@@ -84,6 +90,15 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
                 required: true,
                 message: 'Insira seu Celular',
               },
+              () => ({
+                validator(rule, value) {
+                  if (value.length === 14) {
+                    return Promise.resolve();
+                  }
+                  // eslint-disable-next-line
+                  return Promise.reject('Insira um Celular correto');
+                },
+              }),
             ]}
           >
             <InputCelular />
@@ -98,6 +113,15 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
                 required: true,
                 message: 'Insira seu Senha',
               },
+              () => ({
+                validator(rule, value) {
+                  if (value.length > 8) {
+                    return Promise.resolve();
+                  }
+                  // eslint-disable-next-line
+                  return Promise.reject('Insira um senha com no mínimo 8 dígitos');
+                },
+              }),
             ]}
           >
             <Input type="password" />
@@ -112,6 +136,15 @@ const CreateLoginDadosPessoaisStep: React.FC<ICreateLoginDadosPessoaisStep> = Re
                 required: true,
                 message: 'Insira seu Confirmar Senha',
               },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (getFieldValue('senha') === value) {
+                    return Promise.resolve();
+                  }
+                  // eslint-disable-next-line
+                  return Promise.reject('Senha e Confirmação de Senha não são iguais!');
+                },
+              }),
             ]}
           >
             <Input type="password" />

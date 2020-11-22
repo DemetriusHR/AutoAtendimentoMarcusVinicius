@@ -5,4 +5,5 @@ export default interface IUsuario {
   nome: string;
   cpf: string;
   celular: string;
+  senha: string;
 }

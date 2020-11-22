@@ -5,6 +5,7 @@ import TitleComponent from '../../Components/Title';
 import AtendimentosClienteContainer from '../../Containers/AtendimentosCliente';
 import MeusPedidosContainer from '../../Containers/MeusPedidos';
 import ModalCreateLogin from '../Modais/CreateLogin';
+import ModalEditAccount from '../Modais/EditAccount';
 import ModalLogin from '../Modais/Login';
 
 const ClientesPage: React.FC = () => (
@@ -15,6 +16,7 @@ const ClientesPage: React.FC = () => (
     <AtendimentosClienteContainer />
     <ModalLogin />
     <ModalCreateLogin />
+    <ModalEditAccount />
   </PageWrapper>
 );
 
