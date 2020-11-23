@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 import validate from 'express-validation';
 import { autoInjectable, inject, singleton } from 'tsyringe';
 
@@ -23,7 +23,7 @@ import IUsuarioService from 'shared/interfaces/services/usuario';
 @singleton()
 @autoInjectable()
 class ListagemController {
-  public router = express.Router();
+  public router: Router;
   private atendimentoService: IAtendimentoService;
   private pedidoService: IPedidoService;
   private produtoService: IProdutoService;
@@ -42,6 +42,7 @@ class ListagemController {
     @inject(Identifier.USUARIO_SERVICE)
     private _usuarioService?: IUsuarioService
   ) {
+    this.router = Router();
     this.atendimentoService = _atendimentoService;
     this.pedidoService = _pedidoService;
     this.produtoService = _produtoService;

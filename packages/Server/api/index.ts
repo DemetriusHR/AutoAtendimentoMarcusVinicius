@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 import { autoInjectable, inject, singleton } from 'tsyringe';
 
 import { Identifier } from 'shared/injection/identifiers';
@@ -8,7 +8,7 @@ import ListagemController from './controllers/listagem';
 @singleton()
 @autoInjectable()
 class APIController {
-  public router = express.Router();
+  public router : Router;
   private acoesController: AcoesController;
   private listagemController: ListagemController;
 
@@ -19,6 +19,7 @@ class APIController {
     @inject(Identifier.LISTAGEM_CONTROLLER)
     private _listagemController?: ListagemController
   ) {
+    this.router = Router();
     this.acoesController = _acoesController;
     this.listagemController = _listagemController;
 

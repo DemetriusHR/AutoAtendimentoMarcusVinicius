@@ -30,7 +30,7 @@ import IPedidoService from 'shared/interfaces/services/pedido';
 @singleton()
 @autoInjectable()
 class AcoesController {
-  public router = Router();
+  public router: Router;
   private atendimentoService: IAtendimentoService;
   private horarioService: IHorarioService;
   private loginService: ILoginService;
@@ -49,6 +49,7 @@ class AcoesController {
     @inject(Identifier.PEDIDO_SERVICE)
     private _pedidoService?: IPedidoService,
   ) {
+    this.router = Router();
     this.atendimentoService = _atendimentoService;
     this.horarioService = _horarioService;
     this.loginService = _loginService;
