@@ -1,21 +1,14 @@
-import { autoInjectable, inject, singleton } from 'tsyringe';
-
-import { Identifier } from '../../../config/injection/identifiers';
+import BDConnect from '../../../config/bdConnect';
 import IBDConnect from '../../../config/bdConnect/interface';
 import IUsuarioRepository from '../../../config/interfaces/repositories/usuario';
 import IResponseUsuarioListarEndereco from '../../../config/interfaces/response/usuario/listarendereco';
 import IResponseUsuarioListarInformacoes from '../../../config/interfaces/response/usuario/listarinformacoes';
 
-@singleton()
-@autoInjectable()
 class UsuarioRepository implements IUsuarioRepository {
   private bdConnect: IBDConnect;
 
-  constructor(
-    @inject(Identifier.CONNECT)
-    private poolConnect?: IBDConnect,
-  ) {
-    this.bdConnect = poolConnect;
+  constructor() {
+    this.bdConnect = new BDConnect();
   }
 
   public async editar(
@@ -39,7 +32,11 @@ class UsuarioRepository implements IUsuarioRepository {
 
   public async listarEnderecos(id: number): Promise<IResponseUsuarioListarEndereco[]> {
     const query: string = `SELECT Endereco_Usuario.id_endereco_usuario as idendereco
-                                 ,concat(Endereco_Usuario.rua_endereco_usuario, ', ', Endereco_Usuario.no_endereco_usuario, ' ', Endereco_Usuario.cidade_endereco_usuario, '-', Endereco_Usuario.uf_endereco) as endereco
+                                 ,concat(Endereco_Usuario.rua_endereco_usuario
+                                        , ', '
+                                        , Endereco_Usuario.no_endereco_usuario
+                                        , ' ', Endereco_Usuario.cidade_endereco_usuario
+                                        , '-', Endereco_Usuario.uf_endereco) as endereco
                            FROM Endereco_Usuario
                            WHERE id_usuario = $1`;
     const variables: number[] = [id];

@@ -1,50 +1,41 @@
 import { Request, Response } from 'express';
+import { DateSchema } from 'joi';
+
 import IResponseAPI from '../../../config/interfaces/response/api';
 import IHorarioService from '../../../config/interfaces/services/horario';
-import { singleton, autoInjectable, inject } from 'tsyringe';
-import { Identifier } from '../../../config/injection/identifiers';
-
 import IHorarioRepository from '../../../config/interfaces/repositories/horario';
+import HorarioRepository from '../../repositories/horario';
+import ResponseAPI from '../../response';
 
-@singleton()
-@autoInjectable()
+
+const repository: IHorarioRepository = new HorarioRepository();
+const response: IResponseAPI = new ResponseAPI();
+
 class HorarioService implements IHorarioService {
-  private repository: IHorarioRepository;
-  private response: IResponseAPI;
-
-  constructor(
-    @inject(Identifier.HORARIO_REPOSITORY)
-    private injectRepository?: IHorarioRepository,
-    @inject(Identifier.RESPONSE_API)
-    private injectResponse?: IResponseAPI
-  ) {
-    this.repository = injectRepository;
-    this.response = injectResponse;
-  }
-
   public async marcar(req: Request, res: Response): Promise<void> {
-    const { data, idUsuario } = req.body;
+    const data: DateSchema = req.body.data;
+    const idUsuario: number = req.body.idUsuario;
 
-    await this.repository
+    await repository
       .marcar(data, idUsuario)
       .then(() => {
-        this.response.success(res);
+        response.success(res);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
   public async verificar(req: Request, res: Response): Promise<void> {
-    const { data } = req.body;
+    const data: DateSchema = req.body.data;
 
-    await this.repository
+    await repository
       .verificar(data)
       .then((data) => {
-        this.response.success(res, !!data);
+        response.success(res, !!data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 }

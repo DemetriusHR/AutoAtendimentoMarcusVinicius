@@ -1,53 +1,41 @@
 import { Request, Response } from 'express';
-import { singleton, autoInjectable, inject } from 'tsyringe';
 
 import IPedidoRepository from '../../../config/interfaces/repositories/pedido';
 import IResponseAPI from '../../../config/interfaces/response/api';
 import IPedidoService from '../../../config/interfaces/services/pedido';
-import { Identifier } from '../../../config/injection/identifiers';
+import PedidoRepository from '../../repositories/pedido';
+import ResponseAPI from '../../response';
 
-@singleton()
-@autoInjectable()
+const repository: IPedidoRepository = new PedidoRepository();
+const response: IResponseAPI = new ResponseAPI();
+
 class PedidoService implements IPedidoService {
-  private repository: IPedidoRepository;
-  private response: IResponseAPI;
-
-  constructor(
-    @inject(Identifier.PEDIDO_REPOSITORY)
-    private injectRepository?: IPedidoRepository,
-    @inject(Identifier.RESPONSE_API)
-    private injectResponse?: IResponseAPI
-  ) {
-    this.repository = injectRepository;
-    this.response = injectResponse;
-  }
-
   public async confirmarDevolucao(req: Request, res: Response): Promise<void> {
-    const { idPedido } = req.body;
+    const idPedido: number = req.body.idPedido;
 
-    this.repository
+    repository
       .confirmarDevolucao(idPedido)
-      .then(() => this.response.success(res))
-      .catch((err) => this.response.error(res, err));
+      .then(() => response.success(res))
+      .catch((err) => response.error(res, err));
   }
 
   public async confirmarEntrega(req: Request, res: Response): Promise<void> {
-    const { idPedido } = req.body;
+    const idPedido: number = req.body.idPedido;
 
-    this.repository
+    repository
       .confirmarEntrega(idPedido)
-      .then(() => this.response.success(res))
-      .catch((err) => this.response.error(res, err));
+      .then(() => response.success(res))
+      .catch((err) => response.error(res, err));
   }
 
   public async listarPendentes(req: Request, res: Response): Promise<void> {
-    this.repository
+    repository
       .listarPendentes()
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
@@ -55,15 +43,15 @@ class PedidoService implements IPedidoService {
     req: Request,
     res: Response
   ): Promise<void> {
-    const idUsuario = parseInt(req.params.id);
+    const idUsuario: number = parseInt(req.params.id, 10);
 
-    this.repository
+    repository
       .listarPendentesCliente(idUsuario)
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 }

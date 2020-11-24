@@ -1,22 +1,16 @@
 import { DateSchema } from 'joi';
-import { singleton, autoInjectable, inject } from 'tsyringe';
 
 import IResponseHorarioListarPedidosPendentes from '../../../config/interfaces/response/pedido/listarPendentes';
 import IResponseHorarioListaPedidosPendentesCliente from '../../../config/interfaces/response/pedido/listarPendentesCliente';
 import IBDConnect from '../../../config/bdConnect/interface';
 import IPedidoRepository from '../../../config/interfaces/repositories/pedido';
-import { Identifier } from '../../../config/injection/identifiers';
+import BDConnect from '../../../config/bdConnect';
 
-@singleton()
-@autoInjectable()
 class PedidoRepository implements IPedidoRepository {
   private bdConnect: IBDConnect;
 
-  constructor(
-    @inject(Identifier.CONNECT)
-    private poolConnect?: IBDConnect
-  ) {
-    this.bdConnect = poolConnect;
+  constructor() {
+    this.bdConnect = new BDConnect();
   }
 
   public async cadastrar(

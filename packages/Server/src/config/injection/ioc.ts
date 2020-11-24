@@ -1,4 +1,3 @@
-import * as express from 'express';
 import { container, DependencyContainer } from 'tsyringe';
 
 import APIController from '../../api';
@@ -18,9 +17,15 @@ import PedidoService from '../../core/services/pedido';
 import ProdutoService from '../../core/services/produto';
 import UsuarioService from '../../core/services/usuario';
 import BDConnect from '../bdConnect';
+import ServerAPI from '../server/server';
 import { Identifier } from './identifiers';
 
 async function registeringDependencies(): Promise<DependencyContainer> {
+  // Connect
+  await container.register(Identifier.SERVER_API, {
+    useClass: ServerAPI,
+  });
+  
   // Connect
   await container.register(Identifier.CONNECT, {
     useClass: BDConnect,

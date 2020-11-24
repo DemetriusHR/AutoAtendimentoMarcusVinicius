@@ -3,6 +3,7 @@
         "outDir": "./build/",
         "module": "commonjs",
         "noImplicitAny": true,
+        "moduleResolution": "node",
         "target": "es6",
         "sourceMap": true,
         "experimentalDecorators": true,

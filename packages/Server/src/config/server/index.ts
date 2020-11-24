@@ -1,12 +1,10 @@
 import 'reflect-metadata';
 import * as http from 'http';
+
 import * as serverHandlers from './serverHandlers';
 import ServerAPI from './server';
-import registeringDependencies from '../injection/ioc';
 
-(async () => {
-  await registeringDependencies();
-
+(async (): Promise<void> => {
   const serverAPI: ServerAPI = new ServerAPI();
 
   const Server: http.Server = http.createServer(serverAPI.app);

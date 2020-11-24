@@ -1,74 +1,62 @@
 import { Request, Response } from 'express';
-import { autoInjectable, inject, singleton } from 'tsyringe';
 
 import IProdutoRepository from '../../../config/interfaces/repositories/produto';
 import IResponseAPI from '../../../config/interfaces/response/api';
 import IProdutoService from '../../../config/interfaces/services/produto';
-import { Identifier } from '../../../config/injection/identifiers';
+import ProdutoRepository from '../../repositories/produto';
+import ResponseAPI from '../../response';
 
-@singleton()
-@autoInjectable()
+const repository: IProdutoRepository = new ProdutoRepository();
+const response: IResponseAPI = new ResponseAPI();
+
 class ProdutoService implements IProdutoService {
-  private repository: IProdutoRepository;
-  private response: IResponseAPI;
-
-  constructor(
-    @inject(Identifier.PRODUTO_REPOSITORY)
-    private injectRepository?: IProdutoRepository,
-    @inject(Identifier.RESPONSE_API)
-    private injectResponse?: IResponseAPI
-  ) {
-    this.repository = injectRepository;
-    this.response = injectResponse;
-  }
-
   public async listarEspecifico(req: Request, res: Response): Promise<void> {
-    const idProduto = parseInt(req.params.id, 10);
+    const idProduto: number = parseInt(req.params.id, 10);
 
-    this.repository
+    repository
       .listarEspecifico(idProduto)
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
   public async listarPedido(req: Request, res: Response): Promise<void> {
-    const idPedido = parseInt(req.params.id, 10);
+    const idPedido: number = parseInt(req.params.id, 10);
 
-    this.repository
+    repository
       .listarPedido(idPedido)
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
   public async listarPedidoCliente(req: Request, res: Response): Promise<void> {
-    const idPedido = parseInt(req.params.id, 10);
+    const idPedido: number = parseInt(req.params.id, 10);
 
-    this.repository
+    repository
       .listarPedidoCliente(idPedido)
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
   public async listarTodos(req: Request, res: Response): Promise<void> {
-    this.repository
+    repository
       .listarTodos()
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 }

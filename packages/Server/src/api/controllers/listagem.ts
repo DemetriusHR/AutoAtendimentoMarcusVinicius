@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { validate } from 'express-validation';
-import { autoInjectable, inject, singleton } from 'tsyringe';
+import { autoInjectable, inject, injectable, singleton } from 'tsyringe';
 
 import {
   isAuthenticated,
@@ -10,6 +9,7 @@ import {
 
 // VALIDATORS
 
+import middlewareValidator from '../../config/middleware/validators';
 import atendimentosPendentesValidator from '../../config/middleware/validators/atendimentosPendentes';
 
 import { Identifier } from '../../config/injection/identifiers';
@@ -19,9 +19,11 @@ import IAtendimentoService from '../../config/interfaces/services/atendimento';
 import IPedidoService from '../../config/interfaces/services/pedido';
 import IProdutoService from '../../config/interfaces/services/produto';
 import IUsuarioService from '../../config/interfaces/services/usuario';
+import AtendimentoService from '../../core/services/atendimento';
+import PedidoService from '../../core/services/pedido';
+import ProdutoService from '../../core/services/produto';
+import UsuarioService from '../../core/services/usuario';
 
-@singleton()
-@autoInjectable()
 class ListagemController {
   public router: Router;
   private atendimentoService: IAtendimentoService;
@@ -29,24 +31,12 @@ class ListagemController {
   private produtoService: IProdutoService;
   private usuarioService: IUsuarioService;
 
-  constructor(
-    @inject(Identifier.ATENDIMENTO_SERVICE)
-    private _atendimentoService?: IAtendimentoService,
-
-    @inject(Identifier.PEDIDO_SERVICE)
-    private _pedidoService?: IPedidoService,
-
-    @inject(Identifier.PRODUTO_REPOSITORY)
-    private _produtoService?: IProdutoService,
-
-    @inject(Identifier.USUARIO_SERVICE)
-    private _usuarioService?: IUsuarioService
-  ) {
+  constructor() {
     this.router = Router();
-    this.atendimentoService = _atendimentoService;
-    this.pedidoService = _pedidoService;
-    this.produtoService = _produtoService;
-    this.usuarioService = _usuarioService;
+    this.atendimentoService = new AtendimentoService();
+    this.pedidoService = new PedidoService();
+    this.produtoService = new ProdutoService();
+    this.usuarioService = new UsuarioService();
 
     this.constructorRoutes();
   }
@@ -60,8 +50,8 @@ class ListagemController {
     this.router.post(
       '/atendimentos-pendentes',
       isAuthenticatedEmployee,
-      validate(atendimentosPendentesValidator),
-      this.usuarioService.listarInformacoes
+      middlewareValidator(atendimentosPendentesValidator),
+      this.atendimentoService.verificar
     );
     this.router.get(
       '/produtos',

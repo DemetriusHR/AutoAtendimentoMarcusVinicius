@@ -64,7 +64,6 @@
     "tslint": "5.8.0",
     "tslint-config-airbnb": "5.8.0",
     "tslint-eslint-rules": "5.4.0",
-    "tsconfig-paths": "3.9.0",
     "tsyringe": "4.4.0",
     "typescript": "~3.7.2"
   }

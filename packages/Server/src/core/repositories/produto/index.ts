@@ -1,23 +1,17 @@
 import * as format from 'pg-format';
-import { autoInjectable, inject, singleton } from 'tsyringe';
 
-import { Identifier } from '../../../config/injection/identifiers';
 import IBDConnect from '../../../config/bdConnect/interface';
 import IEntranceProduto from '../../../config/interfaces/entrances/produto';
 import IProdutoRepository from '../../../config/interfaces/repositories/produto';
 import IResponseProdutoListar from '../../../config/interfaces/response/produto/listar';
 import IResponseProdutoListarPedido from '../../../config/interfaces/response/produto/listarPedido';
+import BDConnect from '../../../config/bdConnect';
 
-@singleton()
-@autoInjectable()
 class ProdutoRepository implements IProdutoRepository {
   private bdConnect: IBDConnect;
 
-  constructor(
-    @inject(Identifier.CONNECT)
-    private poolConnect?: IBDConnect
-  ) {
-    this.bdConnect = poolConnect;
+  constructor() {
+    this.bdConnect = new BDConnect();
   }
 
   public async cadastrar(produtos: IEntranceProduto[]): Promise<void> {

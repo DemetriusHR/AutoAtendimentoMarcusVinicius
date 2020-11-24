@@ -1,21 +1,15 @@
 import { DateSchema } from 'joi';
-import { singleton, autoInjectable, inject } from 'tsyringe';
 
-import { Identifier } from '../../../config/injection/identifiers';
 import IBDConnect from '../../../config/bdConnect/interface';
 
 import IHorarioRepository from '../../../config/interfaces/repositories/horario';
+import BDConnect from '../../../config/bdConnect';
 
-@singleton()
-@autoInjectable()
 class HorarioRepository implements IHorarioRepository {
   private bdConnect: IBDConnect;
 
-  constructor(
-    @inject(Identifier.CONNECT)
-    private poolConnect?: IBDConnect,
-  ) {
-    this.bdConnect = poolConnect;
+  constructor() {
+    this.bdConnect = new BDConnect();
   }
 
   public async marcar(data: DateSchema, id: number): Promise<void> {

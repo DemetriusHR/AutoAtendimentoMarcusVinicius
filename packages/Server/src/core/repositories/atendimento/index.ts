@@ -1,21 +1,15 @@
 import { DateSchema } from 'joi';
-import { singleton, autoInjectable, inject } from 'tsyringe';
 
 import IResponseVerificarAtendimento from '../../../config/interfaces/response/atendimento/verifica';
 import IBDConnect from '../../../config/bdConnect/interface';
 import IAtendimentoRepository from '../../../config/interfaces/repositories/atendimento';
-import { Identifier } from '../../../config/injection/identifiers';
+import BDConnect from '../../../config/bdConnect';
 
-@singleton()
-@autoInjectable()
 class AtendimentoRepository implements IAtendimentoRepository {
   private bdConnect: IBDConnect;
 
-  constructor(
-    @inject(Identifier.CONNECT)
-    private poolConnect?: IBDConnect
-  ) {
-    this.bdConnect = poolConnect;
+  constructor() {
+    this.bdConnect = new BDConnect();
   }
 
   public async verificar(

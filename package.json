@@ -13,7 +13,7 @@
   },
   "scripts": {
     "postinstall": "lerna bootstrap --progress",
-    "server": "lerna run --scope server dev:api --stream",
+    "server": "lerna run --scope server start --stream",
     "client": "lerna run --scope cliente start",
     "start": "start npm run server && npm run client",
     "lint": "npm run lint:cliente && npm run lint:server",

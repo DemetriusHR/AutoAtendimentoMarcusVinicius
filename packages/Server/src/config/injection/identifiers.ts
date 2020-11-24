@@ -1,5 +1,8 @@
 export abstract class Identifier {
   // Connect
+  public static readonly SERVER_API: any = Symbol.for('ServerAPI');
+
+  // Connect
   public static readonly CONNECT: any = Symbol.for('BDConnect');
 
   // Routes

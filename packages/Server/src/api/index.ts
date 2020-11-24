@@ -1,27 +1,17 @@
 import { Router } from 'express';
-import { autoInjectable, inject, singleton } from 'tsyringe';
 
-import { Identifier } from '../config/injection/identifiers';
 import AcoesController from './controllers/acoes';
 import ListagemController from './controllers/listagem';
 
-@singleton()
-@autoInjectable()
 class APIController {
   public router : Router;
   private acoesController: AcoesController;
   private listagemController: ListagemController;
 
-  constructor(
-    @inject(Identifier.ACOES_CONTROLLER)
-    private _acoesController?: AcoesController,
-
-    @inject(Identifier.LISTAGEM_CONTROLLER)
-    private _listagemController?: ListagemController
-  ) {
+  constructor() {
     this.router = Router();
-    this.acoesController = _acoesController;
-    this.listagemController = _listagemController;
+    this.acoesController = new AcoesController();
+    this.listagemController = new ListagemController();
 
     this.registerRouters();
   }

@@ -3,7 +3,7 @@ import IResponseLoginCadastrar from '../../response/login/cadastrar';
 import IResponseLogin from '../../response/login/login';
 
 interface ILoginRepository {
-  login: (cpf: string, tel: string, senha: string) => Promise<IResponseLogin>;
+  login: (senha: string, cpf?: string, tel?: string) => Promise<IResponseLogin>;
   cadastrar: (
     nome: string,
     cpf: string,

@@ -1,63 +1,55 @@
 import { Request, Response } from 'express';
-import { autoInjectable, inject, singleton } from 'tsyringe';
 
-import { Identifier } from '../../../config/injection/identifiers';
 import IUsuarioRepository from '../../../config/interfaces/repositories/usuario';
 import IResponseAPI from '../../../config/interfaces/response/api';
 import IUsuarioService from '../../../config/interfaces/services/usuario';
+import UsuarioRepository from '../../repositories/usuario';
+import ResponseAPI from '../../response';
 
-@singleton()
-@autoInjectable()
+const repository: IUsuarioRepository = new UsuarioRepository();
+const response: IResponseAPI = new ResponseAPI();
+
 class UsuarioService implements IUsuarioService {
-  private repository: IUsuarioRepository;
-  private response: IResponseAPI;
-
-  constructor(
-    @inject(Identifier.USUARIO_REPOSITORY)
-    private injectRepository?: IUsuarioRepository,
-    @inject(Identifier.RESPONSE_API)
-    private injectResponse?: IResponseAPI
-  ) {
-    this.repository = injectRepository;
-    this.response = injectResponse;
-  }
-
   public async editar(req: Request, res: Response): Promise<void> {
-    const { id, nome, cpf, celular, senha } = req.body;
+    const id: number = req.body.id;
+    const nome: string = req.body.nome;
+    const cpf: string = req.body.cpf;
+    const senha: string = req.body.senha;
+    const celular: string = req.body.celular;
 
-    this.repository
+    repository
       .editar(id, nome, cpf, celular, senha)
       .then(() => {
-        this.response.success(res);
+        response.success(res);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
   public async listarEnderecos(req: Request, res: Response): Promise<void> {
-    const idUsuario = parseInt(req.params.id, 10);
+    const idUsuario: number = parseInt(req.params.id, 10);
 
-    this.repository
+    repository
       .listarEnderecos(idUsuario)
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.success(res, err);
+        response.success(res, err);
       });
   }
 
   public async listarInformacoes(req: Request, res: Response): Promise<void> {
-    const idUsuario = parseInt(req.params.id, 10);
+    const idUsuario: number = parseInt(req.params.id, 10);
 
-    this.repository
+    repository
       .listarInformacoes(idUsuario)
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.success(res, err);
+        response.success(res, err);
       });
   }
 }

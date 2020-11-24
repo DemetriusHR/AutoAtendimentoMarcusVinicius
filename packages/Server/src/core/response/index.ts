@@ -1,9 +1,7 @@
 import { Response } from 'express';
 // import log from 'shared/logs';
 import IResponseAPI from '../../config/interfaces/response/api';
-import { singleton } from 'tsyringe';
 
-@singleton()
 class ResponseAPI implements IResponseAPI {
   error(res: Response, e: Error): void {
     // log.error(e.toString());
@@ -32,9 +30,9 @@ class ResponseAPI implements IResponseAPI {
   success(res: Response, data?: any): void {
     // log.info('ok');
     res.status(200).json({
+      data,
       status: 200,
       message: 'ok',
-      data,
     });
   }
 }

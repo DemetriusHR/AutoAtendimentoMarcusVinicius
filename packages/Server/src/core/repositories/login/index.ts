@@ -1,5 +1,5 @@
 import * as format from 'pg-format';
-import { autoInjectable, inject, singleton } from 'tsyringe';
+import BDConnect from '../../../config/bdConnect';
 
 import IBDConnect from '../../../config/bdConnect/interface';
 import IEntranceEndereco from '../../../config/interfaces/entrances/endereco';
@@ -7,18 +7,12 @@ import ILoginRepository from '../../../config/interfaces/repositories/login';
 import IResponseLoginCadastrar from '../../../config/interfaces/response/login/cadastrar';
 import IResponseLogin from '../../../config/interfaces/response/login/login';
 import IResponseLoginBD from '../../../config/interfaces/response/login/logindb';
-import { Identifier } from '../../../config/injection/identifiers';
 
-@singleton()
-@autoInjectable()
 class LoginRepository implements ILoginRepository {
   private bdConnect: IBDConnect;
 
-  constructor(
-    @inject(Identifier.CONNECT)
-    private poolConnect?: IBDConnect
-  ) {
-    this.bdConnect = poolConnect;
+  constructor() {
+    this.bdConnect = new BDConnect();
   }
 
   public async cadastrar(
@@ -70,12 +64,12 @@ class LoginRepository implements ILoginRepository {
   }
 
   public async login(
-    cpf: string,
-    tel: string,
-    senha: string
+    senha: string,
+    cpf?: string,
+    tel?: string,
   ): Promise<IResponseLogin> {
     const query: string = 'SELECT login_atendimento($1, $2, $3)';
-    const variables: string[] = [cpf, senha, tel];
+    const variables: string[] = [cpf, tel, senha];
     const bdConnect: IBDConnect = this.bdConnect;
 
     const result: IResponseLoginBD = await bdConnect.connectWithData<IResponseLoginBD>(

@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import { validate } from 'express-validation';
-import { autoInjectable, inject, singleton } from 'tsyringe';
 
 import {
   isAuthenticatedEmployee,
@@ -9,6 +7,7 @@ import {
 
 // VALIDATORS
 
+import middlewareValidator from '../../config/middleware/validators';
 import cadastrarValidator from '../../config/middleware/validators/cadastrar';
 import cancelarAtendimentoValidator from '../../config/middleware/validators/cancelarAtendimento';
 import confirmarDevolucaoPedidoValidator from '../../config/middleware/validators/confirmarDevolucaoPedido';
@@ -18,16 +17,16 @@ import loginValidator from '../../config/middleware/validators/login';
 import marcarHorarioValidator from '../../config/middleware/validators/marcarHorario';
 import verificarAtendimentoValidator from '../../config/middleware/validators/verificarAtendimento';
 
-import { Identifier } from '../../config/injection/identifiers';
-
 // SERVICES
 import IAtendimentoService from '../../config/interfaces/services/atendimento';
 import IHorarioService from '../../config/interfaces/services/horario';
 import ILoginService from '../../config/interfaces/services/login';
 import IPedidoService from '../../config/interfaces/services/pedido';
+import AtendimentoService from '../../core/services/atendimento';
+import HorarioService from '../../core/services/horario';
+import PedidoService from '../../core/services/pedido';
+import LoginService from '../../core/services/login';
 
-@singleton()
-@autoInjectable()
 class AcoesController {
   public router: Router;
   private atendimentoService: IAtendimentoService;
@@ -35,72 +34,60 @@ class AcoesController {
   private loginService: ILoginService;
   private pedidoService: IPedidoService;
 
-  constructor(
-    @inject(Identifier.ATENDIMENTO_SERVICE)
-    private _atendimentoService?: IAtendimentoService,
-
-    @inject(Identifier.HORARIO_SERVICE)
-    private _horarioService?: IHorarioService,
-
-    @inject(Identifier.LOGIN_SERVICE)
-    private _loginService?: ILoginService,
-
-    @inject(Identifier.PEDIDO_SERVICE)
-    private _pedidoService?: IPedidoService
-  ) {
+  constructor() {
     this.router = Router();
-    this.atendimentoService = _atendimentoService;
-    this.horarioService = _horarioService;
-    this.loginService = _loginService;
-    this.pedidoService = _pedidoService;
+    this.atendimentoService = new AtendimentoService();
+    this.horarioService = new HorarioService();
+    this.loginService = new LoginService();
+    this.pedidoService = new PedidoService();
 
     this.constructorRoutes();
   }
 
-  constructorRoutes() {
+  constructorRoutes(): void {
     this.router.post(
       '/login',
-      validate(loginValidator),
+      middlewareValidator(loginValidator),
       this.loginService.login
     );
     this.router.post(
       '/cadastrar',
-      validate(cadastrarValidator),
+      middlewareValidator(cadastrarValidator),
       this.loginService.cadastrar
     );
     this.router.post(
       '/verifica-horario',
-      validate(verificarAtendimentoValidator),
+      middlewareValidator(verificarAtendimentoValidator),
       this.horarioService.verificar
     );
     this.router.post(
       '/marcar-horario',
       isAuthenticatedUser,
-      validate(marcarHorarioValidator),
+      middlewareValidator(marcarHorarioValidator),
       this.loginService.login
     );
     this.router.delete(
       '/cancela-atendimento',
       isAuthenticatedEmployee,
-      validate(cancelarAtendimentoValidator),
+      middlewareValidator(cancelarAtendimentoValidator),
       this.atendimentoService.cancelar
     );
     this.router.post(
       '/confirmar-atendimento',
       isAuthenticatedEmployee,
-      validate(confirmarAtendimentoValidator),
+      middlewareValidator(confirmarAtendimentoValidator),
       this.atendimentoService.confirmar
     );
     this.router.post(
       '/pedido-pendente/confirmar-entrega',
       isAuthenticatedEmployee,
-      validate(confirmarEntregaPedidoValidator),
+      middlewareValidator(confirmarEntregaPedidoValidator),
       this.pedidoService.confirmarEntrega
     );
     this.router.post(
       '/pedido-pendente/confirmar-devolucao',
       isAuthenticatedEmployee,
-      validate(confirmarDevolucaoPedidoValidator),
+      middlewareValidator(confirmarDevolucaoPedidoValidator),
       this.pedidoService.confirmarDevolucao
     );
   }

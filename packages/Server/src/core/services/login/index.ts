@@ -1,85 +1,93 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
-import { autoInjectable, inject, singleton } from 'tsyringe';
 
 import roles from '../../../config/utils/roles';
 import ILoginRepository from '../../../config/interfaces/repositories/login';
 import IResponseAPI from '../../../config/interfaces/response/api';
 import ILoginService from '../../../config/interfaces/services/login';
-import { Identifier } from '../../../config/injection/identifiers';
+import IEntranceEndereco from '../../../config/interfaces/entrances/endereco';
+import IResponseLogin from '../../../config/interfaces/response/login/login';
+import LoginRepository from '../../repositories/login';
+import ResponseAPI from '../../response';
 
-@singleton()
-@autoInjectable()
+interface IDataLogin {
+  loginVerify: IResponseLogin;
+  token: string;
+}
+
+const repository: ILoginRepository = new LoginRepository();
+const response: IResponseAPI = new ResponseAPI();
+
 class LoginService implements ILoginService {
-  private repository: ILoginRepository;
-  private response: IResponseAPI;
-
-  constructor(
-    @inject(Identifier.LOGIN_REPOSITORY)
-    private injectRepository?: ILoginRepository,
-    @inject(Identifier.RESPONSE_API)
-    private injectResponse?: IResponseAPI
-  ) {
-    this.repository = injectRepository;
-    this.response = injectResponse;
-  }
-
   async cadastrar(req: Request, res: Response): Promise<void> {
-    const { nome, cpf, senha, tel, enderecos } = req.body;
-    let idUsuario = 0;
+    const nome: string = req.body.nome;
+    const cpf: string = req.body.cpf;
+    const senha: string = req.body.senha;
+    const tel: string = req.body.tel;
+    const enderecos: IEntranceEndereco[] = req.body.enderecos;
 
-    this.repository
+    let idUsuario: number = 0;
+
+    repository
       .cadastrar(nome, cpf, senha, tel)
       .then((data) => {
         idUsuario = data.idUsuario;
 
-        this.repository
+        repository
           .cadastrarEnderecos(idUsuario, enderecos)
           .then(() => {
-            this.response.success(res);
+            response.success(res);
           })
           .catch((e) => {
-            this.response.errorBadRequest(res, e);
+            response.errorBadRequest(res, e);
           });
       })
       .catch((e) => {
-        this.response.errorBadRequest(res, e);
+        response.errorBadRequest(res, e);
       });
   }
 
-  public async login(req: Request, res: Response): Promise<void> {
-    const { cpf, tel, senha } = req.body;
+  async login(req: Request, res: Response): Promise<void> {
+    console.log('service', req.body, this);
+    const cpf: string = req.body.cpf;
+    const senha: string = req.body.senha;
+    const tel: string = req.body.tel;
 
-    await this.repository
-      .login(cpf, tel, senha)
-      .then((dataReturned) => {
-        if (dataReturned.idUsuario) {
-          const token: string = jwt.sign(
-            {
-              sub: dataReturned.idUsuario,
-              role: dataReturned.funcionario ? roles.Employee : roles.User,
-            },
-            `${process.env.SECRET_KEY_JWT}`,
-            {
-              expiresIn: '7d',
-            }
-          );
+    try {
+      const dataReturned: IResponseLogin = await repository.login(
+        senha,
+        cpf,
+        tel
+      );
 
-          const data = {
-            loginVerify: dataReturned,
-            token,
-          };
+      console.log(dataReturned);
 
-          this.response.success(res, data);
-        } else {
-          const erro: Error = Error('Usuário não Existente! Reveja seu Login');
+      if (dataReturned.idUsuario) {
+        const token: string = jwt.sign(
+          {
+            sub: dataReturned.idUsuario,
+            role: dataReturned.funcionario ? roles.Employee : roles.User,
+          },
+          `${process.env.SECRET_KEY_JWT}`,
+          {
+            expiresIn: '7d',
+          }
+        );
 
-          this.response.errorBadRequest(res, erro);
-        }
-      })
-      .catch((err) => {
-        this.response.errorBadRequest(res, err);
-      });
+        const data: IDataLogin = {
+          token,
+          loginVerify: dataReturned,
+        };
+
+        console.log('sucess', data);
+
+        response.success(res, data);
+      } else {
+        Error('Usuário não Existente! Reveja seu Login');
+      }
+    } catch (err) {
+      response.errorBadRequest(res, err);
+    }
   }
 }
 

@@ -1,93 +1,78 @@
 import { Request, Response } from 'express';
+import { DateSchema } from 'joi';
+
 import IAtendimentoRepository from '../../../config/interfaces/repositories/atendimento';
 import IPedidoRepository from '../../../config/interfaces/repositories/pedido';
 import IProdutoRepository from '../../../config/interfaces/repositories/produto';
 import IResponseAPI from '../../../config/interfaces/response/api';
 import IAtendimentoService from '../../../config/interfaces/services/atendimento';
+import IEntranceProduto from '../../../config/interfaces/entrances/produto';
+import AtendimentoRepository from '../../repositories/atendimento';
+import ResponseAPI from '../../response';
+import PedidoRepository from '../../repositories/pedido';
+import ProdutoRepository from '../../repositories/produto';
 
-import { singleton, autoInjectable, inject } from 'tsyringe';
-import { Identifier } from '../../../config/injection/identifiers';
+const repository: IAtendimentoRepository = new AtendimentoRepository();
+const response: IResponseAPI = new ResponseAPI();
+const pedidoRepository: IPedidoRepository = new PedidoRepository();
+const produtoRepository: IProdutoRepository = new ProdutoRepository();
 
-@singleton()
-@autoInjectable()
 class AtendimentoService implements IAtendimentoService {
-  private repository: IAtendimentoRepository;
-  private pedidoRepository: IPedidoRepository;
-  private produtoRepository: IProdutoRepository;
-  private response: IResponseAPI;
-
-  constructor(
-    @inject(Identifier.ATENDIMENTO_REPOSITORY)
-    private injectRepository?: IAtendimentoRepository,
-    @inject(Identifier.RESPONSE_API)
-    private injectResponse?: IResponseAPI,
-    @inject(Identifier.PEDIDO_REPOSITORY)
-    private injectPedidoRepository?: IPedidoRepository,
-    @inject(Identifier.PRODUTO_REPOSITORY)
-    private injectProdutoRepository?: IProdutoRepository
-  ) {
-    this.repository = injectRepository;
-    this.response = injectResponse;
-    this.pedidoRepository = injectPedidoRepository;
-    this.produtoRepository = injectProdutoRepository;
-  }
-
   public async verificar(req: Request, res: Response): Promise<void> {
-    const { dataInicial, dataFinal } = req.body;
+    const dataInicial: DateSchema = req.body.dataInicial;
+    const dataFinal: DateSchema = req.body.dataFinal;
 
-    await this.repository
+    await repository
       .verificar(dataInicial, dataFinal)
       .then((data) => {
-        this.response.success(res, data);
+        response.success(res, data);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
   public async cancelar(req: Request, res: Response): Promise<void> {
-    const { idAtendimento } = req.body;
+    const idAtendimento: number = req.body.idAtendimento;
 
-    await this.repository
+    await repository
       .atualizar(idAtendimento)
       .then(() => {
-        this.response.success(res);
+        response.success(res);
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 
   public async confirmar(req: Request, res: Response): Promise<void> {
-    const {
-      idAtendimento,
-      dataPedido,
-      dataDevolucao,
-      vlPedido,
-      produtos,
-    } = req.body;
+    const idAtendimento: number = req.body.idAtendimento;
+    const dataPedido: DateSchema = req.body.dataPedido;
+    const dataDevolucao: DateSchema = req.body.dataDevolucao;
+    const vlPedido: number = req.body.vlPedido;
+    const produtos: IEntranceProduto[] = req.body.produtos;
 
-    await this.repository
+    await repository
       .atualizar(idAtendimento)
       .then(() => {
-        this.pedidoRepository
+        pedidoRepository
           .cadastrar(idAtendimento, dataPedido, dataDevolucao, vlPedido)
           .then(() => {
-            this.produtoRepository
+            produtoRepository
               .cadastrar(produtos)
               .then(() => {
-                this.response.success(res);
+                response.success(res);
               })
               .catch((err) => {
-                this.response.error(res, err);
+                response.error(res, err);
               });
           })
           .catch((err) => {
-            this.response.error(res, err);
+            response.error(res, err);
           });
       })
       .catch((err) => {
-        this.response.error(res, err);
+        response.error(res, err);
       });
   }
 }

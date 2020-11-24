@@ -1,4 +1,4 @@
-import { Pool, PoolClient } from 'pg';
+import { Pool } from 'pg';
 
 import pool from '../connection/connection';
 import IBDConnect from './interface';
@@ -10,22 +10,23 @@ class BDConnect implements IBDConnect {
     let data: T[] = [];
 
     return new Promise<T[]>((res, rej): void => {
-      this.pool.connect((err: Error, client: PoolClient, done: () => void) => {
+      this.pool.connect((err, client, done): void => {
         if (err) {
           console.error(err.toString());
           rej(err.toString());
         }
 
-        client.query<T>(queryBD, variables, (errorReturned, result) => {
+        client.query<T>(queryBD, variables, (errorReturned, result): void => {
           if (errorReturned) {
+            console.error(errorReturned.toString());
             rej(errorReturned);
           }
 
           console.log(result);
 
           data = result.rows;
-          done();
           res(data);
+          done();
         });
       });
     });
@@ -35,22 +36,23 @@ class BDConnect implements IBDConnect {
     let data: T;
 
     return new Promise<T>((res, rej): void => {
-      this.pool.connect((err: Error, client: PoolClient, done: () => void) => {
+      this.pool.connect((err, client, done): void => {
         if (err) {
           console.error(err.toString());
           rej(err.toString());
         }
 
-        client.query<T>(queryBD, variables, (errorReturned, result) => {
+        client.query<T>(queryBD, variables, (errorReturned, result): void => {
           if (errorReturned) {
+            console.error(errorReturned.toString());
             rej(errorReturned);
           }
 
           console.log(result);
 
           data = result.rows[0];
-          done();
           res(data);
+          done();
         });
       });
     });
@@ -58,18 +60,19 @@ class BDConnect implements IBDConnect {
 
   async connectWithinData(queryBD: string, variables: any[]): Promise<void> {
     return new Promise((res, rej): void => {
-      this.pool.connect((err: Error, client: PoolClient, done: () => void) => {
+      this.pool.connect((err, client, done): void => {
         if (err) {
           console.error(err.toString());
           rej(err.toString());
         }
 
-        client.query(queryBD, variables, (errorReturned, result) => {
+        client.query(queryBD, variables, (errorReturned, result): void => {
           if (errorReturned) {
+            console.error(errorReturned.toString());
             rej(errorReturned);
           }
-          done();
           res();
+          done();
         });
       });
     });
