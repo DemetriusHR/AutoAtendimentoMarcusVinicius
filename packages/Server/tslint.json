@@ -1,19 +1,35 @@
 {
-  "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
-  "jsRules": {},
-  "rules": {
-    "quotemark": [true, "single"],
-    "member-access": [false],
-    "ordered-imports": [true],
-    "max-line-length": [true, 150],
-    "member-ordering": [false],
-    "interface-name": [true],
-    "arrow-parens": false,
-    "object-literal-sort-keys": false,
-    "variable-name": false,
-    "semicolon": [true, "always", "ignore-bound-class-methods"],
-    "no-console": false
-  },
-  "rulesDirectory": []
+    "extends": ["tslint-config-airbnb","tslint-eslint-rules"],
+    "rules": {
+        "max-line-length": [true, 150],
+        "indent": [true, "spaces"],
+        "ter-indent": [
+            true,
+            2,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "no-this-assignment": false,
+        "trailing-comma": [false],
+        "ter-arrow-parens": [true, "always"],
+        "variable-name": [false],
+        "import-name": [false],
+        "newline-before-return": true,
+        "ter-newline-after-var": [true, "always"],
+        "no-unused-variable": true,
+        "align": [false],
+        "no-parameter-reassignment": false,
+        "typedef": [
+            true,
+            "call-signature",
+            "arrow-call-signature",
+            "parameter",
+            "property-declaration",
+            "variable-declaration",
+            "member-variable-declaration",
+            "object-destructuring",
+            "array-destructuring"
+        ]
+    }
 }
