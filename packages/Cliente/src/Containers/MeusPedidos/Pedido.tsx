@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import FilePdfOutlined from '@ant-design/icons/FilePdfOutlined';
@@ -99,7 +101,7 @@ const Report: React.FC<IReport> = ({
   </Document>
 );
 
-function removerPedido() {
+function removerPedido(): void {
   Modal.confirm({
     title: 'Deseja excluir seu pedido mesmo?',
     okText: 'Sim',
