@@ -4,6 +4,7 @@ import Modal from 'antd/lib/modal';
 import styled from 'styled-components';
 import FilePdfOutlined from '@ant-design/icons/FilePdfOutlined';
 import { PDFViewer } from '@react-pdf/renderer';
+import Tooltip from 'antd/lib/tooltip';
 
 import PedidoPendenteProduto from './PedidoPendenteProduto';
 import PedidoPanelComponent from './Components/PedidoPanel';
@@ -46,9 +47,11 @@ const PedidosPendentesContainer: React.FC = () => {
       <CustomScroll className="max-h-full h-64">
         {state.pedidos.length ? (
           <div>
-            <button type="button" onClick={modalVisible}>
-              <FilePdfOutlined translate="span" />
-            </button>
+            <Tooltip title="Imprimir Todos os Pedidos">
+              <button type="button" onClick={modalVisible}>
+                <FilePdfOutlined translate="span" />
+              </button>
+            </Tooltip>
             <Collapse bordered={false} className="pedido-collapse">
               {state.pedidos.map((pedido) => (
                 <Collapse.Panel
@@ -56,9 +59,11 @@ const PedidosPendentesContainer: React.FC = () => {
                   header={<PedidoPanelComponent pedido={pedido} />}
                   className="pedido-collapse-panel"
                 >
-                  <button type="button" onClick={modalVisible}>
-                    <FilePdfOutlined translate="span" />
-                  </button>
+                  <Tooltip title="Imprimir Pedido">
+                    <button type="button" onClick={modalVisible}>
+                      <FilePdfOutlined translate="span" />
+                    </button>
+                  </Tooltip>
                   <p className="text-lg">Informações sobre o Cliente</p>
                   <p className="text-sm m-0">{`Celular: ${pedido.celcliente}`}</p>
                   <PedidoPendenteEndereco idCliente={pedido.idcliente} />
