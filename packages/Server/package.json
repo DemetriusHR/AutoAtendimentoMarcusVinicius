@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "bin/server.js",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "node node_modules/nodemon/bin/nodemon bin/server",
-    "dev:api": "set NODE_ENV=development && node ./bin/server.js",
-    "prod:api": "set NODE_ENV=production && node ./bin/server.js",
+    "dev": "node node_modules/nodemon/bin/nodemon src/index.js",
+    "dev:api": "set NODE_ENV=development && nodenv -E ./.env --exec node ./src/index.js",
+    "prod:api": "set NODE_ENV=production && nodenv -E ./.env --exec node ./src/index.js",
     "lint": "eslint -c .eslintrc.js --ext .js ./**/*"
   },
   "keywords": [],
