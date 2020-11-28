@@ -122,8 +122,6 @@ function EditarUsuarioRequestAPI(
     senha,
   });
 
-  console.log(body);
-
   const urlAPI = ConnectAPI();
 
   fetch(`${urlAPI}/acoes/usuario/editar`, {

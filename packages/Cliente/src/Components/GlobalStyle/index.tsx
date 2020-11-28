@@ -14,7 +14,7 @@ interface IProps {
     headerColor: string;
     textColor: string;
     cardColor: string;
-  }
+  };
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -121,6 +121,50 @@ const GlobalStyle = createGlobalStyle`
   .ant-btn:active {
     color: ${(props) => shadeColor(props.theme.primaryColor, -20)};
     border-color: ${(props) => shadeColor(props.theme.primaryColor, -20)};
+  }
+
+  .ant-btn-dangerous {
+    border: 1px solid #d9d9d9;
+    color: var(--text-color);
+  }
+
+  .ant-btn-dangerous:focus {
+    border: 1px solid #d9d9d9;
+    color: var(--text-color);
+  }
+
+  .ant-btn-dangerous:hover {
+    color: ${(props) => shadeColor(props.theme.errorColor, 15)};
+    background: #fff;
+    border-color: ${(props) => shadeColor(props.theme.errorColor, 15)};
+  }
+
+  .ant-btn-dangerous:active {
+    color: #fff;
+    background: var(--error-color);
+    border-color: var(--error-color);
+  }
+
+  .button-not-sucess {
+    color: ${(props) => shadeColor(props.theme.sucessColor, 15)};
+    background: #fff;
+    border-color: ${(props) => shadeColor(props.theme.sucessColor, 15)};
+  }
+
+  .button-not-sucess:hover, .button-not-sucess:focus {
+    color: ${(props) => shadeColor(props.theme.sucessColor, -15)};
+    background: #fff;
+    border-color: ${(props) => shadeColor(props.theme.sucessColor, -15)};
+  }
+
+  .button-not-sucess:active {
+    color: #fff;
+    background: var(--sucess-color);
+    border-color: var(--sucess-color);
+  }
+
+  .error-color {
+    color: var(--error-color) !important;
   }
 
   .ant-btn-primary {

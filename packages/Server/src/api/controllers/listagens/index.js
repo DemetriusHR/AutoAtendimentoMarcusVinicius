@@ -77,6 +77,14 @@ router.get(
   pedidoService.listarPendentesCliente
 );
 
+//// GET - /PEDIDOS-PENDENTES/:ID/PRODUTOS
+
+router.get(
+  '/pedidos-pendentes/:id/produtos',
+  auth.authorize,
+  pedidoService.listarProdutos
+);
+
 //// GET - /PEDIDOS-PENDENTES-FUNCIONARIO/:ID/PRODUTOS
 
 router.get(

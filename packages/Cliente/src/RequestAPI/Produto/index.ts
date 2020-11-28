@@ -67,7 +67,7 @@ function ProdutoEspecificoRequestAPI(
 
   const urlAPI = ConnectAPI();
 
-  fetch(`${urlAPI}/listagens/produto/${id}`, {
+  fetch(`${urlAPI}/listagens/produtos/${id}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -114,7 +114,7 @@ function PedidoPendenteClienteProdutosRequestAPI(
 
   const urlAPI = ConnectAPI();
 
-  fetch(`${urlAPI}/listagens/pedido-pendente/${idPedido}/produtos`, {
+  fetch(`${urlAPI}/listagens/pedidos-pendentes/${idPedido}/produtos`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -161,7 +161,7 @@ function PedidoPendenteProdutosRequestAPI(
 
   const urlAPI = ConnectAPI();
 
-  fetch(`${urlAPI}/listagens/pedido-pendente-funcionario/${idPedido}/produtos`, {
+  fetch(`${urlAPI}/listagens/pedidos-pendentes-funcionario/${idPedido}/produtos`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

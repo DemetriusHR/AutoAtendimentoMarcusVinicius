@@ -10,6 +10,7 @@ interface IusePedidoCliente {
     pedidos: IPedido[];
   };
   getPedidos: (id: number, onLogin: () => void) => void;
+  resetPedidos: () => void;
 }
 
 function usePedidosCliente(): IusePedidoCliente {
@@ -24,9 +25,17 @@ function usePedidosCliente(): IusePedidoCliente {
     getPedidosAPI(dispatch, id, onLogin);
   }, []);
 
+  const resetPedidos = useCallback(() => {
+    dispatch({
+      type: PedidosTypes.sucess,
+      payload: { data: [] },
+    });
+  }, []);
+
   return {
     state,
     getPedidos,
+    resetPedidos,
   };
 }
 

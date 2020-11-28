@@ -16,13 +16,15 @@ const MeusPedidosContainer: React.FC = () => {
     usuario: { id },
     resetDadosUsuario,
   } = useUsuarioContext();
-  const { state, getPedidos } = usePedidosCliente();
+  const { state, getPedidos, resetPedidos } = usePedidosCliente();
 
   useEffect(() => {
     if (id) {
       getPedidos(id, resetDadosUsuario);
+    } else {
+      resetPedidos();
     }
-  }, [getPedidos, id, resetDadosUsuario]);
+  }, [getPedidos, resetPedidos, id, resetDadosUsuario]);
 
   return (
     <div>
