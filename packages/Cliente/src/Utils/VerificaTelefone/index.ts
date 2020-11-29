@@ -1,5 +1,5 @@
 function VerificaTelefone(cpfEntrada: string): boolean {
-  return true;
+  return !!cpfEntrada;
 }
 
 export default VerificaTelefone;
