@@ -15,7 +15,7 @@ function VerificarAtendimentoRequestAPI(
   });
   const urlAPI = ConnectAPI();
 
-  fetch(`${urlAPI}/acoes/verifica-horario`, {
+  fetch(`${urlAPI}/acoes/verificar-horario`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

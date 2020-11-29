@@ -1,6 +1,6 @@
 import { PedidosActions, PedidosTypes } from './reducer';
 import IPedido from '../../Interfaces/IPedido';
-import { PedidosPendentesClienteRequestAPI } from '../../RequestAPI/Atendimento';
+import { PedidosPendentesClienteRequestAPI } from '../../RequestAPI/Pedido';
 
 export default function getPedidos(
   dispatch: (value: PedidosActions) => void,

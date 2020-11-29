@@ -5,7 +5,7 @@ import EditOutlined from '@ant-design/icons/EditOutlined';
 
 import { useUsuarioContext } from '../../../../../../Context/Usuario';
 import IEndereco from '../../../../../../Interfaces/IEndereco';
-import { ExcluirEnderecoUsuarioRequestAPI } from '../../../../../../RequestAPI/Usuario';
+import { ExcluirEnderecoUsuarioRequestAPI } from '../../../../../../RequestAPI/Endereco';
 import DadosResidenciaisEditar from '../../Editar';
 
 interface IEnderecoList extends IEndereco {

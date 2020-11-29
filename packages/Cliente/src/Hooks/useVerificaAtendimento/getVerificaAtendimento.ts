@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { VerificaAtendimentoRequestAPI } from '../../RequestAPI/Atendimento';
+import { VerificarAtendimentoRequestAPI } from '../../RequestAPI/Atendimento';
 import { AtendimentoActions, AtendimentoTypes } from './reducer';
 
 export default function getVerificaAtendimento(
@@ -23,5 +23,5 @@ export default function getVerificaAtendimento(
     });
   }
 
-  VerificaAtendimentoRequestAPI(data.format('YYYY-MM-DD hh:mm'), errorDispatch, sucessDispatch);
+  VerificarAtendimentoRequestAPI(data.format('YYYY-MM-DD hh:mm'), errorDispatch, sucessDispatch);
 }

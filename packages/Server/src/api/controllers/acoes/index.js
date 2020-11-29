@@ -41,7 +41,7 @@ router.post('/cadastrar', cadastrarValidator, loginService.login);
 
 // HORARIO
 
-///// POST - VERIFICA-HORARIO
+///// POST - VERIFICAR-HORARIO
 
 router.post(
   '/verificar-horario',
@@ -83,7 +83,7 @@ router.post(
 //// POST - PEDIDO-PENDENTE/CONFIRMAR-ENTREGA
 
 router.post(
-  '/pedido-pendente/confirmar-entrega',
+  '/pedidos-pendentes/confirmar-entrega',
   auth.authorizeEmployee,
   confirmaEntregaPedidoValidator,
   pedidoService.confirmarEntrega

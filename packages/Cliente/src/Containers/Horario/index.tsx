@@ -7,7 +7,7 @@ import useVerificaAtendimento from '../../Hooks/useVerificaAtendimento';
 import ButtonConfirm from '../../Components/ButtonConfirm';
 import { useModaisContext } from '../../Context/Modais';
 import { useUsuarioContext } from '../../Context/Usuario';
-import { MarcarHorarioRequestAPI } from '../../RequestAPI/Atendimento';
+import { MarcarHorarioRequestAPI } from '../../RequestAPI/Horario';
 
 const TextNotFound = styled.span`
   color: var(--text-not-found-color);
@@ -27,17 +27,12 @@ interface IHorariosContainer extends IHorarios {
 }
 
 interface IRetornaButtonHorario {
-  progress: string;
   atendimento: boolean;
   onClickButton: () => void;
 }
 
 const RetornaButtonHorario: React.FC<IRetornaButtonHorario> = React.memo(
-  ({ progress, atendimento, onClickButton }: IRetornaButtonHorario) => {
-    if (progress !== 'sucess') {
-      return <TextNotFound>Carregando...</TextNotFound>;
-    }
-
+  ({ atendimento, onClickButton }: IRetornaButtonHorario) => {
     if (atendimento) {
       return <TextNotFound>Já Agendado</TextNotFound>;
     }
