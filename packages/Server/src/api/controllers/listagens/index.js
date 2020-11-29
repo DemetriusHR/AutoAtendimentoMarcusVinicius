@@ -54,7 +54,7 @@ router.get('/produtos', auth.authorizeEmployee, produtoService.listar);
 // GET - /PRODUTO/:ID
 
 router.get(
-  '/produto/:id',
+  '/produtos/:id',
   auth.authorizeEmployee,
   produtoService.listarEspecifico
 );
@@ -90,7 +90,7 @@ router.get(
 router.get(
   '/pedidos-pendentes-funcionario/:id/produtos',
   auth.authorizeEmployee,
-  pedidoService.listarProdutos
+  pedidoService.listarProdutosCliente
 );
 
 module.exports = router;

@@ -14,7 +14,10 @@ const formataCelular: (value: string) => string = (value: string) => mapToNumeri
 
 const InputCelular: React.FC<InputProps> = React.memo(
   ({ onChange, ...rest }: InputProps) => {
-    const [valueInput, setValue] = useState(rest.value);
+    const [valueInput, setValue] = useState(() => {
+      const value = rest.value?.toString() || '';
+      return value.length < 15 ? value : value.substring(0, value.length - 1);
+    });
 
     const onChangeInput = useCallback(
       (e) => {

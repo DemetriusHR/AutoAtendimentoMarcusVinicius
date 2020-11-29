@@ -63,7 +63,7 @@ function listarEspecificoRepository(id) {
 function cadastrarPedidoRepository(produtos = [{}]) {
   return new Promise(async function (resolve, reject) {
     const produtosMapeados = produtos.map(function (produto) {
-      return [produto.idAtendimento, produto.idProduto, produto.descricao];
+      return [produto.idAtendimento, produto.idProduto, produto.detalhes];
     });
 
     await pool.connect(async function (err, client, done) {

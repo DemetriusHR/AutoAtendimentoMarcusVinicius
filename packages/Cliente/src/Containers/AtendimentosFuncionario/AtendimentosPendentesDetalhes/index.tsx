@@ -12,6 +12,7 @@ import useAtendimentosPendentes from '../../../Hooks/useAtendimentosPendentes';
 import IHorarios from '../../../Interfaces/IHorarios';
 import DetalhesProdutosCadastro from './ProdutosCadastro';
 import { useUsuarioContext } from '../../../Context/Usuario';
+import { usePedidosPendentesContext } from '../../../Context/PedidosPendentes';
 
 interface IAtendimentosPendentesDetalhes {
   data: moment.Moment;
@@ -22,6 +23,7 @@ interface IAtendimentosPendentesDetalhes {
 const AtendimentosPendentesDetalhes: React.FC<IAtendimentosPendentesDetalhes> = React.memo(
   ({ data, visible, onCancel }: IAtendimentosPendentesDetalhes) => {
     const { resetDadosUsuario } = useUsuarioContext();
+    const { getPedidos } = usePedidosPendentesContext();
     const { state, getAtendimentosPendentes } = useAtendimentosPendentes();
 
     const dataAtendimento: string = useMemo(
@@ -69,11 +71,16 @@ const AtendimentosPendentesDetalhes: React.FC<IAtendimentosPendentesDetalhes> = 
       [arrayHorarios],
     );
 
+    const onCloseModal = useCallback(() => {
+      onCancel();
+      getPedidos();
+    }, [getPedidos, onCancel]);
+
     return dataSemana ? (
       <Modal
         title={dataAtendimento}
         visible={visible}
-        onCancel={onCancel}
+        onCancel={onCloseModal}
         footer={null}
         destroyOnClose
       >
@@ -91,7 +98,7 @@ const AtendimentosPendentesDetalhes: React.FC<IAtendimentosPendentesDetalhes> = 
             >
               <DetalhesProdutosCadastro
                 atendimento={atendimento}
-                onFechaModal={onCancel}
+                onFechaModal={onCloseModal}
                 data={data}
               />
             </Collapse.Panel>

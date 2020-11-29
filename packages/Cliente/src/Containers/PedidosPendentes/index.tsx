@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Collapse from 'antd/lib/collapse';
 import Modal from 'antd/lib/modal';
 import styled from 'styled-components';
@@ -10,11 +10,10 @@ import PedidoPendenteProduto from './PedidoPendenteProduto';
 import PedidoPanelComponent from './Components/PedidoPanel';
 import Card from '../../Components/Card';
 import CustomScroll from '../../Components/CustomScroll';
-import usePedidosFuncionario from '../../Hooks/usePedidosFuncionario';
-import { useUsuarioContext } from '../../Context/Usuario';
 import PedidoPendenteEndereco from './PedidoPendenteEndereco';
 import PedidosPendentesPedidoPDF from './PedidoPDF';
 import PedidosPendentesPedidosPDF from './PedidosPDF';
+import { usePedidosPendentesContext } from '../../Context/PedidosPendentes';
 
 const TextNotFound = styled.span`
   color: var(--text-not-found-color);
@@ -22,17 +21,7 @@ const TextNotFound = styled.span`
 
 const PedidosPendentesContainer: React.FC = () => {
   const [modal, setModal] = useState(false);
-  const {
-    usuario: { id },
-    resetDadosUsuario,
-  } = useUsuarioContext();
-  const { state, getPedidos } = usePedidosFuncionario();
-
-  useEffect(() => {
-    if (id) {
-      getPedidos(resetDadosUsuario);
-    }
-  }, [getPedidos, id, resetDadosUsuario]);
+  const { pedidos, getPedidos } = usePedidosPendentesContext();
 
   const modalVisible = useCallback(() => {
     setModal(true);
@@ -45,7 +34,7 @@ const PedidosPendentesContainer: React.FC = () => {
   return (
     <Card>
       <CustomScroll className="max-h-full h-64">
-        {state.pedidos.length ? (
+        {pedidos.length ? (
           <div>
             <Tooltip title="Imprimir Todos os Pedidos">
               <button type="button" onClick={modalVisible}>
@@ -53,10 +42,15 @@ const PedidosPendentesContainer: React.FC = () => {
               </button>
             </Tooltip>
             <Collapse bordered={false} className="pedido-collapse">
-              {state.pedidos.map((pedido) => (
+              {pedidos.map((pedido) => (
                 <Collapse.Panel
                   key={pedido.idatendimento}
-                  header={<PedidoPanelComponent pedido={pedido} />}
+                  header={(
+                    <PedidoPanelComponent
+                      pedido={pedido}
+                      loadPedidos={getPedidos}
+                    />
+                  )}
                   className="pedido-collapse-panel"
                 >
                   <Tooltip title="Imprimir Pedido">
@@ -93,7 +87,7 @@ const PedidosPendentesContainer: React.FC = () => {
             >
               <div className="pt-6">
                 <PDFViewer style={{ width: '100%', height: '16rem' }}>
-                  <PedidosPendentesPedidosPDF pedidos={state.pedidos} />
+                  <PedidosPendentesPedidosPDF pedidos={pedidos} />
                 </PDFViewer>
               </div>
             </Modal>

@@ -23,6 +23,7 @@ const PedidoPanelComponentWrapper = styled.div`
 
 interface IPedidoComponent {
   pedido: IPedidoFuncionario;
+  loadPedidos: () => void;
 }
 
 const PedidoPanelComponent: React.FC<IPedidoComponent> = ({
@@ -32,6 +33,7 @@ const PedidoPanelComponent: React.FC<IPedidoComponent> = ({
     idatendimento,
     nomecliente,
   },
+  loadPedidos,
 }: IPedidoComponent) => {
   const { resetDadosUsuario } = useUsuarioContext();
 
@@ -71,11 +73,11 @@ const PedidoPanelComponent: React.FC<IPedidoComponent> = ({
 
   const onClickConfirmar = useCallback(() => {
     if (entregue) {
-      PedidoPendenteConfirmarDevolucaoRequestAPI(idatendimento, resetDadosUsuario);
+      PedidoPendenteConfirmarDevolucaoRequestAPI(idatendimento, resetDadosUsuario, loadPedidos);
     } else {
-      PedidoPendenteConfirmarEntregueRequestAPI(idatendimento, resetDadosUsuario);
+      PedidoPendenteConfirmarEntregueRequestAPI(idatendimento, resetDadosUsuario, loadPedidos);
     }
-  }, [idatendimento, entregue, resetDadosUsuario]);
+  }, [idatendimento, entregue, resetDadosUsuario, loadPedidos]);
 
   return (
     <PedidoPanelComponentWrapper className="flex justify-between items-center text-lg">

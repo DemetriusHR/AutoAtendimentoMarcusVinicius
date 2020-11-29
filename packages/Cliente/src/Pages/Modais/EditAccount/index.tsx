@@ -31,8 +31,13 @@ const ModalEditAccount: React.FC = React.memo(() => {
   const onClickLogOut = useCallback(() => {
     Modal.confirm({
       title: 'Deseja excluir sua conta mesmo?',
+      icon: <DeleteOutlined translate="span" className="error-color" />,
       okText: 'Sim',
       cancelText: 'Não',
+      okType: 'danger',
+      cancelButtonProps: {
+        className: 'button-not-sucess',
+      },
       onOk,
     });
   }, [onOk]);

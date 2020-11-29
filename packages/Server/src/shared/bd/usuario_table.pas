@@ -90,3 +90,51 @@ BEGIN
 	RETURN id_usuario_retornado;
 END;
 $$;
+
+DROP FUNCTION IF EXISTS excluir_usuario;
+
+CREATE FUNCTION excluir_usuario(idusuario integer)
+ RETURNS integer
+ LANGUAGE plpgsql
+AS
+$$
+DECLARE
+   id_pedido_delete Integer := 0;
+   atendimento_row Record;
+   cursor_atendimento CURSOR(idusuario_cursor integer) 
+		 FOR SELECT ID_Atendimento
+		 FROM Atendimento
+		 WHERE id_usuario = idusuario_cursor;
+BEGIN
+	OPEN cursor_atendimento(idusuario);
+	
+	LOOP
+		FETCH cursor_atendimento INTO atendimento_row;
+		EXIT WHEN NOT FOUND;
+		
+		DELETE
+		FROM PedidosProdutos
+		WHERE ID_Atendimento = atendimento_row.ID_Atendimento;
+		
+		DELETE
+		FROM Pedido
+		WHERE ID_Atendimento = atendimento_row.ID_Atendimento;
+
+		DELETE
+    	FROM Atendimento
+    	WHERE ID_Atendimento = atendimento_row.ID_Atendimento;
+	END LOOP;
+	
+	CLOSE cursor_atendimento;
+
+    DELETE
+    FROM Endereco_Usuario
+    WHERE id_usuario  = idusuario;
+
+    DELETE
+    FROM usuario
+    WHERE id_usuario  = idusuario;
+		
+	return 1;
+END;
+$$;
