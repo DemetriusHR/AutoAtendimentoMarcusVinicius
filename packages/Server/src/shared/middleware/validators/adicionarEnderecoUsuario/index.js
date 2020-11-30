@@ -6,6 +6,7 @@ const adicionarEnderecoUsuarioValidator = validate({
     rua: Joi.string().max(50).required(),
     numero: Joi.number().required(),
     cidade: Joi.string().max(50).required(),
+    complemento: Joi.string().max(50),
     cep: Joi.string().max(9).required(),
     idUsuario: Joi.number().required(),
   },
