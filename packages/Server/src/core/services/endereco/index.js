@@ -5,7 +5,7 @@ function cadastrarUsuarioService(req, res) {
   const { idUsuario, rua, numero, cidade, cep, complemento } = req.body;
 
   enderecoRepository
-    .cadastrarUsuario(idUsuario, rua, numero, cidade, cep, complemento)
+    .cadastrarEspecificoUsuario(idUsuario, rua, numero, cidade, cep, complemento)
     .then(() => {
       response.sucess(res);
     })

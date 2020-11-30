@@ -40,7 +40,8 @@ const EditAccountDadosResidenciais: React.FC = React.memo(() => {
 
   const unvisible = useCallback(() => {
     setModal(false);
-  }, []);
+    loadEndereco();
+  }, [loadEndereco]);
 
   return (
     <div className="py-8">
@@ -72,7 +73,7 @@ const EditAccountDadosResidenciais: React.FC = React.memo(() => {
         centered
         destroyOnClose
       >
-        <DadosResidenciaisAdicionar close={visible} />
+        <DadosResidenciaisAdicionar close={unvisible} />
       </Modal>
     </div>
   );
