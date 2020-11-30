@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Form from 'antd/lib/form';
 
 import ButtonConfirm from '../../../../Components/ButtonConfirm';
@@ -23,9 +23,15 @@ const EditAccountDadosPessoais: React.FC = React.memo(() => {
       celular,
       senha,
     },
+    getDadosUsuario,
     resetDadosUsuario,
   } = useUsuarioContext();
-  const { onModalCreateLoginUnVisible } = useModaisContext();
+  const { onModalEditAccountUnVisible } = useModaisContext();
+
+  const onFinishEditar = useCallback(() => {
+    getDadosUsuario();
+    onModalEditAccountUnVisible();
+  }, [getDadosUsuario, onModalEditAccountUnVisible]);
 
   const onFinish = useCallback(
     (values) => {
@@ -36,11 +42,19 @@ const EditAccountDadosPessoais: React.FC = React.memo(() => {
         values.telefone,
         values.senha,
         resetDadosUsuario,
-        onModalCreateLoginUnVisible,
+        onFinishEditar,
       );
     },
-    [onModalCreateLoginUnVisible, resetDadosUsuario, id],
+    [onFinishEditar, resetDadosUsuario, id],
   );
+
+  const telefone = useMemo(() => {
+    if (celular.length > 14) {
+      return celular.substring(0, 14);
+    }
+
+    return celular;
+  }, [celular]);
 
   return (
     <div className="py-8">
@@ -52,7 +66,7 @@ const EditAccountDadosPessoais: React.FC = React.memo(() => {
         initialValues={{
           nome,
           cpf,
-          telefone: celular,
+          telefone,
           senha,
           confirmarsenha: senha,
         }}

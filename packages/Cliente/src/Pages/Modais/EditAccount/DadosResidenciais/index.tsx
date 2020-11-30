@@ -24,11 +24,15 @@ const EditAccountDadosResidenciais: React.FC = React.memo(() => {
   } = useUsuarioContext();
   const { state, getEnderecos } = useEnderecoCliente();
 
+  const loadEndereco = useCallback(() => {
+    getEnderecos(id, resetDadosUsuario);
+  }, [getEnderecos, id, resetDadosUsuario]);
+
   useEffect(() => {
     if (id) {
-      getEnderecos(id, resetDadosUsuario);
+      loadEndereco();
     }
-  }, [getEnderecos, id, resetDadosUsuario]);
+  }, [loadEndereco, id]);
 
   const visible = useCallback(() => {
     setModal(true);
@@ -53,6 +57,7 @@ const EditAccountDadosResidenciais: React.FC = React.memo(() => {
             <EnderecoListComponent
               key={endereco.idendereco}
               visibleRemove={state.enderecos.length > 1}
+              load={loadEndereco}
               {...endereco}
             />
           ))}

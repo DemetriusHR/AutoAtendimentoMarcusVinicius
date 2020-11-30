@@ -146,6 +146,7 @@ function PedidosPendentesRequestAPI(
 function PedidoPendenteConfirmarEntregueRequestAPI(
   idPedido: number,
   onLogin: () => void,
+  loadPedidos: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
@@ -161,7 +162,7 @@ function PedidoPendenteConfirmarEntregueRequestAPI(
 
   const urlAPI = ConnectAPI();
 
-  fetch(`${urlAPI}/acoes/pedido-pendente/confirma-entrega`, {
+  fetch(`${urlAPI}/acoes/pedidos-pendentes/confirmar-entrega`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -184,6 +185,7 @@ function PedidoPendenteConfirmarEntregueRequestAPI(
         Notification.success({
           message: 'Pedido entregue com sucesso!',
         });
+        loadPedidos();
       }
     })
     .catch((e) => {
@@ -198,6 +200,7 @@ function PedidoPendenteConfirmarEntregueRequestAPI(
 function PedidoPendenteConfirmarDevolucaoRequestAPI(
   idPedido: number,
   onLogin: () => void,
+  loadPedidos: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
@@ -213,7 +216,7 @@ function PedidoPendenteConfirmarDevolucaoRequestAPI(
 
   const urlAPI = ConnectAPI();
 
-  fetch(`${urlAPI}/acoes/pedido-pendente/confirma-devolucao`, {
+  fetch(`${urlAPI}/acoes/pedidos-pendentes/confirmar-devolucao`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -235,6 +238,7 @@ function PedidoPendenteConfirmarDevolucaoRequestAPI(
         Notification.success({
           message: 'Pedido devolvido com sucesso!',
         });
+        loadPedidos();
       }
     })
     .catch((e) => {

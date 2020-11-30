@@ -10,6 +10,7 @@ import DadosResidenciaisEditar from '../../Editar';
 
 interface IEnderecoList extends IEndereco {
   visibleRemove: boolean;
+  load: () => void;
 }
 
 const Titulo = styled.p`
@@ -24,13 +25,14 @@ const EnderecoListComponent: React.FC<IEnderecoList> = ({
   numero,
   cep,
   visibleRemove,
+  load,
 }: IEnderecoList) => {
   const [modal, setModal] = useState(false);
   const { resetDadosUsuario } = useUsuarioContext();
 
   const remove = useCallback(() => {
-    ExcluirEnderecoUsuarioRequestAPI(idendereco, resetDadosUsuario);
-  }, [idendereco, resetDadosUsuario]);
+    ExcluirEnderecoUsuarioRequestAPI(idendereco, resetDadosUsuario, load);
+  }, [idendereco, resetDadosUsuario, load]);
 
   const visible = useCallback(() => {
     setModal(true);
@@ -38,7 +40,8 @@ const EnderecoListComponent: React.FC<IEnderecoList> = ({
 
   const unvisible = useCallback(() => {
     setModal(false);
-  }, []);
+    load();
+  }, [load]);
 
   return (
     <div className="shadow p-2">

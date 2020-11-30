@@ -216,6 +216,7 @@ function listarProdutosClienteRepository(idPedido) {
       client.query(
         `SELECT Produto.ID_Produto                                    AS idProduto
                ,concat(Produto.NM_Produto, ' - ', Produto.NO_Produto) AS nmProduto
+               ,PedidosProdutos.DES_Pedido_Pedido                     AS detalhes
            FROM PedidosProdutos
              INNER JOIN Produto
              ON Produto.ID_Produto = PedidosProdutos.ID_Produto

@@ -178,6 +178,7 @@ function EditarEnderecoUsuarioRequestAPI(
 function ExcluirEnderecoUsuarioRequestAPI(
   id: number,
   onLogin: () => void,
+  onFinish: () => void,
 ): void {
   const idUsuario = localStorage.getItem('idUsuario');
   const token = localStorage.getItem('token');
@@ -210,6 +211,7 @@ function ExcluirEnderecoUsuarioRequestAPI(
         Notification.success({
           message: 'Endereço do usuário excluído com sucesso!',
         });
+        onFinish();
       }
     })
     .catch((e) => {

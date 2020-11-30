@@ -37,7 +37,7 @@ router.post('/login', loginValidator, loginService.login);
 
 //// POST - CADASTRAR
 
-router.post('/cadastrar', cadastrarValidator, loginService.login);
+router.post('/cadastrar', cadastrarValidator, loginService.cadastrar);
 
 // HORARIO
 
@@ -80,7 +80,7 @@ router.post(
 
 // PEDIDO
 
-//// POST - PEDIDO-PENDENTE/CONFIRMAR-ENTREGA
+//// POST - PEDIDOS-PENDENTES/CONFIRMAR-ENTREGA
 
 router.post(
   '/pedidos-pendentes/confirmar-entrega',
@@ -89,10 +89,10 @@ router.post(
   pedidoService.confirmarEntrega
 );
 
-//// POST - PEDIDO-PENDENTE/CONFIRMAR-DEVOLUCAO
+//// POST - PEDIDOS-PENDENTES/CONFIRMAR-DEVOLUCAO
 
 router.post(
-  '/pedido-pendente/confirmar-devolucao',
+  '/pedidos-pendentes/confirmar-devolucao',
   auth.authorizeEmployee,
   confirmaDevolucaoPedidoValidator,
   pedidoService.confirmarDevolucao
@@ -132,10 +132,10 @@ router.put(
   enderecoService.editar
 );
 
-//// DELETE - USUARIO/ENDERECO/:ID/EDITAR
+//// DELETE - USUARIO/ENDERECO/:ID
 
 router.delete(
-  '/usuario/endereco/:id/editar',
+  '/usuario/endereco/:id',
   auth.authorize,
   enderecoService.excluir
 );

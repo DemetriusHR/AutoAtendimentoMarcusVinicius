@@ -69,9 +69,9 @@ const ModalLogin: React.FC = React.memo(() => {
 
   const onFinish = useCallback((values) => {
     if (cpf) {
-      LoginRequestAPI(values.cpfTelefone, '', values.senha, getDados);
+      LoginRequestAPI(values.cpfTelefone.substring(0, 14), '', values.senha, getDados);
     } else {
-      LoginRequestAPI('', values.cpfTelefone, values.senha, getDados);
+      LoginRequestAPI('', values.cpfTelefone.substring(0, 14), values.senha, getDados);
     }
     form.resetFields();
   }, [cpf, form, getDados]);
@@ -98,6 +98,7 @@ const ModalLogin: React.FC = React.memo(() => {
           checkedChildren="CPF"
           unCheckedChildren="Celular"
           onChange={onSetCPF}
+          checked={cpf}
         />
         <div className="w-full h-2" />
         <Form

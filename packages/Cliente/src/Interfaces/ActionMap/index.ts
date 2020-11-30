@@ -1,8 +1,6 @@
 type ActionMap<
   M extends {
-    [
-      index: string
-    ]: any;
+    [index: string]: any;
   }
 > = {
   [Key in keyof M]: M[Key] extends undefined
