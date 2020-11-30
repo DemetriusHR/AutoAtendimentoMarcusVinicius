@@ -41,10 +41,10 @@ router.post('/cadastrar', cadastrarValidator, loginService.login);
 
 // HORARIO
 
-///// POST - VERIFICA-HORARIO
+///// POST - VERIFICAR-HORARIO
 
 router.post(
-  '/verifica-horario',
+  '/verificar-horario',
   verificaAtendimentoValidator,
   horarioService.verificar
 );
@@ -83,7 +83,7 @@ router.post(
 //// POST - PEDIDO-PENDENTE/CONFIRMAR-ENTREGA
 
 router.post(
-  '/pedido-pendente/confirmar-entrega',
+  '/pedidos-pendentes/confirmar-entrega',
   auth.authorizeEmployee,
   confirmaEntregaPedidoValidator,
   pedidoService.confirmarEntrega
@@ -101,7 +101,7 @@ router.post(
 //// POST - PEDIDO-PENDENTE/CONFIRMAR-DEVOLUCAO
 
 router.delete(
-  '/pedido-pendente/cancelar',
+  '/pedidos-pendentes/:id/cancelar',
   auth.authorizeUser,
   pedidoService.cancelar
 );

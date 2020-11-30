@@ -4,6 +4,7 @@ import Modal from 'antd/lib/modal';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import EditOutlined from '@ant-design/icons/EditOutlined';
 import PoweroffOutlined from '@ant-design/icons/PoweroffOutlined';
+import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 
 import { useModaisContext } from '../../Context/Modais';
 import { useUsuarioContext } from '../../Context/Usuario';
@@ -33,8 +34,13 @@ const ButtonUsuarioHeader: React.FC = React.memo(() => {
   const onClickLogOut = useCallback(() => {
     Modal.confirm({
       title: 'Deseja sair mesmo?',
+      icon: <CloseCircleOutlined translate="span" className="error-color" />,
       okText: 'Sim',
       cancelText: 'Não',
+      okType: 'danger',
+      cancelButtonProps: {
+        className: 'button-not-sucess',
+      },
       onOk: resetDadosUsuario,
     });
   }, [resetDadosUsuario]);

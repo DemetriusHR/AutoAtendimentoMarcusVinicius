@@ -2,7 +2,6 @@ import Notification from 'antd/lib/notification';
 
 import ConnectAPI from '../ConnectAPI';
 import { IEndereco } from '../../Pages/Modais/CreateLogin/DadosResidenciaisStep';
-import NotificationLogin from '../../Components/NotificationLogin';
 
 function LoginRequestAPI(
   cpf = '',
@@ -110,64 +109,4 @@ function CadastrarRequestAPI(
     });
 }
 
-function CadastrarEnderecoRequestAPI(
-  idUsuarioIn: number,
-  rua: string,
-  numero: number,
-  cidade: string,
-  cep: string,
-  complemento: string,
-  onLogin: () => void,
-  onSucess: () => void,
-): void {
-  const idUsuario = localStorage.getItem('idUsuario');
-  const token = localStorage.getItem('token');
-
-  if (!idUsuario || !token) {
-    NotificationLogin(onLogin);
-    return;
-  }
-
-  const body = JSON.stringify({
-    idUsuario: idUsuarioIn,
-    rua,
-    numero,
-    cidade,
-    cep,
-    complemento,
-  });
-
-  const urlAPI = ConnectAPI();
-
-  fetch(`${urlAPI}/acoes/usuario/endereco`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status !== 200) {
-        Notification.error({
-          message: 'Ocorreu um erro no Cadastro!',
-          description: `Detalhes do erro: ${data.message}`,
-        });
-      } else if (data.status === 200) {
-        onSucess();
-        Notification.success({
-          message: 'Endereço cadastrado com sucesso!',
-        });
-      }
-    })
-    .catch((e) => {
-      Notification.error({
-        message: 'Ocorreu um erro no Cadastro!',
-        description: `Detalhes do erro: ${e}`,
-      });
-    });
-}
-
-export { LoginRequestAPI, CadastrarRequestAPI, CadastrarEnderecoRequestAPI };
+export { LoginRequestAPI, CadastrarRequestAPI };

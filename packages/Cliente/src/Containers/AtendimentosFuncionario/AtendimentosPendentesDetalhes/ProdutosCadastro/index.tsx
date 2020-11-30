@@ -12,8 +12,8 @@ import ProdutoListComponent from './Components/ProdutoList';
 import comparaProduto from './Utils/comparaProduto';
 import useProdutos from '../../../../Hooks/useProdutos';
 import {
-  CancelarPedidoRequestAPI,
-  ConfirmarPedidoRequestAPI,
+  CancelarAtendimentoRequestAPI,
+  ConfirmarAtendimentoRequestAPI,
 } from '../../../../RequestAPI/Atendimento';
 import IPedidoProduto from '../../../../Interfaces/IPedidoProduto';
 import { useUsuarioContext } from '../../../../Context/Usuario';
@@ -72,7 +72,11 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
 
     const cancelarPedido = useCallback(() => {
       async function cancelaPedido(): Promise<void> {
-        await CancelarPedidoRequestAPI(atendimento.idatendimento, onFechaModal, resetDadosUsuario);
+        await CancelarAtendimentoRequestAPI(
+          atendimento.idatendimento,
+          onFechaModal,
+          resetDadosUsuario,
+        );
       }
 
       cancelaPedido();
@@ -98,7 +102,7 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
           `${data.weekday(8).format('YYYY-MM-DD')} 09:00`,
         ).format('YYYY-MM-DD h:mm');
 
-        ConfirmarPedidoRequestAPI(
+        ConfirmarAtendimentoRequestAPI(
           atendimento.idatendimento,
           dataEntrega,
           dataDevolucao,
@@ -113,7 +117,13 @@ const DetalhesProdutosCadastro: React.FC<IDetalhesProdutosCadastro> = React.memo
           description: 'Você deve cadastrar pelo menos um produto',
         });
       }
-    }, [produtos, atendimento.idatendimento, data, onFechaModal, resetDadosUsuario]);
+    }, [
+      produtos,
+      atendimento.idatendimento,
+      data,
+      onFechaModal,
+      resetDadosUsuario,
+    ]);
 
     return (
       <div className="py-8">

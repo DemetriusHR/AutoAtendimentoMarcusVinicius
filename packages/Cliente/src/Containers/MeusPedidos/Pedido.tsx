@@ -1,26 +1,20 @@
 import React, {
-  useCallback, useEffect, useMemo, useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
 } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import FilePdfOutlined from '@ant-design/icons/FilePdfOutlined';
+import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import Modal from 'antd/lib/modal';
 import Tooltip from 'antd/lib/tooltip';
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  PDFViewer,
-  Image,
-} from '@react-pdf/renderer';
 
+import MeusPedidosReport from './Report';
 import IPedido from '../../Interfaces/IPedido';
 import useProdutosPedidoCliente from '../../Hooks/useProdutosPedidoCliente';
 import { useUsuarioContext } from '../../Context/Usuario';
-import IProdutoList from '../../Interfaces/IProdutoList';
-import Logo from '../../Images/logo.png';
 
 const TextStatus = styled.span`
   color: var(--error-color);
@@ -30,82 +24,16 @@ interface IMeusPedidosPedido {
   pedido: IPedido;
 }
 
-const styles = StyleSheet.create({
-  page: {
-    padding: 10,
-    border: '4px solid #FFC94A',
-    backgroundColor: '#484848',
-    color: '#FFC94A',
-  },
-  sectionFlex: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginBottom: '15px',
-  },
-  section: {
-    flexGrow: 1,
-  },
-  produto: {
-    padding: '5px 0',
-  },
-  viewSeparation: {
-    marginBottom: '15px',
-  },
-  viewSeparationUt: {
-    marginBottom: '60px',
-  },
-  image: {
-    width: '30px',
-  },
-});
-
-interface IReport {
-  data: string;
-  horario: string;
-  produtos: IProdutoList[];
-  status: string;
-}
-
-const Report: React.FC<IReport> = ({
-  data,
-  horario,
-  produtos,
-  status,
-}: IReport) => (
-  <Document>
-    <Page size="A6" style={styles.page}>
-      <View style={styles.sectionFlex}>
-        <View style={styles.section}>
-          <Text>Data</Text>
-          <Text>{data}</Text>
-        </View>
-        <View style={styles.section}>
-          <Text>Horário</Text>
-          <Text>{horario}</Text>
-        </View>
-      </View>
-      <View style={styles.viewSeparation}>
-        <Text>Produtos</Text>
-        {produtos.map((produto) => (
-          <Text key={produto.idproduto} style={styles.produtos}>
-            {produto.nmproduto}
-          </Text>
-        ))}
-      </View>
-      <View style={styles.viewSeparationUt}>
-        <Text>Status</Text>
-        <Text>{status}</Text>
-      </View>
-      <Image src={Logo} style={styles.image} />
-    </Page>
-  </Document>
-);
-
 function removerPedido(): void {
   Modal.confirm({
     title: 'Deseja excluir seu pedido mesmo?',
+    icon: <CloseCircleOutlined translate="span" className="error-color" />,
     okText: 'Sim',
     cancelText: 'Não',
+    okType: 'danger',
+    cancelButtonProps: {
+      className: 'button-not-sucess',
+    },
   });
 }
 
@@ -116,9 +44,13 @@ const MeusPedidosPedido: React.FC<IMeusPedidosPedido> = ({
   const { resetDadosUsuario } = useUsuarioContext();
   const { state, getPedidoProdutos } = useProdutosPedidoCliente();
 
-  useEffect(() => {
+  const getProdutos = useCallback(() => {
     getPedidoProdutos(idatendimento, resetDadosUsuario);
   }, [idatendimento, getPedidoProdutos, resetDadosUsuario]);
+
+  useEffect(() => {
+    getProdutos();
+  }, [getProdutos]);
 
   const modalVisible = useCallback(() => {
     setModal(true);
@@ -155,13 +87,23 @@ const MeusPedidosPedido: React.FC<IMeusPedidosPedido> = ({
     <div>
       <div className="flex justify-between">
         <Tooltip title="Imprimir Comprovante">
-          <button type="button" onClick={modalVisible}>
-            <FilePdfOutlined translate="span" />
+          <button type="button" className="text-base" onClick={modalVisible}>
+            <i>
+              <FilePdfOutlined translate="span" />
+            </i>
           </button>
         </Tooltip>
-        <button type="button" onClick={removerPedido}>
-          x
-        </button>
+        {!entregue && (
+          <Tooltip title="Cancelar Pedido">
+            <button
+              type="button"
+              className="mr-2 text-lg"
+              onClick={removerPedido}
+            >
+              x
+            </button>
+          </Tooltip>
+        )}
       </div>
       <div className="flex justify-between text-lg">
         <div>
@@ -187,14 +129,12 @@ const MeusPedidosPedido: React.FC<IMeusPedidosPedido> = ({
         className="h-56"
       >
         <div className="pt-6">
-          <PDFViewer style={{ width: '100%', height: '16rem' }}>
-            <Report
-              data={data}
-              horario={horario}
-              produtos={state.produtos}
-              status={status}
-            />
-          </PDFViewer>
+          <MeusPedidosReport
+            data={data}
+            horario={horario}
+            produtos={state.produtos}
+            status={status}
+          />
         </div>
       </Modal>
     </div>

@@ -6,7 +6,7 @@ function verificarService(req, res) {
   const { data } = req.body;
 
   horarioRepository
-    .marcar(data)
+    .verificar(data)
     .then((dataRetornada) => {
       response.sucess(res, !!dataRetornada);
     })

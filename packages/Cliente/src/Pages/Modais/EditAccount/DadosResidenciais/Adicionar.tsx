@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import Form from 'antd/lib/form';
 
 import Input from '../../../../Components/Input';
-import { CadastrarEnderecoRequestAPI } from '../../../../RequestAPI/Login';
+import { CadastrarEnderecoRequestAPI } from '../../../../RequestAPI/Endereco';
 import InputCEP from '../../../../Components/InputCEP';
 import { useUsuarioContext } from '../../../../Context/Usuario';
 import ButtonConfirm from '../../../../Components/ButtonConfirm';

@@ -43,23 +43,26 @@ const UsuarioProvider: React.FC = React.memo(
   ({ children }: { children?: React.ReactNode }) => {
     const [usuario, setUsuario] = useState(initialValue);
 
-    const getDadosUsuario = useCallback(() => {
-      const idUsuario = parseInt(localStorage.getItem('idUsuario') || '0', 10);
-
-      async function usuarioDados(): Promise<void> {
-        const usuarioRetornado = await DadosUsuarioRequestAPI(idUsuario);
-        setUsuario(usuarioRetornado);
-      }
-
-      usuarioDados();
-    }, []);
-
     const resetDadosUsuario = useCallback(() => {
       localStorage.setItem('idUsuario', '0');
       localStorage.setItem('funcionario', '');
       localStorage.setItem('token', '');
       setUsuario(initialValue);
     }, []);
+
+    const getDadosUsuario = useCallback(() => {
+      const idUsuario = parseInt(localStorage.getItem('idUsuario') || '0', 10);
+
+      async function usuarioDados(): Promise<void> {
+        const usuarioRetornado = await DadosUsuarioRequestAPI(idUsuario);
+        setUsuario(usuarioRetornado);
+        if (!usuarioRetornado.id) {
+          resetDadosUsuario();
+        }
+      }
+
+      usuarioDados();
+    }, [resetDadosUsuario]);
 
     useEffect(() => {
       const idUsuario = localStorage.getItem('idUsuario');

@@ -52,7 +52,7 @@ function confirmarDevolucaoService(req, res) {
 }
 
 function cancelarService(req, res) {
-  const { idPedido } = req.body;
+  const idPedido = parseInt(req.params.id);
 
   pedidoRepository
     .confirmarEntrega(idPedido)

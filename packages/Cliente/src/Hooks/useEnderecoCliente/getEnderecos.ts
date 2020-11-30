@@ -1,5 +1,5 @@
 import IEndereco from '../../Interfaces/IEndereco';
-import { EnderecosClienteRequestAPI } from '../../RequestAPI/Usuario';
+import { EnderecosUsuarioRequestAPI } from '../../RequestAPI/Endereco';
 
 import { EnderecoActions, EnderecoTypes } from './reducer';
 
@@ -24,7 +24,7 @@ export default function getEnderecos(
     });
   }
 
-  EnderecosClienteRequestAPI(
+  EnderecosUsuarioRequestAPI(
     idEndereco,
     errorDispatch,
     sucessDispatch,

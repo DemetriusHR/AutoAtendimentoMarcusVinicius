@@ -6,9 +6,9 @@ import CheckCircleOutlined from '@ant-design/icons/CheckCircleOutlined';
 import IPedidoFuncionario from '../../../Interfaces/IPedidoFuncionario';
 import ButtonConfirm from '../../../Components/ButtonConfirm';
 import {
-  PedidoPendenteConfirmaEntregueRequestAPI,
-  PedidoPendenteConfirmaDevolucaoRequestAPI,
-} from '../../../RequestAPI/Atendimento';
+  PedidoPendenteConfirmarEntregueRequestAPI,
+  PedidoPendenteConfirmarDevolucaoRequestAPI,
+} from '../../../RequestAPI/Pedido';
 import { useUsuarioContext } from '../../../Context/Usuario';
 
 const TextStatus = styled.span`
@@ -69,11 +69,11 @@ const PedidoPanelComponent: React.FC<IPedidoComponent> = ({
     return retorno;
   }, [entregue]);
 
-  const onClickConfirma = useCallback(() => {
+  const onClickConfirmar = useCallback(() => {
     if (entregue) {
-      PedidoPendenteConfirmaDevolucaoRequestAPI(idatendimento, resetDadosUsuario);
+      PedidoPendenteConfirmarDevolucaoRequestAPI(idatendimento, resetDadosUsuario);
     } else {
-      PedidoPendenteConfirmaEntregueRequestAPI(idatendimento, resetDadosUsuario);
+      PedidoPendenteConfirmarEntregueRequestAPI(idatendimento, resetDadosUsuario);
     }
   }, [idatendimento, entregue, resetDadosUsuario]);
 
@@ -94,7 +94,7 @@ const PedidoPanelComponent: React.FC<IPedidoComponent> = ({
           <TextStatus>{status}</TextStatus>
         </p>
         <ButtonConfirm
-          onClick={onClickConfirma}
+          onClick={onClickConfirmar}
           className="w-56 p-2 items-center"
         >
           <span>{textoBotao}</span>

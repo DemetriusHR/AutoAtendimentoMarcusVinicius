@@ -5,7 +5,7 @@ import Input from '../../../../Components/Input';
 import InputCEP from '../../../../Components/InputCEP';
 import { useUsuarioContext } from '../../../../Context/Usuario';
 import IEndereco from '../../../../Interfaces/IEndereco';
-import { EditarEnderecoUsuarioRequestAPI } from '../../../../RequestAPI/Usuario';
+import { EditarEnderecoUsuarioRequestAPI } from '../../../../RequestAPI/Endereco';
 import ButtonConfirm from '../../../../Components/ButtonConfirm';
 
 const spanConfig = {
