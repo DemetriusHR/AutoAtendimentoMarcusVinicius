@@ -1,11 +1,13 @@
 DROP TABLE IF EXISTS Pedido ;
 
 CREATE TABLE Pedido (
-	ID_Atendimento      INTEGER PRIMARY KEY
+	ID_Atendimento      INTEGER      PRIMARY KEY
    ,DT_Entrega_Pedido   TIMESTAMP
    ,DT_Devolucao_Pedido TIMESTAMP
    ,VL_Pedido           NUMERIC(5,2)
-   ,SN_Pago             BOOLEAN
+   ,SN_Pago             BOOLEAN      DEFAULT false
+   ,entregue            BOOLEAN      DEFAULT false
+   ,devolvido           BOOLEAN      DEFAULT false
    ,CONSTRAINT FK_Atendimento_Pedido FOREIGN KEY (ID_Atendimento)
 	REFERENCES Atendimento (ID_Atendimento)
 ) 

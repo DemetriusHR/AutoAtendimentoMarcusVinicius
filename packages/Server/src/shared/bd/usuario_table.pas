@@ -7,6 +7,7 @@ CREATE TABLE Usuario (
    ,Senha_Usuario     Varchar(25)
    ,TEL_Usuario       Char(15)
    ,ID_Tipo_Usuario   INTEGER
+   ,Ativo_Usuario     BOOLEAN
    ,CONSTRAINT FK_Tipo_Usuario FOREIGN KEY (ID_Tipo_Usuario)
 	REFERENCES Tipo_Usuario (ID_Tipo_Usuario)
 );
@@ -98,41 +99,28 @@ CREATE FUNCTION excluir_usuario(idusuario integer)
  LANGUAGE plpgsql
 AS
 $$
-DECLARE
-   id_pedido_delete Integer := 0;
-   atendimento_row Record;
-   cursor_atendimento CURSOR(idusuario_cursor integer) 
-		 FOR SELECT ID_Atendimento
-		 FROM Atendimento
-		 WHERE id_usuario = idusuario_cursor;
 BEGIN
-	OPEN cursor_atendimento(idusuario);
+	IF (EXISTS(SELECT 1
+			   FROM pedido
+			   INNER JOIN Atendimento
+			   ON Atendimento.ID_Atendimento = pedido.ID_Atendimento
+			   WHERE Atendimento.id_usuario = idusuario
+			     AND (entregue              = 'f' 
+				   OR devolvido             = 'f')))
+	THEN
+	  RAISE EXCEPTION 'Há pedidos pendentes do usuário!';
+    END IF;
 	
-	LOOP
-		FETCH cursor_atendimento INTO atendimento_row;
-		EXIT WHEN NOT FOUND;
-		
-		DELETE
-		FROM PedidosProdutos
-		WHERE ID_Atendimento = atendimento_row.ID_Atendimento;
-		
-		DELETE
-		FROM Pedido
-		WHERE ID_Atendimento = atendimento_row.ID_Atendimento;
-
-		DELETE
-    	FROM Atendimento
-    	WHERE ID_Atendimento = atendimento_row.ID_Atendimento;
-	END LOOP;
+	IF (EXISTS(SELECT 1
+			   FROM Atendimento
+			   WHERE id_usuario             = idusuario
+			     AND Atendimento_Realizado  = 'f'))
+	THEN
+	  RAISE EXCEPTION 'Há atendimentos pendentes do usuário!';
+    END IF;
 	
-	CLOSE cursor_atendimento;
-
-    DELETE
-    FROM Endereco_Usuario
-    WHERE id_usuario  = idusuario;
-
-    DELETE
-    FROM usuario
+	UPDATE usuario
+	SET ativo_usuario = 't'
     WHERE id_usuario  = idusuario;
 		
 	return 1;
